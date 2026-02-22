@@ -19,10 +19,18 @@ export default function Navbar() {
 
       {/* Right Section */}
       <div className="hidden md:flex items-center gap-10">
-        {['Features', 'About', 'Editor'].map((item) => (
+        {['Features', 'About', 'Editor', 'Login', 'Signup'].map((item) => (
           <a
             key={item}
-            href={item === 'Editor' ? '#editor' : `#${item.toLowerCase()}`}
+            href={
+              item === 'Editor'
+                ? '/editor'
+                : item === 'Login'
+                  ? '/login'
+                  : item === 'Signup'
+                    ? '/signup'
+                    : `#${item.toLowerCase()}`
+            }
             className="text-white/50 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase"
           >
             {item}

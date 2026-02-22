@@ -1,3 +1,5 @@
-import Homepage from "./HomePage";
+import Homepage from './HomePage';
+import Login from './Login';
+import Signup from './Signup';
 
-export {Homepage}
+export { Homepage, Login, Signup };
