@@ -4,18 +4,19 @@ import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-blend-overlay z-20 flex items-center justify-between px-8 py-5">
+    <nav
+      className="fixed top-0 left-0 right-0 bg-blend-overlay z-50 
+    flex items-center justify-between px-8 py-5 
+    backdrop-blur-lg backdrop-filter 
+    transition-all duration-300"
+    >
       {/* Left Section */}
       <div className="flex items-center gap-3">
         <img
           src={Logo}
           alt="AI Writer Logo"
-          className="w-12 h-12 rounded-4xl object-cover transition-all duration-300 hover:shadow-2xl hover:scale-110"
+          className="w-16 h-16 rounded-4xl object-cover transition-all duration-300 hover:shadow-2xl hover:scale-110"
         />
-
-        <span className="text-white/90 font-semibold tracking-wide lg:text-lg sm:text-sm font-serif">
-          AI<span className="text-white/40 mx-1">·</span>Writer
-        </span>
       </div>
 
       {/* Right Section */}

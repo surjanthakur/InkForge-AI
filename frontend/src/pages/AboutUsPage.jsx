@@ -1,32 +1,40 @@
+import my_photo from '../assets/my_photo.jpg';
+import { ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
 const AboutUsPage = () => {
   return (
     <div className="min-h-screen bg-black text-gray-200">
+      <Link to="/">
+        <ArrowLeft
+          className="text-white sticky top-0 left-0 ms-12 mt-5"
+          size={40}
+        />
+      </Link>
       {/* Hero Section with Image */}
-      <section className="relative py-16 md:py-24 px-6 md:px-12 lg:px-20 bg-linear-to-b from-black to-gray-950">
+      <section className="relative py-16 md:py-24 px-4 md:px-12 lg:px-16 bg-linear-to-b from-black to-gray-950">
         <div className="max-w-6xl mx-auto text-center">
           {/* Your Photo - circular, centered, with subtle glow */}
           <div className="mb-10">
             <div className="inline-block relative">
               <img
-                src="https://thumbs.dreamstime.com/b/head-shot-portrait-happy-indian-businessman-company-executive-manager-dressed-casual-shirt-posing-camera-standing-377659928.jpg"
+                src={my_photo}
                 alt="Surjan - Founder of Inkforge AI"
-                className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover border-4 border-cyan-500/30 shadow-2xl shadow-cyan-500/20 mx-auto"
+                className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover mx-auto"
               />
-              {/* Optional subtle glow ring */}
-              <div className="absolute inset-0 rounded-full bg-linear-to-r from-cyan-500/20 to-purple-600/20 blur-xl -z-10"></div>
             </div>
           </div>
 
           {/* Main Headline - bright, bigger, eye-catching */}
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6">
-            <span className="bg-clip-text text-transparent bg-linear-to-r from-cyan-400 via-blue-500 to-purple-600">
+            <span className="bg-clip-text bg-linear-to-r text-white font-serif">
               About Us – Inkforge AI
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+          <p className="lg:text-2xl md:text-1xl text-gray-400 font-extralight max-w-4xl mx-auto leading-relaxed">
             Welcome to{' '}
-            <span className="text-cyan-400 font-semibold">Inkforge AI</span> —
+            <span className="text-white font-semibold">Inkforge AI</span> —
             where boring blogs meet their end, and compelling content creation
             becomes effortless, creative, and actually enjoyable.
           </p>
