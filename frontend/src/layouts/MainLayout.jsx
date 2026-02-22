@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Navbar, Footer } from '../components/index';
 
-const MainLayout = () => {
+const MainAppLayout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-black">
       {/* header */}
@@ -16,4 +16,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default MainAppLayout;
