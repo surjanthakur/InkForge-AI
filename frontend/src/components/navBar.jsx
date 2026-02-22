@@ -12,7 +12,7 @@ export default function Navbar() {
           className="w-12 h-12 rounded-4xl object-cover transition-all duration-300 hover:shadow-2xl hover:scale-110"
         />
 
-        <span className="text-white/90 font-semibold tracking-wide text-lg font-serif">
+        <span className="text-white/90 font-semibold tracking-wide lg:text-lg sm:text-sm font-serif">
           AI<span className="text-white/40 mx-1">·</span>Writer
         </span>
       </div>
