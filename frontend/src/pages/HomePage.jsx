@@ -1,7 +1,34 @@
 import gradientVideo from '../assets/gradient-sound.mp4';
+import { FeatureCard } from '../components/index';
 import { useRef, useEffect } from 'react';
+import { Brush, Download, EditIcon, BookOpen, ArrowRight } from 'lucide-react';
 
 export default function Homepage() {
+  const featureData = [
+    {
+      icon: <Brush size={22} strokeWidth={1.5} className="text-zinc-400" />,
+      title: 'Customizable Colors & Formats',
+      description:
+        'Craft your content your way. Tailor fonts, palettes, heading styles,and layouts to match your brand’s unique voice.',
+    },
+    {
+      icon: <Download size={22} strokeWidth={1.5} className="text-zinc-400" />,
+      title: 'Flexible Export Options',
+      description:
+        ' Export as polished PDF, crisp image, Markdown, or plain HTML with a single click.',
+    },
+    {
+      icon: <EditIcon size={22} strokeWidth={1.5} className="text-zinc-400" />,
+      title: 'Inline Grammar Suggestions',
+      description:
+        'AI-powered grammar and style hints appear inline as you type.',
+    },
+    {
+      icon: <BookOpen size={22} strokeWidth={1.5} className="text-zinc-400" />,
+      title: 'Personal Blog Collection',
+      description: ' Organize, revisit, and refine every piece you’ve written.',
+    },
+  ];
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -22,8 +49,8 @@ export default function Homepage() {
         {/* Background Video */}
         <video
           ref={videoRef}
-          autoPlay
           muted
+          autoPlay
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
@@ -51,10 +78,45 @@ export default function Homepage() {
             every sentence and makes your voice shine.
           </p>
 
-          <div className="pt-6 md:pt-10">
-            <button className="inline-block px-10 py-5 text-lg md:text-xl font-light text-white border-2 border-gray-400 transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98]">
-              OPEN THE EDITOR →
+          <div className="pt-6 md:pt-10 flex justify-center">
+            <button className="flex items-center gap-2 px-10 py-5 text-lg md:text-xl font-light text-white border-2 border-zinc-500 transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98]">
+              Write Something
+              <ArrowRight size={24} />
             </button>
+          </div>
+        </div>
+      </section>
+      {/* fetures of the product section  */}
+      <section className="bg-black text-white py-28 px-6">
+        <div className="max-w-6xl mx-auto">
+          {/* Heading */}
+          <div className="text-center space-y-6 mb-20">
+            <p className="text-xs tracking-[0.35em] text-zinc-500">
+              WHAT'S INSIDE
+            </p>
+
+            <h2 className="text-3xl md:text-5xl font-serif font-medium">
+              Everything a writer needs,{' '}
+              <span className="italic text-zinc-400">nothing they don’t.</span>
+            </h2>
+          </div>
+
+          {/* Grid */}
+          <div className="grid md:grid-cols-2 border-2 border-zinc-800 rounded-xl overflow-hidden">
+            {featureData.map((feature, index) => (
+              <div
+                key={index}
+                className={`
+            border-zinc-800
+            ${index === 0 ? 'bg-linear-to-br from-zinc-800/60 to-black' : 'bg-black'}
+            ${index % 2 === 0 ? 'md:border-r-2' : ''}
+            ${index < 2 ? 'md:border-b-2' : ''}
+            border-b md:border-b-0
+          `}
+              >
+                <FeatureCard {...feature} />
+              </div>
+            ))}
           </div>
         </div>
       </section>

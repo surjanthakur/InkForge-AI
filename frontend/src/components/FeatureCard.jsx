@@ -1,21 +1,13 @@
-
-const FeatureCard = ({ icon, title, description }) => {
+export default function FeatureCard({ icon, title, description }) {
   return (
-    <div className="bg-[#0f0f11] border border-neutral-800 rounded-2xl p-8 max-w-md transition hover:border-neutral-700">
-      {/* Icon */}
-      <div className="mb-6 text-neutral-400">
-        {icon}
-      </div>
-      {/* Title */}
-      <h3 className="text-2xl font-semibold text-white mb-4">
-        {title}
-      </h3>
-      {/* Description */}
-      <p className="text-neutral-400 leading-relaxed text-base">
+    <div className="p-10 md:p-12 h-full transition-all duration-300 hover:bg-zinc-900/100">
+      <div className="mb-6">{icon}</div>
+
+      <h3 className="text-xl font-serif font-medium mb-4">{title}</h3>
+
+      <p className="text-zinc-400 text-sm leading-relaxed max-w-md">
         {description}
       </p>
     </div>
   );
-};
-
-export default FeatureCard;
+}
