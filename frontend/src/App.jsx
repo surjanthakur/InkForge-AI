@@ -1,13 +1,14 @@
-
-import './App.css'
-import {Homepage} from "./pages/index"
+import './App.css';
+import { Navbar } from './components/index';
+import { BrowserRouter } from 'react-router-dom';
 function App() {
-
   return (
     <>
-    <Homepage/>
+      <BrowserRouter>
+        <Navbar />
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

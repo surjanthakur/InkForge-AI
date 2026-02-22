@@ -1,3 +1,4 @@
 import FeatureCard from './FeatureCard';
+import Navbar from './navBar';
 
-export { FeatureCard };
+export { FeatureCard, Navbar };
