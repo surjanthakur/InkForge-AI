@@ -1,7 +1,7 @@
 import './App.css';
 import MainAppLayout from './layouts/MainLayout';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Homepage, Signup, Login } from './pages/index';
+import { Homepage, Signup, Login, AboutUsPage } from './pages/index';
 function App() {
   return (
     <>
@@ -12,6 +12,7 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/about" element={<Signup />} />
         </Routes>
       </BrowserRouter>
     </>

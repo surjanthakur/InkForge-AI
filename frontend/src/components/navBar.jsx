@@ -1,5 +1,6 @@
 import Logo from '../assets/botLogo.jpeg';
 import { Menu } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   return (
@@ -20,21 +21,23 @@ export default function Navbar() {
       {/* Right Section */}
       <div className="hidden md:flex items-center gap-10">
         {['Features', 'About', 'Editor', 'Login', 'Signup'].map((item) => (
-          <a
+          <Link
             key={item}
-            href={
-              item === 'Editor'
-                ? '/editor'
-                : item === 'Login'
-                  ? '/login'
-                  : item === 'Signup'
-                    ? '/signup'
-                    : `#${item.toLowerCase()}`
+            to={
+              item === 'About'
+                ? '/about'
+                : item === 'Editor'
+                  ? '/editor'
+                  : item === 'Login'
+                    ? '/login'
+                    : item === 'Signup'
+                      ? '/signup'
+                      : `#${item.toLowerCase()}`
             }
             className="text-white/50 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase"
           >
             {item}
-          </a>
+          </Link>
         ))}
       </div>
 
