@@ -4,6 +4,8 @@ import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import { Toolbar } from "../components/index";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 export default function WritingPageEditor() {
   const [title, setTitle] = useState("");
@@ -37,6 +39,16 @@ export default function WritingPageEditor() {
   return (
     <div className="min-h-screen bg-zinc-100 flex justify-center">
       <div className="w-full lg:max-w-6xl  md:max-w-5xl px-6 py-16">
+        {/* Back Arrow */}
+        <div className="mb-8">
+          <Link
+            to="/"
+            className="inline-flex items-center text-black hover:opacity-70 transition"
+          >
+            <ArrowLeft size={28} />
+          </Link>
+        </div>
+
         {/* Title */}
         <input
           type="text"
@@ -63,9 +75,8 @@ export default function WritingPageEditor() {
         <EditorContent
           editor={editor}
           className="
-    prose prose-lg text-3xl max-w-none text-gray-600
-    p-4 rounded-md bg-white
-    border border-gray-300
+    prose prose-lg text-2xl max-w-none text-gray-800 p-4 rounded-md bg-white
+    border border-gray-300 font-sans
   "
         />
 
@@ -75,7 +86,7 @@ export default function WritingPageEditor() {
             onClick={handleSave}
             className="px-5 py-2 bg-black text-white rounded-sm"
           >
-            Publish
+            Save
           </button>
         </div>
       </div>
