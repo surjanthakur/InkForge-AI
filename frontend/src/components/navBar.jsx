@@ -12,43 +12,46 @@ export default function Navbar() {
     >
       {/* Left Section */}
       <div className="flex items-center gap-3">
-        <img
-          src={Logo}
-          alt="AI Writer Logo"
-          className="w-16 h-16 rounded-4xl object-cover transition-all duration-300 hover:shadow-2xl hover:scale-110"
-        />
+        <a href="/">
+          <img
+            src={Logo}
+            alt="AI Writer Logo"
+            className="w-16 h-16 rounded-4xl object-cover transition-all duration-300 hover:shadow-2xl hover:scale-110"
+          />
+        </a>
       </div>
 
       {/* Right Section */}
       <div className="hidden md:flex items-center gap-10">
-        {['Features', 'About', 'Editor', 'Login', 'Signup'].map((item) =>
-          item === 'Features' ? (
-            <a
-              key={item}
-              href="#features"
-              className="text-white/50 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase"
-            >
-              {item}
-            </a>
-          ) : (
-            <Link
-              key={item}
-              to={
-                item === 'About'
-                  ? '/about'
-                  : item === 'Editor'
-                    ? '/editor'
-                    : item === 'Login'
-                      ? '/login'
-                      : item === 'Signup'
-                        ? '/signup'
-                        : `/${item.toLowerCase()}`
-              }
-              className="text-white/50 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase"
-            >
-              {item}
-            </Link>
-          )
+        {['Profile', 'Features', 'About', 'Editor', 'Login', 'Signup'].map(
+          (item) =>
+            item === 'Features' ? (
+              <a
+                key={item}
+                href="#features"
+                className="text-white/50 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase"
+              >
+                {item}
+              </a>
+            ) : (
+              <Link
+                key={item}
+                to={
+                  item === 'About'
+                    ? '/about'
+                    : item === 'Editor'
+                      ? '/editor'
+                      : item === 'Login'
+                        ? '/login'
+                        : item === 'Signup'
+                          ? '/signup'
+                          : `/${item.toLowerCase()}`
+                }
+                className="text-white/50 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase"
+              >
+                {item}
+              </Link>
+            )
         )}
       </div>
 

@@ -79,10 +79,13 @@ export default function Homepage() {
           </p>
 
           <div className="pt-6 md:pt-10 flex justify-center">
-            <button className="flex items-center gap-2 px-10 py-5 lg:text-lg md:text-xl font-light text-white border-2 border-zinc-300 transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] hover:text-black hover:bg-white">
+            <a
+              href="/editor"
+              className="flex items-center gap-2 px-10 py-5 lg:text-lg md:text-xl font-light text-white border-2 border-zinc-300 transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] hover:text-black hover:bg-white"
+            >
               write something
               <ArrowRight size={24} />
-            </button>
+            </a>
           </div>
         </div>
       </section>
