@@ -31,6 +31,7 @@ export default function WritingPageEditor() {
       content: editor.getJSON(),
     };
 
+    // api call
     console.log(blogData);
 
     if (!editor) return null;
