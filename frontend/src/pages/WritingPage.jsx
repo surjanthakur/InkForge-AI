@@ -56,38 +56,8 @@ export default function WritingPageEditor() {
 
         <div className="border-t border-zinc-300 mb-8"></div>
 
-        {/* Toolbar */}
-        <div className="flex gap-4 mb-4 ">
-          <button
-            className="px-3 py-2 rounded-2xl font-extralight transition-all bg-black text-white"
-            onClick={() => editor?.chain().focus().toggleBold().run()}
-          >
-            Bold
-          </button>
-
-          <button
-            className="px-3 py-2 rounded-2xl font-extralight transition-all bg-black text-white"
-            onClick={() => editor?.chain().focus().toggleItalic().run()}
-          >
-            Italic
-          </button>
-
-          <button
-            className="px-3 py-2 rounded-2xl font-extralight transition-all bg-black text-white"
-            onClick={() =>
-              editor?.chain().focus().toggleHeading({ level: 2 }).run()
-            }
-          >
-            H2
-          </button>
-
-          <button
-            className="px-3 py-2 rounded-2xl font-extralight transition-all bg-black text-white"
-            onClick={() => editor?.chain().focus().toggleBulletList().run()}
-          >
-            List
-          </button>
-        </div>
+        {/* Toolbar component */}
+        <Toolbar editor={editor} />
 
         {/* Editor */}
         <EditorContent

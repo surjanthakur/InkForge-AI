@@ -1,12 +1,4 @@
-import {
-  Bold,
-  Italic,
-  Link as LinkIcon,
-  Code,
-  List,
-  ListOrdered,
-  Heading2,
-} from "lucide-react";
+import { Bold, Italic, Code, List, ListOrdered, Heading2 } from "lucide-react";
 
 export default function Toolbar({ editor }) {
   if (!editor) return null;
@@ -105,38 +97,8 @@ export default function Toolbar({ editor }) {
         <Code size={18} strokeWidth={2.4} />
       </button>
 
-      {/* Link */}
-      <button
-        type="button"
-        onClick={() => {
-          const previousUrl = editor.getAttributes("link").href;
-          const url = window.prompt("Enter URL:", previousUrl || "https://");
-          if (url === null) return;
-          if (url === "") {
-            editor.chain().focus().extendMarkRange("link").unsetLink().run();
-            return;
-          }
-          editor
-            .chain()
-            .focus()
-            .extendMarkRange("link")
-            .setLink({ href: url })
-            .run();
-        }}
-        className={`
-          p-2 rounded-lg transition-all duration-150
-          hover:bg-neutral-800/80 active:bg-neutral-700
-          ${editor.isActive("link") ? "bg-neutral-800 text-white" : "text-neutral-400 hover:text-neutral-200"}
-        `}
-        title="Link (Ctrl+K)"
-      >
-        <LinkIcon size={18} strokeWidth={2.4} />
-      </button>
-
       {/* Optional divider */}
       <div className="w-px h-6 bg-neutral-700 mx-1.5" />
-
-      {/* You can continue adding more buttons here */}
     </div>
   );
 }
