@@ -1,6 +1,6 @@
-import my_photo from '../assets/my_photo.jpg';
-import { ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import my_photo from "../assets/my_photo.jpg";
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AboutUsPage = () => {
   return (
@@ -26,17 +26,14 @@ const AboutUsPage = () => {
           </div>
 
           {/* Main Headline - bright, bigger, eye-catching */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6">
-            <span className="bg-clip-text bg-linear-to-r text-white font-serif">
-              About Us – Inkforge AI
-            </span>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6 text-white">
+            About Us – Inkforge AI
           </h1>
 
-          <p className="lg:text-2xl md:text-1xl text-gray-400 font-extralight max-w-4xl mx-auto leading-relaxed">
-            Welcome to{' '}
-            <span className="text-white font-semibold">Inkforge AI</span> —
-            where boring blogs meet their end, and compelling content creation
-            becomes effortless, creative, and actually enjoyable.
+          <p className="lg:text-2xl md:text-1xl text-white font-extralight max-w-4xl mx-auto leading-relaxed">
+            Welcome to Inkforge AI — where boring blogs meet their end, and
+            compelling content creation becomes effortless, creative, and
+            actually enjoyable.
           </p>
         </div>
       </section>
@@ -45,22 +42,19 @@ const AboutUsPage = () => {
       <section className="py-16 px-6 md:px-12 lg:px-20 max-w-5xl mx-auto">
         <div className="prose prose-invert prose-lg md:prose-xl max-w-none">
           <p className="text-gray-300 leading-relaxed mb-10">
-            Founded by <span className="text-cyan-400 font-medium">Surjan</span>
-            , a passionate builder from Ludhiana, Punjab, Inkforge AI was born
-            out of a simple frustration shared by countless creators, marketers,
-            entrepreneurs, and writers: most AI writing tools spit out generic,
-            robotic text that feels flat, repetitive, and — let's be honest —
-            painfully boring. They solve the "blank page" problem but create a
-            new one: uninspired output that doesn't engage readers, rank well,
-            or convert.
+            Founded by Surjan, a passionate builder from Ludhiana, Punjab,
+            Inkforge AI was born out of a simple frustration shared by countless
+            creators, marketers, entrepreneurs, and writers: most AI writing
+            tools spit out generic, robotic text that feels flat, repetitive,
+            and — let's be honest — painfully boring. They solve the "blank
+            page" problem but create a new one: uninspired output that doesn't
+            engage readers, rank well, or convert.
           </p>
-
           <p className="text-gray-300 leading-relaxed mb-12">
             We set out to change that.
           </p>
-
           {/* Mission */}
-          <h2 className="text-4xl md:text-5xl font-bold  mt-16 mb-8 bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mt-16 mb-8 text-white">
             Our Mission
           </h2>
           <p className="text-gray-300 leading-relaxed mb-10">
@@ -70,9 +64,8 @@ const AboutUsPage = () => {
             don't just generate text; we help forge ideas into content that
             stands out, captivates audiences, and drives real results.
           </p>
-
-          {/* Differentiators */}
-          <h2 className="text-4xl md:text-5xl font-bold  mt-20 mb-10 bg-linear-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+          {/* Differentiators */}{" "}
+          <h2 className="text-4xl md:text-5xl font-bold mt-20 mb-10 text-white">
             What Makes Inkforge AI Different?
           </h2>
           <p className="text-gray-300 mb-10">
@@ -80,10 +73,9 @@ const AboutUsPage = () => {
             We've built it with thoughtful features that address real pain
             points in the content creation workflow:
           </p>
-
           <ul className="space-y-10 list-none">
-            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-cyan-600/50 transition-all duration-300">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-4">
+            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-gray-600/50 transition-all duration-300">
+              <h3 className="text-2xl font-bold text-white mb-4">
                 Idea-First Workflow
               </h3>
               <p>
@@ -95,8 +87,8 @@ const AboutUsPage = () => {
               </p>
             </li>
 
-            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-purple-600/50 transition-all duration-300">
-              <h3 className="text-2xl font-bold text-purple-400 mb-4">
+            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-gray-600/50 transition-all duration-300">
+              <h3 className="text-2xl font-bold text-white mb-4">
                 Vibrant, Multi-Dimensional Writing
               </h3>
               <p>
@@ -108,8 +100,8 @@ const AboutUsPage = () => {
               </p>
             </li>
 
-            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-blue-600/50 transition-all duration-300">
-              <h3 className="text-2xl font-bold text-blue-400 mb-4">
+            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-gray-600/50 transition-all duration-300">
+              <h3 className="text-2xl font-bold text-white mb-4">
                 Inline Suggestions & Real-Time Enhancement
               </h3>
               <p>
@@ -126,15 +118,15 @@ const AboutUsPage = () => {
               </h3>
               <p>
                 Customize output with different tones, reading levels, or brand
-                voices. Add emphasis with <strong>bold</strong>,{' '}
+                voices. Add emphasis with <strong>bold</strong>,{" "}
                 <em>italics</em>, colorful highlights (when exporting to
                 compatible formats), bullet points, subheadings, quotes, and
                 more — making your content visually appealing from the start.
               </p>
             </li>
 
-            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-cyan-600/50 transition-all duration-300">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-4">
+            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-gray-600/50 transition-all duration-300">
+              <h3 className="text-2xl font-bold text-white mb-4">
                 Grammar, Strength & Quality Engine
               </h3>
               <p>
@@ -145,8 +137,8 @@ const AboutUsPage = () => {
               </p>
             </li>
 
-            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-purple-600/50 transition-all duration-300">
-              <h3 className="text-2xl font-bold text-purple-400 mb-4">
+            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-gray-600/50 transition-all duration-300">
+              <h3 className="text-2xl font-bold text-white mb-4">
                 Export Flexibility
               </h3>
               <p>
@@ -158,8 +150,8 @@ const AboutUsPage = () => {
               </p>
             </li>
 
-            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-blue-600/50 transition-all duration-300">
-              <h3 className="text-2xl font-bold text-blue-400 mb-4">
+            <li className="bg-gray-900/50 p-8 rounded-xl border border-gray-800 hover:border-gray-600/50 transition-all duration-300">
+              <h3 className="text-2xl font-bold text-white mb-4">
                 Problem-Solving Core
               </h3>
               <p>
@@ -170,29 +162,25 @@ const AboutUsPage = () => {
               </p>
             </li>
           </ul>
-
           {/* Who We Are */}
-          <h2 className="text-4xl md:text-5xl font-bold  mt-24 mb-8 bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mt-24 mb-8 text-white">
             Who We Are
           </h2>
           <p className="text-gray-300 leading-relaxed mb-10">
-            At the heart of Inkforge AI is{' '}
-            <span className="text-cyan-400 font-medium">Surjan</span>, an
-            independent creator and builder who experienced these exact
-            struggles firsthand while growing projects, writing content, and
-            helping others do the same. What started as a personal tool to make
-            blogging faster and more fun evolved into a full-fledged product
-            designed for real users like you — people who want quality without
-            sacrificing speed or sanity.
+            At the heart of Inkforge AI is Surjan, an independent creator and
+            builder who experienced these exact struggles firsthand while
+            growing projects, writing content, and helping others do the same.
+            What started as a personal tool to make blogging faster and more fun
+            evolved into a full-fledged product designed for real users like you
+            — people who want quality without sacrificing speed or sanity.
           </p>
           <p className="text-gray-300 leading-relaxed mb-10">
             We're still growing, iterating, and listening closely to our early
             users. Every feature is shaped by real feedback from creators who
             refuse to settle for mediocre AI content.
           </p>
-
           {/* Promise & CTA */}
-          <h2 className="text-4xl md:text-5xl font-bold  mt-20 mb-8 bg-linear-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mt-20 mb-8 text-white">
             Our Promise
           </h2>
           <p className="text-gray-300 leading-relaxed text-xl mb-12">
@@ -201,16 +189,15 @@ const AboutUsPage = () => {
             handle the heavy lifting so your ideas can shine — in full color,
             with strength, personality, and zero boredom.
           </p>
-
           <div className="text-center mt-16">
-            <p className="text-3xl md:text-4xl font-bold text-cyan-300 mb-6">
+            <p className="text-3xl md:text-4xl font-bold text-white mb-6">
               Ready to forge content that actually matters?
             </p>
-            <p className="text-2xl text-gray-400 mb-10">
+            <p className="text-2xl text-gray-300 mb-10">
               Join us at Inkforge AI — where ideas become ink, and boring blogs
               become history.
             </p>
-            <p className="text-xl italic text-purple-400">
+            <p className="text-xl italic text-gray-300">
               Built with passion by Surjan. Powered by AI that understands you.
             </p>
           </div>
