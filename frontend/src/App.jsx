@@ -1,6 +1,6 @@
-import './App.css';
-import MainAppLayout from './layouts/MainLayout';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import "./App.css";
+import MainAppLayout from "./layouts/MainLayout";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   Homepage,
   Signup,
@@ -8,7 +8,8 @@ import {
   AboutUsPage,
   WritingPageEditor,
   PageNotFound,
-} from './pages/index';
+  Dashboard,
+} from "./pages/index";
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/editor" element={<WritingPageEditor />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
