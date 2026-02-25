@@ -87,32 +87,26 @@ export default function WritingPageEditor() {
           {/* post type options */}
           <div className="flex gap-3">
             <label className="block text-sm font-medium">Post Type</label>
-            <select className=" border px-3 py-2 text-white rounded-2xl cursor-pointer bg-linear-to-b from-black to-gray-500">
-              <option
-                onClick={(e) => setPostType(e.target.value)}
-                value={postType}
-              >
-                Blog
-              </option>
-              <option
-                onClick={(e) => setPostType(e.target.value)}
-                value={postType}
-              >
-                Article
-              </option>
+            <select
+              value={postType}
+              onChange={(e) => setPostType(e.target.value)}
+              className=" border px-3 py-2 text-white rounded-2xl cursor-pointer bg-linear-to-b from-black to-gray-500"
+            >
+              <option value="blog">Blog</option>
+              <option value="article">Article</option>
             </select>
           </div>
 
           {/* save button */}
           <button
             onClick={handleSave}
-            class="cursor-pointer bg-linear-to-b from-black to-gray-500 px-6 py-3 rounded-2xl text-white font-medium group"
+            className="cursor-pointer bg-linear-to-b from-black to-gray-500 px-6 py-3 rounded-2xl text-white font-medium group"
           >
-            <div class="relative overflow-hidden">
-              <p class="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
+            <div className="relative overflow-hidden">
+              <p className="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
                 save
               </p>
-              <p class="absolute top-7 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
+              <p className="absolute top-7 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
                 save
               </p>
             </div>
