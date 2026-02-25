@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import Underline from "@tiptap/extension-underline";
 import { Toolbar } from "../components/index";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -10,11 +9,11 @@ import { ArrowLeft } from "lucide-react";
 export default function WritingPageEditor() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [postType, setPostType] = useState("blog");
 
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Underline,
       Placeholder.configure({
         placeholder: "Start writing your story...",
       }),
@@ -82,14 +81,28 @@ export default function WritingPageEditor() {
     border border-gray-300 font-sans
   "
         />
-
-        {/* Save Button */}
-        <div className="mt-10">
+        <div className="mt-10 gap-3 flex flex-row">
+          {/* post type options */}
+          <div className="flex gap-3">
+            <label className="block text-sm font-medium">Post Type</label>
+            <select className=" border px-3 py-2 text-white rounded-2xl cursor-pointer bg-linear-to-b from-black to-gray-500">
+              <option value="blog">Blog</option>
+              <option value="article">Article</option>
+            </select>
+          </div>
+          {/* save button */}
           <button
             onClick={handleSave}
-            className="px-5 py-2 bg-black text-white rounded-sm hover:bg-gray-600 transition-colors duration-200"
+            class="cursor-pointer bg-linear-to-b from-black to-gray-500 px-6 py-3 rounded-2xl text-white font-medium group"
           >
-            Save
+            <div class="relative overflow-hidden">
+              <p class="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
+                save
+              </p>
+              <p class="absolute top-7 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
+                save
+              </p>
+            </div>
           </button>
         </div>
       </div>
