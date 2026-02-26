@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends
 from db.db_connection import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
-from ..schemas.user import UserCreate, UserResponse
+from schemas.user import UserCreate, UserResponse
 
 
 user_router = APIRouter(prefix="/users", tags=["users"])
