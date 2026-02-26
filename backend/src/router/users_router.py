@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, status
-from db.db_connection import get_session
+from ..db.db_connection import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
-from schemas.user import UserCreate
-from service.users_service import create_user
+from ..schemas.user import UserCreate
+from ..service.users_service import create_user
 
 
 user_router = APIRouter(prefix="/users", tags=["users"])

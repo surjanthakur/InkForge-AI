@@ -27,7 +27,6 @@ settings = Settings()
 async_engine: AsyncEngine = create_async_engine(
     settings.db_url,
     echo=False,
-    poolPre_ping=True,
     connect_args={"connect_timeout": 60},
 )
 

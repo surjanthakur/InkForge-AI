@@ -1,10 +1,10 @@
 from fastapi import status, HTTPException
 from sqlmodel.ext.asyncio.session import AsyncSession
 import jwt
-from schemas.user import UserCreate
+from ..schemas.user import UserCreate
 from pwdlib import PasswordHash
-from repository.users_repo import get_user_by_email
-from db.models import User
+from ..repository.users_repo import get_user_by_email
+from ..db.models import User
 import asyncio
 
 
