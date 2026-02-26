@@ -34,7 +34,7 @@ async def create_user(user_data: UserCreate, session: AsyncSession):
         session.add(new_user)
         await session.commit()
         await session.refresh(new_user)
-        return {"detail": "user created"}
+        return {"detail": "user created ✌🏻"}
     except Exception:
         await session.rollback()
         return HTTPException(

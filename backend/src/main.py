@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-from .db.db_connection import create_db_tables
+from db.db_connection import create_db_tables
 import logging
 from fastapi.middleware.cors import CORSMiddleware
+from router import users_router
 
 
 # list of all, we need to create the database tables before the application starts.
@@ -29,3 +30,5 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(router=users_router.user_router, prefix="/api/v1.0")
