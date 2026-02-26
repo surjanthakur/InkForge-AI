@@ -1,9 +1,9 @@
-from sqlmodel import SQLModel, Relationship
+from sqlmodel import SQLModel, Relationship, Field
 from uuid import UUID
 import uuid
 from sqlalchemy import Column
 from datetime import datetime
-from pydantic import Field, field_validator
+from pydantic import field_validator
 from sqlalchemy.dialects.postgresql import JSONB
 from enum import Enum
 from typing import List, Optional
