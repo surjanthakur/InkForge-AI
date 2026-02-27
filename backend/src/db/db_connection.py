@@ -27,7 +27,7 @@ settings = Settings()
 async_engine: AsyncEngine = create_async_engine(
     settings.db_url,
     echo=False,
-    connect_args={"timeout": 60},
+    connect_args={"timeout": 60, "ssl": True},
 )
 
 # Create an asynchronous session factory for managing database sessions
