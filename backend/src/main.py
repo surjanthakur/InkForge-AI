@@ -10,7 +10,7 @@ from .router import users_router
 # The lifespan event allows us to run code before the application starts and after it shuts down.
 async def lifespan(app: FastAPI):
     try:
-        await create_db_tables()
+        create_db_tables()
         yield
     except Exception:
         logging.error(f"Error during application startup")
