@@ -2,18 +2,10 @@ from fastapi import status, HTTPException
 from sqlmodel.ext.asyncio.session import AsyncSession
 import jwt
 from ..schemas.user import UserCreate
-from pwdlib import PasswordHash
 from ..repository.users_repo import get_user_by_username
 from ..db.models import User
+from .security import pass_hash, verify_password
 import asyncio
-
-
-password_hash = PasswordHash.recommended()
-
-
-# function to hash password
-def pass_hash(plain_pass):
-    return password_hash.hash(plain_pass)
 
 
 # create new user
