@@ -40,10 +40,11 @@ async_session_factory = async_sessionmaker[AsyncSession](
 # Dependency function to get an asynchronous database session for use in FastAPI endpoints.
 # it ensures that the session is properly closed after use and handles any database errors by rolling back the transaction and returning an appropriate HTTP response.
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
-    async with async_session_factory().begin() as session:
+    async with async_session_factory() as session:
         try:
             yield session
         except SQLAlchemyError as e:
+            await session.rollback()
             logging.error(f"Database error: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
