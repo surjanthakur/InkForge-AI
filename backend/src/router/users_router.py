@@ -14,3 +14,8 @@ async def create_account(
     req_form: UserCreate, session_db: AsyncSession = Depends(get_session)
 ):
     return await create_user(user_data=req_form, session=session_db)
+
+
+@user_router.post("/login", status_code=status.HTTP_200_OK)
+def login_account():
+    pass
