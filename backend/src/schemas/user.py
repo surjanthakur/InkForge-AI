@@ -1,15 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 
 
-# * request model for creating a new user
 class UserCreate(BaseModel):
     username: str
     email: str
     password: str
 
 
-# * response model for user data (excluding password)
 class UserResponse(BaseModel):
     username: str
     email: str
