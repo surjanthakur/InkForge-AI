@@ -3,7 +3,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 import jwt
 from ..schemas.user import UserCreate
 from pwdlib import PasswordHash
-from ..repository.users_repo import get_user_by_email
+from ..repository.users_repo import get_user_by_username
 from ..db.models import User
 import asyncio
 
@@ -18,7 +18,7 @@ def pass_hash(plain_pass):
 
 # create new user
 async def create_user(user_data: UserCreate, session: AsyncSession):
-    user = await get_user_by_email(username=user_data.username, db=session)
+    user = await get_user_by_username(username=user_data.username, db=session)
 
     if user:
         raise HTTPException(
