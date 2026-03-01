@@ -2,9 +2,8 @@ from fastapi import APIRouter, Depends, status, Response
 from ..db.db_connection import get_session
 from ..db.models import User
 from sqlmodel.ext.asyncio.session import AsyncSession
-from ..schemas.user import UserCreate, LoginRequest
+from ..schemas.user import UserCreate, LoginRequest, currentUserResponse
 from ..service.users_service import create_user, authenticate_user, current_user
-
 
 user_router = APIRouter(prefix="/users", tags=["users"])
 
@@ -28,6 +27,10 @@ async def login_account(
 
 
 # get account
-@user_router.get("/me", status_code=status.HTTP_200_OK)
+@user_router.get(
+    "/me",
+    status_code=status.HTTP_200_OK,
+    response_model=currentUserResponse,
+)
 async def get_current_user(curr_user: User = Depends(current_user)):
     return curr_user
