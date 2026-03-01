@@ -7,6 +7,7 @@ from ..db.db_connection import get_session
 from ..db.redis_client import redis_client
 from .security import pass_hash, verify_password, create_session_id
 import asyncio
+import uuid
 
 
 # create new user
@@ -51,7 +52,7 @@ async def authenticate_user(user_data: LoginRequest, db: AsyncSession):
         )
 
     # 3️⃣ Create session_id
-    session_id = create_session_id(byte_length=32)
+    session_id = str(uuid.uuid4())
 
     # 4️⃣ Store session in Redis
     await redis_client.set(
