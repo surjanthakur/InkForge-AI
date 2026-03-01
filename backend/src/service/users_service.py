@@ -23,7 +23,7 @@ async def create_user(user_data: UserCreate, db: AsyncSession):
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="user already exists!"
         )
-    hashed_pass = await asyncio.get_running_loop.run_in_executor(
+    hashed_pass = await asyncio.get_running_loop().run_in_executor(
         None, pass_hash, user_data.password
     )
     new_user = User(
@@ -131,6 +131,8 @@ async def current_user(
         await redis_client.delete(f"session:{session_id}")
         raise HTTPException(status_code=401, detail="Not authenticated")
 
-    await redis_client.expire(f"session:{session_id}", 60 * 60 * 24)
+    await redis_client.expire(
+        f"session:{session_id}", 60 * 60 * 24
+    )  # 1 day expirey of session_id
 
     return curr_user
