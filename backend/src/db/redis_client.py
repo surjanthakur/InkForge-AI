@@ -1,3 +1,16 @@
 import redis.asyncio
+from dotenv import load_dotenv
+import os
 
-redis_client = redis.asyncio.Redis(host="localhost", port=6379, decode_responses=True)
+load_dotenv()
+
+rds_password = os.getenv("REDIS_PASSWORD")
+rds_url = os.getenv("REDIS_URL")
+
+redis_client = redis.asyncio.Redis(
+    host=rds_url,
+    port=10847,
+    decode_responses=True,
+    username="surjan",
+    password=rds_password,
+)

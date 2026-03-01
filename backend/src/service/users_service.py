@@ -42,30 +42,22 @@ async def authenticate_user(
     response: Response,
     db: AsyncSession,
 ):
-    # Check if user exists
     user = await user_by_email(email=user_data.email, db=db)
-
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
         )
-    # Verify password
     if not verify_password(plain_pass=user_data.password, hash_pass=user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
         )
     try:
-        # Create session_id
         session_id = str(uuid.uuid4())
-
-        # Store session in Redis (serialize uuid to string)
-        # redis.asyncio requires simple types (str/int/bytes) so convert
         await redis_client.set(
             f"session:{session_id}",
             str(user.user_id),
             ex=60 * 60 * 24,
         )
-        # Set cookie in response
         response.set_cookie(
             key="session_id",
             value=session_id,
@@ -74,7 +66,6 @@ async def authenticate_user(
             secure=False,  # todo: set True in production (HTTPS)
             samesite="lax",
         )
-
         return {"message": "Login successful"}
     except Exception as e:
         print(f"Login error: {str(e)}")
