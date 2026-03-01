@@ -38,7 +38,9 @@ async def create_user(user_data: UserCreate, db: AsyncSession):
 
 # authenticate user
 async def authenticate_user(
-    user_data: LoginRequest, response: Response, db: AsyncSession
+    user_data: LoginRequest,
+    response: Response,
+    db: AsyncSession,
 ):
     # Check if user exists
     user = await user_by_email(email=user_data.email, db=db)
@@ -55,12 +57,12 @@ async def authenticate_user(
     try:
         # Create session_id
         session_id = str(uuid.uuid4())
-        print(f"Generated session_id: {session_id} for user_id: {user.user_id}")
 
-        # Store session in Redis
+        # Store session in Redis (serialize uuid to string)
+        # redis.asyncio requires simple types (str/int/bytes) so convert
         await redis_client.set(
             f"session:{session_id}",
-            user.user_id,
+            str(user.user_id),
             ex=60 * 60 * 24,
         )
         # Set cookie in response
@@ -94,5 +96,7 @@ async def current_user(
     if not user_id:
         raise HTTPException(status_code=401, detail="Not authenticated")
 
-    curr_user = await user_by_id(id=user_id, db=db)
+    user_id_cast = uuid.UUID(user_id)
+
+    curr_user = await user_by_id(id=user_id_cast, db=db)
     return curr_user

@@ -59,7 +59,6 @@ async def create_db_tables():
     try:
         async with async_engine.begin() as conn:
             await conn.run_sync(SQLModel.metadata.create_all)
-            logging.info("Database tables created successfully.")
     except SQLAlchemyError as e:
         logging.error(f"Error creating database tables: {e}")
         raise HTTPException(

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 from datetime import datetime
 
 
@@ -13,7 +13,6 @@ class PostCreate(BaseModel):
 
 # Response model for a single post
 class PostResponse(BaseModel):
-    post_id: str
     title: str
     description: Optional[str]
     content: str

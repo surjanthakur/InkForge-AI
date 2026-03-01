@@ -20,12 +20,14 @@ async def create_account(
 # login account
 @user_router.post("/login", status_code=status.HTTP_200_OK)
 async def login_account(
-    req_form: LoginRequest, response: Response, session_db: AsyncSession = Depends(get_session)
+    req_form: LoginRequest,
+    response: Response,
+    session_db: AsyncSession = Depends(get_session),
 ):
     return await authenticate_user(user_data=req_form, response=response, db=session_db)
 
 
 # get account
-@user_router.get("/me")
+@user_router.get("/me", status_code=status.HTTP_200_OK)
 async def get_current_user(curr_user: User = Depends(current_user)):
     return curr_user

@@ -1,6 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from .db.db_connection import create_db_tables
-import logging
 from fastapi.middleware.cors import CORSMiddleware
 from .router import users_router
 
@@ -11,12 +10,11 @@ from .router import users_router
 async def lifespan(app: FastAPI):
     try:
         await create_db_tables()
+        print("Database tables created successfully.")
+
         yield
     except Exception:
-        logging.error(f"Error during application startup")
-        raise
-
-    logging.info("Application shutdown.....")
+        raise HTTPException(status_code=500, detail="Error creating database tables")
 
 
 app = FastAPI(lifespan=lifespan)
