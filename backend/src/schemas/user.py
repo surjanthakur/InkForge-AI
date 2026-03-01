@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, EmailStr, field_validator
+from typing import List
 from datetime import datetime
+from .posts import PostResponse
 import re
 
 
@@ -37,15 +39,13 @@ class UserCreate(BaseModel):
     #     return v
 
 
-class UserResponse(BaseModel):
-    username: str
-    email: EmailStr
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
-
-
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=4, description="enter your password")
+
+
+class currentUserResponse(BaseModel):
+    username: str
+    email: EmailStr
+    posts: List[PostResponse] = []
+    created_at: datetime
