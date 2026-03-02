@@ -12,14 +12,14 @@ load_dotenv()
 
 db_url = os.getenv("DB_URL")
 
-# Create an asynchronous engine for the database connection
+# engine for the database connection
 async_engine: AsyncEngine = create_async_engine(
     db_url,
     echo=False,
     connect_args={"timeout": 60, "ssl": True},
 )
 
-# Create an asynchronous session factory for managing database sessions
+# session factory for managing database sessions
 async_session_factory = async_sessionmaker[AsyncSession](
     async_engine,
     class_=AsyncSession,
@@ -28,8 +28,6 @@ async_session_factory = async_sessionmaker[AsyncSession](
 )
 
 
-# Dependency function to get an asynchronous database session for use in FastAPI endpoints.
-# it ensures that the session is properly closed after use and handles any database errors by rolling back the transaction and returning an appropriate HTTP response.
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_factory() as session:
         try:
@@ -43,9 +41,6 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
             )
 
 
-# Function to create database tables based on the defined SQLModel models.
-# It uses the asynchronous engine to execute the table creation and logs the success or any errors that occur during the process.
-# If an error occurs, it raises an HTTPException with a 500 status code.
 async def create_db_tables():
     try:
         async with async_engine.begin() as conn:
