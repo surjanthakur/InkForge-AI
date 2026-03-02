@@ -2,7 +2,7 @@ import { PenIcon, LockIcon, ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { UseAuth } from "../hooks/useAuth";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 
 const Signup = () => {
   const { Signup, error, loading } = UseAuth();
@@ -17,7 +17,7 @@ const Signup = () => {
     try {
       const res = await Signup(data);
       if (res.success === true) {
-        <Link to="/login" />;
+        redirect("/login");
       } else {
         toast.error(error || "Signup failed ❌ . Please try again.");
       }
