@@ -1,7 +1,11 @@
 import { PenIcon, LockIcon, ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { UseAuth } from "../hooks/useAuth";
+import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const { Signup, error, loading } = UseAuth();
   const {
     register,
     handleSubmit,
@@ -10,11 +14,18 @@ const Signup = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log("Form Data:", data);
-    //todo simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    alert("User Registered Successfully 🚀");
+    try {
+      const res = await Signup(data);
+      if (res.success === true) {
+        <Link to="/login" />;
+      } else {
+        toast.error(error || "Signup failed ❌ . Please try again.");
+      }
+    } catch (err) {
+      toast.error(
+        error || "❌ An error occurred during signup. Please try again."
+      );
+    }
   };
 
   const passwordValue = watch("password");

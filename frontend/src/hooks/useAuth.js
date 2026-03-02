@@ -5,7 +5,7 @@ export const UseAuth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // signup user
+  // signup user hook
   const Signup = async (data) => {
     try {
       setLoading(true);
@@ -19,7 +19,7 @@ export const UseAuth = () => {
       setLoading(false);
     }
   };
-
+  // login user hook
   const Login = async (data) => {
     try {
       setLoading(true);
