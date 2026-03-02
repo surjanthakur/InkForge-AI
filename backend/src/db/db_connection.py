@@ -2,28 +2,19 @@ from fastapi import status, HTTPException
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine, async_sessionmaker
 import logging
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import AsyncGenerator
 from sqlalchemy.exc import SQLAlchemyError
 from sqlmodel import SQLModel
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
-# Database connection and session management
-class Settings(BaseSettings):
-    DB_URL: str
-
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        case_sensitive=False,
-        extra="allow",
-    )
-
-
-settings = Settings()
+db_url = os.getenv("DB_URL")
 
 # Create an asynchronous engine for the database connection
 async_engine: AsyncEngine = create_async_engine(
-    settings.DB_URL,
+    db_url,
     echo=False,
     connect_args={"timeout": 60, "ssl": True},
 )

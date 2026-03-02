@@ -4,9 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from .router import users_router
 
 
-# list of all, we need to create the database tables before the application starts.
-# We can use the lifespan event of FastAPI to achieve this.
-# The lifespan event allows us to run code before the application starts and after it shuts down.
 async def lifespan(app: FastAPI):
     try:
         await create_db_tables()
