@@ -19,6 +19,7 @@ const Login = () => {
      const res =  await Login(data);
      if (res?.success === true) {
       setTimeout(()=>{
+        toast.success("login success")
         navigate("/");
       },500)
      }
