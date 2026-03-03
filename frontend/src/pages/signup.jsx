@@ -2,10 +2,11 @@ import { PenIcon, LockIcon, ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { UseAuth } from "../hooks/useAuth";
 import { toast } from "react-hot-toast";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const { Signup, error, loading } = UseAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -15,12 +16,10 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await Signup(data);
-      if (res.success === true) {
-        redirect("/login");
-      } else {
-        toast.error(error || "Signup failed ❌ . Please try again.");
-      }
+      await Signup(data);
+      setTimeout(()=>{
+        navigate("/login");
+      },500)
     } catch (err) {
       toast.error(
         error || "❌ An error occurred during signup. Please try again."
@@ -160,7 +159,7 @@ const Signup = () => {
             {/* Submit */}
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || loading}
               className="w-full bg-black text-white font-semibold py-3 px-4 border border-black hover:bg-gray-900 transition duration-200 disabled:opacity-60"
             >
               {isSubmitting ? "Signing Up..." : "Sign Up"}
@@ -170,12 +169,12 @@ const Signup = () => {
           {/* Sign In Link */}
           <p className="text-center text-sm text-black mt-4">
             Already have an account?{" "}
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="font-semibold underline hover:text-gray-700"
             >
               Sign In
-            </a>
+            </Link>
           </p>
         </div>
       </div>
