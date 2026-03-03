@@ -16,10 +16,12 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     try {
-      await Signup(data);
+     const res =  await Signup(data);
+     if (res?.success === true) {
       setTimeout(()=>{
         navigate("/login");
       },500)
+     }
     } catch (err) {
       toast.error(
         error || "❌ An error occurred during signup. Please try again."

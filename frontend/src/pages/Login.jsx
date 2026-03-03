@@ -1,6 +1,34 @@
 import { PenIcon, LockIcon, ArrowLeft } from 'lucide-react';
+import { useForm } from "react-hook-form";
+import { UseAuth } from "../hooks/useAuth";
+import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const Login = () => {
+  const {Login , error , loading}  = UseAuth()
+  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+     const res =  await Login(data);
+     if (res?.success === true) {
+      setTimeout(()=>{
+        navigate("/");
+      },500)
+     }
+    } catch (err) {
+      toast.error(
+        error || "❌ An error occurred during Login. Please try again."
+      );
+    }
+  };
+
   return (
     <>
       <div className="min-h-screen bg-white flex items-center justify-center p-4">
@@ -12,7 +40,7 @@ const Login = () => {
           </div>
 
           {/* Form */}
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Email Input */}
             <div>
               <label className="block text-sm font-medium text-black mb-2">
@@ -24,8 +52,20 @@ const Login = () => {
                   type="email"
                   placeholder="Enter your email"
                   className="flex-1 outline-none bg-transparent text-black placeholder-gray-400"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                      message: "Enter a valid email address",
+                    },
+                  })}
                 />
               </div>
+              {errors.email && (
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
             {/* Password Input */}
@@ -39,8 +79,23 @@ const Login = () => {
                   type="password"
                   placeholder="Enter your password"
                   className="flex-1 outline-none bg-transparent text-black placeholder-gray-400"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 4,
+                      message: "Password must be at least 4 characters",
+                    },
+                    validate: (value) =>
+                      /[A-Z]/.test(value) ||
+                      "Password must contain at least one uppercase letter",
+                  })}
                 />
               </div>
+              {errors.password && (
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             {/* Remember & Forgot Password */}
@@ -63,20 +118,21 @@ const Login = () => {
             {/* Sign In Button */}
             <button
               type="submit"
+              disabled={isSubmitting || loading}
               className="w-full bg-black text-white font-semibold py-3 px-4 border border-black hover:bg-gray-900 transition duration-200"
             >
-              Sign In
+              {isSubmitting ? "sining..." : "Sign in"}
             </button>
 
             {/* Sign Up Link */}
             <p className="text-center text-sm text-black">
               Don't have an account?{' '}
-              <a
-                href="#"
-                className="font-semibold underline hover:text-gray-700"
-              >
-                Sign Up
-              </a>
+              <Link
+              to="/signup"
+              className="font-semibold underline hover:text-gray-700"
+            >
+              Sign up
+            </Link> 
             </p>
 
             {/* Divider */}

@@ -33,7 +33,7 @@ async def create_user(user_data: UserCreate, db: AsyncSession):
         db.add(new_user)
         await db.commit()
         await db.refresh(new_user)
-        return {"detail": "account created successfully"}
+        return {"detail": "account created successfully", "success": True}
     except IntegrityError:
         await db.rollback()
         raise HTTPException(
@@ -79,7 +79,7 @@ async def authenticate_user(
             secure=False,  # todo: set True in production (HTTPS)
             samesite="lax",
         )
-        return {"message": "Login successful"}
+        return {"detail": "Login successful!", "success": True}
 
     except redis.exceptions.RedisError as e:
         logger.error(f"Redis error during login for {user_data.email}:=> {e}")
