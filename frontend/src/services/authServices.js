@@ -17,4 +17,11 @@ const LoginUser = async (data) => {
   return res.data;
 };
 
-export { signupUser, LoginUser };
+// api call to get current user
+const CurrentUser = async() =>{
+  const res = await API_URL.get("/me")
+  return res.data
+
+}
+
+export { signupUser, LoginUser , CurrentUser };
