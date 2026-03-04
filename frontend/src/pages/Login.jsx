@@ -1,13 +1,12 @@
-import { PenIcon, LockIcon, ArrowLeft } from 'lucide-react';
+import { LockIcon, PenIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { UseAuth } from "../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-
+import { UseAuth } from "../hooks/useAuth";
 
 const Login = () => {
-  const {Login , error , loading}  = UseAuth()
-  const navigate = useNavigate()
+  const { Login, error, loading } = UseAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -16,15 +15,15 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-     const res =  await Login(data);
-     if (res?.success === true) {
-      setTimeout(()=>{
-        toast.success("login success")
-        navigate("/");
-      },500)
-     }else{
-      toast.error(error || "Login failed. Please try again.");
-    }
+      const res = await Login(data);
+      if (res?.success === true) {
+        setTimeout(() => {
+          toast.success("✅");
+          navigate("/");
+        }, 500);
+      } else {
+        toast.error(error || "Login failed ❌. Please try again.");
+      }
     } catch (err) {
       toast.error(
         error || "❌ An error occurred during Login. Please try again."
@@ -129,13 +128,13 @@ const Login = () => {
 
             {/* Sign Up Link */}
             <p className="text-center text-sm text-black">
-              Don't have an account?{' '}
+              Don't have an account?{" "}
               <Link
-              to="/signup"
-              className="font-semibold underline hover:text-gray-700"
-            >
-              Sign up
-            </Link> 
+                to="/signup"
+                className="font-semibold underline hover:text-gray-700"
+              >
+                Sign up
+              </Link>
             </p>
 
             {/* Divider */}

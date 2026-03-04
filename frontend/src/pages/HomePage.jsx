@@ -1,9 +1,12 @@
+import { ArrowRight, BookOpen, Brush, Download, EditIcon } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import gradientVideo from "../assets/gradient-sound.mp4";
 import { FeatureCard } from "../components/index";
-import { useRef, useEffect } from "react";
-import { Brush, Download, EditIcon, BookOpen, ArrowRight } from "lucide-react";
+import { UseAuth } from "../hooks/useAuth";
 
 export default function Homepage() {
+  const { isCurrentUser, CurrUser } = UseAuth();
   const featureData = [
     {
       icon: <Brush size={22} strokeWidth={1.5} className="text-zinc-400" />,
@@ -32,6 +35,7 @@ export default function Homepage() {
   const videoRef = useRef(null);
 
   useEffect(() => {
+    CurrUser();
     const video = videoRef.current;
 
     const handleEnd = () => {
@@ -80,13 +84,13 @@ export default function Homepage() {
 
           {/* editor route */}
           <div className="pt-6 md:pt-10 flex justify-center">
-            <a
-              href="/editor"
+            <Link
+              to={isCurrentUser ? "/editor" : "/login"}
               className=" flex items-center gap-2 px-10 py-5 lg:text-lg md:text-xl font-light text-white border-2 border-white transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] hover:text-black hover:bg-white"
             >
               write something
               <ArrowRight size={25} />
-            </a>
+            </Link>
           </div>
         </div>
       </section>
