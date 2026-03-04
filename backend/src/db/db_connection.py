@@ -37,7 +37,7 @@ async_session_factory = async_sessionmaker[AsyncSession](
 
 
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
-    async with async_session_factory().begin() as session:
+    async with async_session_factory() as session:
         try:
             yield session
         except SQLAlchemyError as err:
@@ -47,26 +47,8 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="database connection error!",
             )
-
-        except AttributeError as err:
-            await session.rollback()
-            logging.error(
-                f"AttributeError encountered during session: {err}", exc_info=True
-            )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Database session attribute error: {err}",
-            )
-
-        except Exception as err:
-            await session.rollback()
-            logging.error(
-                f"Unexpected error while handling session: {err}", exc_info=True
-            )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Unexpected database error: {err}",
-            )
+        finally:
+            session.close()
 
 
 async def create_db_tables():
@@ -77,12 +59,4 @@ async def create_db_tables():
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error creating database tables: {err}",
-        )
-    except Exception as err:
-        logging.error(
-            f"Unexpected error while creating database tables: {err}", exc_info=True
-        )
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Unexpected error occurred: {err}",
         )
