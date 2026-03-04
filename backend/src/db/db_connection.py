@@ -37,15 +37,35 @@ async_session_factory = async_sessionmaker[AsyncSession](
 
 
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
-    async with async_session_factory() as session:
+    async with async_session_factory().begin() as session:
         try:
             yield session
-        except SQLAlchemyError as e:
+        except SQLAlchemyError as err:
             await session.rollback()
-            logging.error(f"Database error: {e}")
+            logging.error(f"Error while creating session: {err}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Database error",
+                detail="database connection error!",
+            )
+
+        except AttributeError as err:
+            await session.rollback()
+            logging.error(
+                f"AttributeError encountered during session: {err}", exc_info=True
+            )
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Database session attribute error: {err}",
+            )
+
+        except Exception as err:
+            await session.rollback()
+            logging.error(
+                f"Unexpected error while handling session: {err}", exc_info=True
+            )
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Unexpected database error: {err}",
             )
 
 
@@ -53,8 +73,16 @@ async def create_db_tables():
     try:
         async with async_engine.begin() as conn:
             await conn.run_sync(SQLModel.metadata.create_all)
-    except SQLAlchemyError as e:
+    except SQLAlchemyError as err:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error creating database tables: {e}",
+            detail=f"Error creating database tables: {err}",
+        )
+    except Exception as err:
+        logging.error(
+            f"Unexpected error while creating database tables: {err}", exc_info=True
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Unexpected error occurred: {err}",
         )
