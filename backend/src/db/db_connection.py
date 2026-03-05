@@ -48,7 +48,7 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
                 detail="database connection error!",
             )
         finally:
-            session.close()
+            await session.close()
 
 
 async def create_db_tables():
