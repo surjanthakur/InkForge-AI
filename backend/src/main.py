@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from .db.db_connection import create_db_tables
 from fastapi.middleware.cors import CORSMiddleware
-from .router import users_router
+from .router import users_router, posts_router
 import logging
 
 
@@ -28,3 +28,4 @@ app.add_middleware(
 )
 
 app.include_router(router=users_router.user_router, prefix="/api/v1.0")
+app.include_router(router=posts_router.post_router, prefix="/api/v1.0")
