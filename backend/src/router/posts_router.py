@@ -3,7 +3,12 @@ from fastapi import APIRouter, Depends, status
 from ..db.db_connection import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
 from ..schemas.posts import PostCreate
-from ..service.posts_service import create_post, all_posts, delete_post_by_id
+from ..service.posts_service import (
+    create_post,
+    all_posts,
+    delete_post_by_id,
+    get_single_post,
+)
 from ..db.models import User
 from ..service.users_service import current_user
 
@@ -17,6 +22,11 @@ async def get_all_posts(
     curr_user: User = Depends(current_user),
 ):
     return await all_posts(db=session_db)
+
+
+@post_router.get("/{post_id}")
+async def get_posts(post_id: UUID, session_db: AsyncSession):
+    return await get_single_post(post_id=post_id, db=session_db)
 
 
 # create post

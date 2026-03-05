@@ -5,7 +5,7 @@ from ..db.models import Post, postType
 from ..schemas.posts import PostCreate
 from sqlmodel.ext.asyncio.session import AsyncSession
 from fastapi import status, HTTPException
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from ..repository.posts_repo import get_all_posts, post_by_id
 
 logger = logging.getLogger(__name__)
@@ -29,6 +29,24 @@ async def all_posts(db: AsyncSession):
     return posts
 
 
+# get posts
+async def get_single_post(post_id: UUID, db: AsyncSession):
+    try:
+        post = await post_by_id(post_id=post_id, db=db)
+    except Exception as error:
+        logger.error(f"Failed to fetch post {post_id}: {error}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error fetching post, please try again later.",
+        )
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found.",
+        )
+    return post
+
+
 # create new post
 async def create_post(post_data: PostCreate, user_id: UUID, db: AsyncSession) -> Post:
     try:
@@ -48,7 +66,7 @@ async def create_post(post_data: PostCreate, user_id: UUID, db: AsyncSession) ->
             status_code=status.HTTP_409_CONFLICT,
             detail="Post already exists for this user!",
         )
-    except Exception as error:
+    except SQLAlchemyError as error:
         await db.rollback()
         logger.error(f"create_post failed for user_id={user_id}:=> {error}")
         raise HTTPException(
@@ -73,8 +91,13 @@ async def delete_post_by_id(post_id: UUID, db: AsyncSession, user_id: UUID):
         await db.delete(post)
         await db.commit()
         return {"detail": "Post deleted successfully", "success": True}
-    except HTTPException:
-        raise
+    except SQLAlchemyError as error:
+        logger.error(f"SQLAlchemyError while deleting post {post_id}: {error}")
+        await db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="A database error occurred while deleting the post. Please try again later.",
+        )
     except Exception as error:
         logger.error(f"Failed to delete post {post_id}: {error}")
         await db.rollback()
