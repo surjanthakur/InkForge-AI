@@ -6,12 +6,13 @@ import {
   LogOut,
   PenToolIcon,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const navItems = [
-  { id: "home", label: "Home", icon: Home },
-  { id: "write", label: "Write", icon: PenLine },
-  { id: "about", label: "About", icon: Info },
-  { id: "settings", label: "Settings", icon: Settings },
+  { id: "home", label: "Home", icon: Home, to: "/" },
+  { id: "write", label: "Write", icon: PenLine, to: "/editor" },
+  { id: "about", label: "About", icon: Info, to: "/about" },
+  { id: "settings", label: "Settings", icon: Settings, to: "/settings" },
 ];
 
 // Remove TypeScript interface, add prop destructure with no types
@@ -36,8 +37,9 @@ export function Sidebar({ activeItem, onNavChange }) {
           const Icon = item.icon;
           const isActive = activeItem === item.id;
           return (
-            <button
+            <Link
               key={item.id}
+              to={item.to}
               onClick={() => onNavChange(item.id)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150 w-full text-left
                 ${
@@ -51,7 +53,7 @@ export function Sidebar({ activeItem, onNavChange }) {
                 className={isActive ? "text-white" : "text-gray-400"}
               />
               <span>{item.label}</span>
-            </button>
+            </Link>
           );
         })}
 
