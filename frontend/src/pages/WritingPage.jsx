@@ -95,14 +95,26 @@ export default function WritingPageEditor() {
           {/* save button */}
           <button
             onClick={handleSave}
-            className="cursor-pointer bg-linear-to-b from-black to-gray-500 px-6 py-3 rounded-2xl text-white font-medium group"
+            className="cursor-pointer bg-linear-to-b from-black to-gray-500 py-3 rounded-2xl text-white font-medium group"
+            style={{
+              minWidth: "90px",
+              width: "auto",
+              paddingLeft: "2.25rem",
+              paddingRight: "2.25rem",
+            }}
           >
-            <div className="relative overflow-hidden">
-              <p className="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
+            <div className="relative overflow-hidden flex justify-center items-center">
+              <p
+                className="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)] px-2"
+                style={{ whiteSpace: "nowrap" }}
+              >
                 save
               </p>
-              <p className="absolute top-7 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
-                save
+              <p
+                className="absolute top-7 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]"
+                style={{ whiteSpace: "nowrap", width: "100%" }}
+              >
+                {postType}
               </p>
             </div>
           </button>

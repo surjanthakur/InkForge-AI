@@ -11,7 +11,7 @@ const get_all_posts = async () => {
 };
 
 const createPost = async (data) => {
-  const res = await API_URL.get("/newStory", data);
+  const res = await API_URL.post("/newStory", data);
   return res.data;
 };
 
