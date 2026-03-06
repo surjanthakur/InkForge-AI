@@ -1,4 +1,5 @@
 import { Pencil, Trash2 } from "lucide-react";
+import PostImage from "../../assets/soft-cartoon.jpeg";
 
 export function PostCard({ post, onEdit, onDelete }) {
   // Map badge color classes based on type
@@ -10,9 +11,9 @@ export function PostCard({ post, onEdit, onDelete }) {
   return (
     <div className="flex gap-5 bg-white rounded-2xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow duration-200 group">
       {/* Thumbnail */}
-      <div className="shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-gray-100">
+      <div className="shrink-0 w-28 h-28 rounded-xl overflow-hidden bg-gray-100">
         <img
-          src={post.thumbnail}
+          src={PostImage}
           alt={post.title}
           className="w-full h-full object-cover"
         />
