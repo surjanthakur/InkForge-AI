@@ -24,6 +24,7 @@ async def get_all_posts(
     return await all_posts(db=session_db)
 
 
+# get posts
 @post_router.get("/{post_id}")
 async def get_posts(post_id: UUID, session_db: AsyncSession):
     return await get_single_post(post_id=post_id, db=session_db)
