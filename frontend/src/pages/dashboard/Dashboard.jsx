@@ -1,82 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { PostCard } from "./PostCards";
 import { PenLine, Search, Menu, X } from "lucide-react";
-
-// No TS types/annotations, just normal JS
-const ALL_POSTS = [
-  {
-    id: 1,
-    title: "Next in Fashion: Trends to Watch",
-    type: "Blog",
-    createdAt: "March 1, 2026",
-    description:
-      "Explore the latest runway trends dominating the fashion world this season. From oversized silhouettes to bold color palettes, discover what's shaping style in 2026.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1575111507952-2d4f371374f5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwZWRpdG9yaWFsJTIwYmxvZyUyMHBvc3R8ZW58MXx8fHwxNzcyNzIxNDM4fDA&ixlib=rb-4.1.0&q=80&w=1080",
-  },
-  {
-    id: 2,
-    title: "Digital Marketing Today: What Works",
-    type: "Article",
-    createdAt: "February 24, 2026",
-    description:
-      "A deep dive into modern digital marketing strategies that actually convert. Learn how top brands are leveraging AI, short-form video, and community building.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1770876577940-297a5b6f31b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwbWFya2V0aW5nJTIwc3RyYXRlZ3klMjBvZmZpY2V8ZW58MXx8fHwxNzcyNzE4MzU0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-  },
-  {
-    id: 3,
-    title: "Startup Stories: Building in Public",
-    type: "Article",
-    createdAt: "February 18, 2026",
-    description:
-      "How founders are sharing their journey openly — failures, pivots and all — and why transparency is becoming a competitive advantage in the startup ecosystem.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1573496267401-787d33fd0532?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNobm9sb2d5JTIwc3RhcnR1cCUyMGFydGljbGUlMjBibG9nfGVufDF8fHx8MTc3MjcyMTQ0Mnww&ixlib=rb-4.1.0&q=80&w=1080",
-  },
-  {
-    id: 4,
-    title: "Travel on a Budget: Hidden Gems",
-    type: "Blog",
-    createdAt: "February 10, 2026",
-    description:
-      "Discover underrated destinations that offer incredible experiences without breaking the bank. From scenic coastal towns to mountain villages, adventure awaits.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1620749423939-59b4a8348d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBsaWZlc3R5bGUlMjBjb250ZW50JTIwY3JlYXRvcnxlbnwxfHx8fDE3NzI3MjE0NDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-  },
-  {
-    id: 5,
-    title: "Mastering the Art of Slow Cooking",
-    type: "Blog",
-    createdAt: "January 30, 2026",
-    description:
-      "From hearty stews to tender braised meats, slow cooking transforms simple ingredients into extraordinary meals. Here are five recipes to get you started.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1692288843207-786c8cb62e7a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb29kJTIwcmVjaXBlJTIwY29va2luZyUyMGFydGljbGV8ZW58MXx8fHwxNzcyNzIxNDQ4fDA&ixlib=rb-4.1.0&q=80&w=1080",
-  },
-];
+import { UsePosts } from "../../hooks/usePosts";
+import { toast } from "react-hot-toast";
 
 const FILTERS = ["All", "Blog", "Article"];
 
 export default function Dashboard() {
   const [activeNav, setActiveNav] = useState("home");
   const [activeFilter, setActiveFilter] = useState("All");
-  const [posts, setPosts] = useState(ALL_POSTS);
+  const [posts, setPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { all_posts, error } = UsePosts();
 
+  // --- Filter posts by type and search query ---
   const filteredPosts = posts.filter((post) => {
-    const matchesFilter = activeFilter === "All" || post.type === activeFilter;
-    const matchesSearch =
+    const typeMatch = activeFilter === "All" || post.type === activeFilter;
+    const searchMatch =
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesFilter && matchesSearch;
+    return typeMatch && searchMatch;
   });
 
+  // --- Fetch all posts on mount ---
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchPosts = async () => {
+      try {
+        const res = await all_posts();
+        if (isMounted) {
+          setPosts(res);
+        }
+      } catch (err) {
+        if (isMounted) {
+          toast.error(error);
+          console.error(err);
+          setPosts([]);
+        }
+      }
+    };
+    fetchPosts();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // --- Handlers ---
   const handleDelete = (id) => {
-    setPosts((prev) => prev.filter((p) => p.id !== id));
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
   };
 
   const handleEdit = (id) => {
@@ -153,7 +128,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Overview, Filters, and Search Bar */}
+          {/* Overview, Filters */}
           <div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
               <div>
@@ -185,9 +160,9 @@ export default function Dashboard() {
           {/* Post Cards */}
           <div className="space-y-3">
             {filteredPosts.length > 0 ? (
-              filteredPosts.map((post) => (
+              filteredPosts.map((post, idx) => (
                 <PostCard
-                  key={post.id}
+                  key={idx}
                   post={post}
                   onEdit={handleEdit}
                   onDelete={handleDelete}

@@ -41,7 +41,6 @@ export const UsePosts = () => {
       setLoading(true);
       setError(null);
       const res = await deletePost(post_id);
-      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== post_id));
       return res;
     } catch (err) {
       setError(err.response?.data?.detail || "Failed to delete post");
@@ -50,5 +49,5 @@ export const UsePosts = () => {
       setLoading(false);
     }
   };
-  return { all_posts, create_post, delete_post, loading, error, posts };
+  return { all_posts, create_post, delete_post, loading, error };
 };

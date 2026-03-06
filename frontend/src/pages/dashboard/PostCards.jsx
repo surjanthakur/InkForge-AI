@@ -1,24 +1,10 @@
 import { Pencil, Trash2 } from "lucide-react";
 
-// (JSDoc for prop hints)
-/**
- * @typedef {Object} Post
- * @property {number} id
- * @property {string} title
- * @property {"Blog"|"Article"} type
- * @property {string} createdAt
- * @property {string} description
- * @property {string} thumbnail
- */
-
-/**
- * @param {{ post: Post, onEdit: function, onDelete: function }} props
- */
 export function PostCard({ post, onEdit, onDelete }) {
   // Map badge color classes based on type
   const typeBadgeColors = {
-    Blog: "bg-violet-100 text-violet-600",
-    Article: "bg-amber-100 text-amber-600",
+    blog: "bg-violet-100 text-violet-600",
+    article: "bg-amber-100 text-amber-600",
   };
 
   return (
@@ -39,21 +25,42 @@ export function PostCard({ post, onEdit, onDelete }) {
             <div className="flex items-center gap-2 flex-wrap">
               <h3 className="text-gray-900 truncate">{post.title}</h3>
               <span
-                className={`text-xs px-2 py-0.5 rounded-full shrink-0 ${typeBadgeColors[post.type]}`}
+                className={`text-xs px-2 py-0.5 rounded-full shrink-0 ${typeBadgeColors[post.post_type]}`}
               >
-                {post.type}
+                {post.post_type}
               </span>
             </div>
-            <p className="text-xs text-gray-400 mt-0.5">{post.createdAt}</p>
+            <p className="text-xs text-gray-400 mt-0.5">{post.created_at}</p>
             <p className="text-sm text-gray-500 mt-1.5 line-clamp-2 leading-relaxed">
-              {post.description}
+              {(() => {
+                if (
+                  typeof post.content === "object" &&
+                  post.content.type === "doc" &&
+                  Array.isArray(post.content.content)
+                ) {
+                  const para = post.content.content.find(
+                    (c) => c.type === "paragraph" && Array.isArray(c.content)
+                  );
+                  if (para) {
+                    const textSnippets = para.content
+                      .filter((d) => typeof d.text === "string")
+                      .map((d) => d.text);
+                    return textSnippets
+                      .join(" ")
+                      .split("\n")
+                      .slice(0, 2)
+                      .join(" ");
+                  }
+                }
+                return "";
+              })()}
             </p>
           </div>
 
           {/* Actions */}
           <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
             <button
-              onClick={() => onEdit(post.id)}
+              onClick={() => onEdit(post.post_id)}
               className="w-8 h-8 rounded-lg bg-gray-50 hover:bg-indigo-50 hover:text-indigo-500 flex items-center justify-center text-gray-400 transition-colors"
               type="button"
               aria-label="Edit"
@@ -61,7 +68,7 @@ export function PostCard({ post, onEdit, onDelete }) {
               <Pencil size={14} />
             </button>
             <button
-              onClick={() => onDelete(post.id)}
+              onClick={() => onDelete(post.post_id)}
               className="w-8 h-8 rounded-lg bg-gray-50 hover:bg-red-50 hover:text-red-500 flex items-center justify-center text-gray-400 transition-colors"
               type="button"
               aria-label="Delete"
