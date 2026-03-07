@@ -3,10 +3,9 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gradientVideo from "../assets/gradient-sound.mp4";
 import { FeatureCard } from "../components/index";
-import { UseAuth } from "../hooks/useAuth";
-
+import { useAuthContext } from "../context/authContext";
 export default function Homepage() {
-  const { isCurrentUser, CurrUser } = UseAuth();
+  const { isCurrentUser } = useAuthContext();
   const featureData = [
     {
       icon: <Brush size={22} strokeWidth={1.5} className="text-zinc-400" />,
@@ -35,7 +34,6 @@ export default function Homepage() {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    CurrUser();
     const video = videoRef.current;
 
     const handleEnd = () => {
