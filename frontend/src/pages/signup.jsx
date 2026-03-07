@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const { Signup, error, loading } = UseAuth();
+  const { Signup, authError, loading } = UseAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -16,18 +16,18 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     try {
-     const res =  await Signup(data);
-     if (res?.success === true) {
-      setTimeout(()=>{
-        navigate("/login");
-      },500)
-     }else {
-      toast.error( error || "Signup failed. Please try again.");
-    }
+      const res = await Signup(data);
+      if (res?.success === true) {
+        setTimeout(() => {
+          navigate("/login");
+        }, 500);
+      } else if (authError) {
+        toast.error(authError);
+      }
     } catch (err) {
-      toast.error(
-        error || "❌ An error occurred during signup. Please try again."
-      );
+      if (authError) {
+        toast.error(authError);
+      }
     }
   };
 
