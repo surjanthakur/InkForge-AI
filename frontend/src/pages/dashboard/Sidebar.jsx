@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/authContext";
 
 const navItems = [
   { id: "home", label: "Home", icon: Home, to: "/" },
@@ -18,8 +19,8 @@ const navItems = [
   { id: "settings", label: "Settings", icon: Settings, to: "/settings" },
 ];
 
-// Remove TypeScript interface, add prop destructure with no types
 export function Sidebar({ activeItem, onNavChange }) {
+  const { get_currUser } = useAuthContext();
   const navigate = useNavigate();
   const { logout } = useAuth();
 
@@ -29,9 +30,10 @@ export function Sidebar({ activeItem, onNavChange }) {
       toast.error(res.detail);
       return;
     }
-    setTimeout(() => {
+    setTimeout(async () => {
       toast.success(res.data?.detail);
       navigate("/");
+      await get_currUser();
     }, 500);
   };
   return (

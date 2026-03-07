@@ -143,7 +143,7 @@ async def current_user(
 
 
 # logout user
-async def logout_user(session_id: str = Cookie(None)):
+async def logout_user(session_id: str | None):
     if not session_id:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="No active session found."

@@ -26,7 +26,7 @@ const Login = () => {
     }
     toast.success(res.data?.detail);
     navigate("/");
-    get_currUser();
+    await get_currUser();
   };
 
   return (

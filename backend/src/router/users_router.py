@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, Response
+from fastapi import APIRouter, Depends, status, Response, Cookie
 from ..db.db_connection import get_session
 from ..db.models import User
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -43,5 +43,5 @@ async def get_current_user(curr_user: User = Depends(current_user)):
 
 # logout account
 @user_router.post("/logout", status_code=status.HTTP_200_OK)
-async def logout_account():
-    return await logout_user()
+async def logout_account(session_id: str = Cookie(None)):
+    return await logout_user(session_id=session_id)
