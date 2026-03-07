@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
-  const { Login, loading } = useAuth();
+  const { login, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const fromEditor = location.state?.fromEditor;
@@ -16,9 +16,10 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const res = await Login(data);
+    const res = await login(data);
     if (!res.ok) {
       toast.error(res.detail);
+      console.log(res.detail);
       return;
     }
     toast.success(res.data?.detail);

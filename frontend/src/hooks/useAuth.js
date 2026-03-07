@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { signupUser, loginUser } from "../services/authServices";
-import { useAuthContext } from "../context/authContext";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
-  const { get_currUser } = useAuthContext();
 
   // signup
   const signup = async (data) => {
@@ -28,7 +26,6 @@ export const useAuth = () => {
       if (!res.ok) {
         return res;
       }
-      await get_currUser();
       return res;
     } finally {
       setLoading(false);
