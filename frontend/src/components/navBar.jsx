@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 
 export default function Navbar() {
+  const { isCurrentUser } = useAuthContext();
   const authItems = ["Dashboard", "Features", "About", "Editor"];
   const guestItems = ["Features", "About", "Login", "Signup"];
+
+  const navItems = isCurrentUser ? authItems : guestItems;
 
   return (
     <nav
