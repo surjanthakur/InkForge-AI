@@ -1,52 +1,39 @@
 import { useState } from "react";
-import { signupUser, LoginUser, CurrentUser } from "../services/authServices";
+import { signupUser, loginUser, CurrentUser } from "../services/authServices";
 
-export const UseAuth = () => {
+export const useAuth = () => {
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState(null);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
 
-  // signup user hook
-  const Signup = async (data) => {
+  // signup
+  const signup = async (data) => {
+    setLoading(true);
+    setAuthError(null);
     try {
-      setLoading(true);
-      setAuthError(null);
       const res = await signupUser(data);
-      if (!res) {
-        setAuthError(res?.detail || "Signup failed");
+      if (!res.ok) {
+        setAuthError(res.detail);
+        return res;
       }
       return res;
-    } catch (err) {
-      setAuthError(
-        err.response?.data?.detail || "something went wrong try again"
-      );
-      throw err;
     } finally {
       setLoading(false);
     }
   };
 
-  // login user hook
-  const Login = async (data) => {
+  // login
+  const login = async (data) => {
+    setLoading(true);
+    setAuthError(null);
     try {
-      setLoading(true);
-      setAuthError(null);
-      const res = await LoginUser(data);
-      const statusOk = res?.status >= 200 && res?.status < 300;
-      if (!statusOk || !res?.ok) {
-        const detail = res?.detail ?? res?.data?.message ?? "Login failed";
-        setAuthError(detail);
-        return { ok: false, detail };
+      const res = await loginUser(data);
+      if (!res.ok) {
+        setAuthError(res.detail);
+        return res;
       }
-      return { ok: true, data: res };
-    } catch (err) {
-      const detail =
-        err.response?.data?.detail ||
-        err.response?.data?.message ||
-        err.message ||
-        "Something went wrong. Please try again.";
-      setAuthError(detail);
-      return { ok: false, detail };
+      setIsCurrentUser(true);
+      return res;
     } finally {
       setLoading(false);
     }
@@ -66,5 +53,13 @@ export const UseAuth = () => {
       setIsCurrentUser(false);
     }
   };
-  return { Signup, Login, CurrUser, loading, authError, isCurrentUser };
+
+  return {
+    signup,
+    login,
+    CurrUser,
+    loading,
+    authError,
+    isCurrentUser,
+  };
 };

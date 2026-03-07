@@ -59,4 +59,4 @@ const CurrentUser = async () => {
   return { status: res.status, data: res.data };
 };
 
-export { signupUser, LoginUser, CurrentUser };
+export { signupUser, loginUser, CurrentUser };
