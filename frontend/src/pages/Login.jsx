@@ -16,25 +16,13 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    try {
-      const res = await Login(data);
-      if (res?.ok === false) {
-        const message =
-          (typeof res?.detail === "string" ? res.detail : null) ||
-          (typeof authError === "string" ? authError : null) ||
-          "Invalid email or password. Please try again.";
-        toast.error(message);
-        return;
-      }
-      toast.success("Login successful");
-      navigate("/");
-    } catch (err) {
-      const message =
-        (typeof authError === "string" ? authError : null) ||
-        err?.message ||
-        "Something went wrong";
-      toast.error(message);
+    const res = await Login(data);
+    if (!res.ok) {
+      toast.error(res.detail);
+      return;
     }
+    toast.success(res.data?.detail);
+    navigate("/");
   };
 
   return (
