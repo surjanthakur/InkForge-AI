@@ -19,7 +19,6 @@ const Login = () => {
     const res = await login(data);
     if (!res.ok) {
       toast.error(res.detail);
-      console.log(res.detail);
       return;
     }
     toast.success(res.data?.detail);
