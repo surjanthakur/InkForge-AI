@@ -3,18 +3,23 @@ import { signupUser, LoginUser, CurrentUser } from "../services/authServices";
 
 export const UseAuth = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [authError, setAuthError] = useState(null);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
 
   // signup user hook
   const Signup = async (data) => {
     try {
       setLoading(true);
-      setError(null);
+      setAuthError(null);
       const res = await signupUser(data);
+      if (!res || res.success === false) {
+        setAuthError(res?.detail || "Signup failed");
+      }
       return res;
     } catch (err) {
-      setError(err.response?.data?.detail || "something went wrong");
+      setAuthError(
+        err.response?.data?.detail || "something went wrong try again"
+      );
       throw err;
     } finally {
       setLoading(false);
@@ -49,5 +54,5 @@ export const UseAuth = () => {
       setIsCurrentUser(false);
     }
   };
-  return { Signup, Login, CurrUser, loading, error, isCurrentUser };
+  return { Signup, Login, CurrUser, loading, authError, isCurrentUser };
 };
