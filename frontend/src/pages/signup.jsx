@@ -3,9 +3,10 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { Loader } from "../components/index";
 
 const Signup = () => {
-  const { signup } = useAuth();
+  const { signup, loading } = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -37,6 +38,13 @@ const Signup = () => {
             </h1>
             <p className="text-gray-600">Sign up to your account</p>
           </div>
+
+          {/* Loader */}
+          {loading && (
+            <div className="mb-4 flex justify-center">
+              <Loader />
+            </div>
+          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
