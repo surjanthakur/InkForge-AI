@@ -35,7 +35,7 @@ async def create_user(user_data: UserCreate, db: AsyncSession):
         db.add(new_user)
         await db.commit()
         await db.refresh(new_user)
-        return {"detail": "account created successfully", "success": True}
+        return {"detail": "account created!", "success": True}
     except IntegrityError:
         await db.rollback()
         raise HTTPException(
