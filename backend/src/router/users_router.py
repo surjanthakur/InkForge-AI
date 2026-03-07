@@ -34,3 +34,9 @@ async def login_account(
 )
 async def get_current_user(curr_user: User = Depends(current_user)):
     return curr_user
+
+
+# logout account
+@user_router.post("/logout")
+def logout():
+    pass
