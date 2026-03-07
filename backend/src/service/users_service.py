@@ -59,13 +59,15 @@ async def authenticate_user(
     user = await user_by_email(email=user_data.email, db=db)
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email"
         )
     is_valid_pass = await asyncio.get_running_loop().run_in_executor(
         None, verify_password, user_data.password, user.password
     )
     if not is_valid_pass:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password"
+        )
     try:
         session_id = str(uuid.uuid4())
         await redis_client.set(
