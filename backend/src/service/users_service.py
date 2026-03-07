@@ -140,3 +140,20 @@ async def current_user(
     )  # 1 day expirey of session_id
 
     return curr_user
+
+
+# logout user
+async def logout_user(session_id: str = Cookie(None)):
+    if not session_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="No active session found."
+        )
+    try:
+        await redis_client.delete(f"session:{session_id}")
+        return {"detail": "Successfully logged out."}
+    except Exception as err:
+        logger.error(f"Error while logging out for session {session_id}: {err}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Logout failed due to server error.",
+        )
