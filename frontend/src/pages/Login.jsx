@@ -4,9 +4,11 @@ import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { Loader } from "../components/index";
+import { useAuthContext } from "../context/authContext";
 
 const Login = () => {
   const { login, loading } = useAuth();
+  const { get_currUser } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
   const fromEditor = location.state?.fromEditor;
@@ -24,6 +26,7 @@ const Login = () => {
     }
     toast.success(res.data?.detail);
     navigate("/");
+    get_currUser();
   };
 
   return (
