@@ -2,12 +2,15 @@ from uuid import UUID
 from ..db.models import Post
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
+from uuid import UUID
 
 
-# get posts by search query
-async def get_posts_by_query(db: AsyncSession, query: str):
+# get posts by search query for current user
+async def get_posts_by_query(db: AsyncSession, query: str, user_id: UUID):
     result = await db.exec(
-        select(Post).where(Post.post_type == query).order_by(Post.created_at.desc())
+        select(Post)
+        .where(Post.user_id == user_id, Post.post_type == query)
+        .order_by(Post.created_at.desc())
     )
     return result.all()
 

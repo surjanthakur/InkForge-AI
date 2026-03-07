@@ -11,9 +11,9 @@ logger = logging.getLogger(__name__)
 
 
 # search posts by query
-async def search_posts(db: AsyncSession, query: str):
+async def search_posts(db: AsyncSession, query: str, user_id: UUID):
     try:
-        posts = await get_posts_by_query(db=db, query=query)
+        posts = await get_posts_by_query(db=db, query=query, user_id=user_id)
     except Exception as error:
         logger.error(f"Failed to search posts: {error}")
         raise HTTPException(

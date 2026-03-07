@@ -5,7 +5,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from ..schemas.posts import PostCreate
 from ..service.posts_service import (
     create_post,
-    all_posts,
+    search_posts,
     delete_post_by_id,
     get_single_post,
 )
@@ -22,8 +22,7 @@ async def search_posts_by_query(
     session_db: AsyncSession = Depends(get_session),
     curr_user: User = Depends(current_user),
 ):
-    # return await search_posts(db=session_db, query=query)
-    pass
+    return await search_posts(db=session_db, query=query, user_id=curr_user.user_id)
 
 
 # get posts
