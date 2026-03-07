@@ -30,15 +30,20 @@ export const UseAuth = () => {
   const Login = async (data) => {
     try {
       setLoading(true);
-      setError(null);
+      setAuthError(null);
       const res = await LoginUser(data);
       if (!res) {
-        setAuthError(res?.detail || "Signup failed");
+        setAuthError(res?.detail || "Login failed");
+        return { ok: false, detail: res?.detail || "Login failed" };
       }
-      return res;
+      return { ok: true, data: res };
     } catch (err) {
-      const detail = err.response?.data?.detail || "something went wrong";
-      setError(detail);
+      const detail =
+        err.response?.data?.detail ||
+        err.message ||
+        "Something went wrong. Please try again.";
+      setAuthError(detail);
+      return { ok: false, detail };
     } finally {
       setLoading(false);
     }
@@ -51,7 +56,7 @@ export const UseAuth = () => {
       setIsCurrentUser(true);
       return res;
     } catch (err) {
-      setError(
+      setAuthError(
         err.response?.data?.detail ||
           "you are not authenticated to access resource!"
       );

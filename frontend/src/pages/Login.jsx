@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UseAuth } from "../hooks/useAuth";
 
 const Login = () => {
-  const { Login, error, loading } = UseAuth();
+  const { Login, authError, loading } = UseAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const fromEditor = location.state?.fromEditor;
@@ -19,16 +19,14 @@ const Login = () => {
     try {
       const res = await Login(data);
 
-      if (res?.status && res.status >= 400) {
+      if (res?.ok === false) {
         toast.error(res.detail || "Login failed");
         return;
       }
       toast.success("Login successful");
       navigate("/");
     } catch (err) {
-      toast.error(
-        error || "❌ An error occurred during Login. Please try again."
-      );
+      toast.error(err?.message || authError || "Something went wrong");
     }
   };
 
