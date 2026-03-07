@@ -39,25 +39,9 @@ export const useAuth = () => {
     }
   };
 
-  // curr user hook
-  const CurrUser = async () => {
-    try {
-      const res = await CurrentUser();
-      setIsCurrentUser(true);
-      return res;
-    } catch (err) {
-      setAuthError(
-        err.response?.data?.detail ||
-          "you are not authenticated to access resource!"
-      );
-      setIsCurrentUser(false);
-    }
-  };
-
   return {
     signup,
     login,
-    CurrUser,
     loading,
     authError,
     isCurrentUser,
