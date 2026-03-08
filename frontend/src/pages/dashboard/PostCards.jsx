@@ -1,16 +1,7 @@
 import { Pencil, Trash2 } from "lucide-react";
 import PostImage from "../../assets/soft-cartoon.jpeg";
-import { UsePosts } from "../../hooks/usePosts";
 
-export function PostCard({ post }) {
-  const { delete_post } = UsePosts();
-
-  const handle_delete = async () => {
-    if (post && post.post_id) {
-      await delete_post(post.id);
-    }
-  };
-
+export function PostCard({ post, onDelete }) {
   const typeBadgeColors = {
     blog: "bg-violet-100 text-violet-600",
     article: "bg-amber-100 text-amber-600",
@@ -76,6 +67,7 @@ export function PostCard({ post }) {
               <Pencil size={14} />
             </button>
             <button
+              onClick={onDelete}
               className="w-8 h-8 rounded-lg bg-gray-50 hover:bg-red-50 hover:text-red-500 flex items-center justify-center text-gray-400 transition-colors"
               type="button"
               aria-label="Delete"

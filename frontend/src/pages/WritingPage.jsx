@@ -22,7 +22,7 @@ export default function WritingPageEditor() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [postType, setPostType] = useState("blog");
-  const { create_post, loading, error } = UsePosts();
+  const { create_post } = UsePosts();
 
   const editor = useEditor({
     extensions: [
@@ -43,21 +43,13 @@ export default function WritingPageEditor() {
       post_type: postType,
       content: editor.getJSON(),
     };
-
-    try {
-      const res = await create_post(postData);
-
-      if (res?.success === true) {
-        toast.success("Post created successfully!");
-        navigate("/");
-      } else {
-        toast.error(res?.detail || "Something went wrong! Please try again.");
-      }
-    } catch (err) {
-      toast.error(
-        error || "Failed to create post. Please check your input and try again."
-      );
+    const res = await create_post(postData);
+    if (!res.ok) {
+      toast.error(res.detail);
+      return;
     }
+    toast.success(res.data?.detail);
+    navigate("/editor");
   };
 
   return (

@@ -15,7 +15,7 @@ export default function Dashboard() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [posts, setPosts] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { fetch_posts, loading } = UsePosts();
+  const { fetch_posts, delete_post, loading } = UsePosts();
   const { currUser } = useAuthContext();
 
   const isLoading = loading;
@@ -32,13 +32,24 @@ export default function Dashboard() {
     .slice(0, 2)
     .toUpperCase();
 
+  // func to delete post
+  const handle_delete = async (post_id) => {
+    const res = await delete_post(post_id);
+    if (!res.ok) {
+      toast.error(res.detail);
+      return;
+    }
+    toast.success(res.data?.detail);
+  };
+
   useEffect(() => {
+    // func to load post
     const loadPosts = async () => {
       const result = await fetch_posts({ query: activeFilter });
       if (result.ok) {
         setPosts(result.data);
       } else {
-        toast.error(result.detail || "Failed to fetch posts");
+        return;
       }
     };
     loadPosts();
@@ -153,7 +164,13 @@ export default function Dashboard() {
           {/* Post Cards */}
           <div className="space-y-3">
             {safePosts.length > 0 ? (
-              safePosts.map((post, idx) => <PostCard key={idx} post={post} />)
+              safePosts.map((post, idx) => (
+                <PostCard
+                  key={idx}
+                  post={post}
+                  onDelete={() => handle_delete(post.post_id)}
+                />
+              ))
             ) : (
               <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
                 <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-3">

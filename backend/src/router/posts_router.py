@@ -16,7 +16,7 @@ post_router = APIRouter(prefix="/posts", tags=["posts"])
 
 
 # posts by query
-@post_router.get("/search", status_code=status.HTTP_200_OK, response_model=PostResponse)
+@post_router.get("/search", status_code=status.HTTP_200_OK)
 async def search_posts_by_query(
     query: str = Query(..., min_length=1, description="Search query for posts"),
     session_db: AsyncSession = Depends(get_session),
