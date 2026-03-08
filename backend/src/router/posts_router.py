@@ -51,7 +51,7 @@ async def create_new_post(
 
 
 # delete post
-@post_router.delete("/{post_id}", status_code=status.HTTP_200_OK)
+@post_router.delete("/delete/{post_id}", status_code=status.HTTP_200_OK)
 async def delete_post(
     post_id: UUID,
     session_db: AsyncSession = Depends(get_session),
