@@ -9,7 +9,6 @@ import time
 async def lifespan(app: FastAPI):
     try:
         await create_db_tables()
-        logging.info("database tables created 👍🏻")
         yield
     except Exception as err:
         logging.error(f"Error creating database tables: {err}")

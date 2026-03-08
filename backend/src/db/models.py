@@ -22,7 +22,7 @@ class User(SQLModel, table=True):
     email: str = Field(unique=True, min_length=5, max_length=255, index=True)
     password: str
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M"),
+        default_factory=lambda: datetime.now(timezone.utc),
         index=True,
     )
     posts: Optional[List["Post"]] = Relationship(back_populates="owner")
@@ -59,7 +59,7 @@ class Post(SQLModel, table=True):
     content: dict = Field(sa_column=Column(JSONB))
     post_type: postType = Field(index=True)
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M"),
+        default_factory=lambda: datetime.now(timezone.utc),
         index=True,
     )
     owner: Optional["User"] = Relationship(back_populates="posts")
