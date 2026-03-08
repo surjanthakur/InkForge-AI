@@ -1,14 +1,24 @@
 import { Pencil, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import PostImage from "../../assets/soft-cartoon.jpeg";
 
 export function PostCard({ post, onDelete }) {
+  const navigate = useNavigate();
+
   const typeBadgeColors = {
     blog: "bg-violet-100 text-violet-600",
     article: "bg-amber-100 text-amber-600",
   };
 
+  const handleCardClick = () => {
+    navigate(`/post/${post.post_id}`);
+  };
+
   return (
-    <div className="flex gap-5 bg-white rounded-2xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow duration-200 group">
+    <div
+      className="flex gap-5 bg-white rounded-2xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow duration-200 group cursor-pointer"
+      onClick={handleCardClick}
+    >
       {/* Thumbnail */}
       <div className="shrink-0 w-28 h-28 rounded-xl overflow-hidden bg-gray-100">
         <img
@@ -74,11 +84,18 @@ export function PostCard({ post, onDelete }) {
               className="w-8 h-8 rounded-lg bg-gray-50 hover:bg-indigo-50 hover:text-indigo-500 flex items-center justify-center text-gray-400 transition-colors"
               type="button"
               aria-label="Edit"
+              onClick={(e) => {
+                e.stopPropagation();
+                // Add edit functionality here if needed
+              }}
             >
               <Pencil size={14} />
             </button>
             <button
-              onClick={onDelete}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
               className="w-8 h-8 rounded-lg bg-gray-50 hover:bg-red-50 hover:text-red-500 flex items-center justify-center text-gray-400 transition-colors"
               type="button"
               aria-label="Delete"
