@@ -12,7 +12,6 @@ import {
   Italic,
   Strikethrough,
   Underline as UnderlineIcon,
-  Code,
 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -48,8 +47,10 @@ export default function WritingPageEditor() {
       toast.error(res.detail);
       return;
     }
-    toast.success(res.data?.detail);
-    navigate("/editor");
+    setTimeout(() => {
+      toast.success(res.data?.detail);
+      navigate("/dashboard");
+    }, 500);
   };
 
   return (
