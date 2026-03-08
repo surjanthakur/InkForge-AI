@@ -4,12 +4,12 @@ import { useAuthContext } from "../context/authContext";
 import { UsePosts } from "../hooks/usePosts";
 import { DownloadIcon, ImageIcon, MoreHorizontal } from "lucide-react";
 import { Loader } from "../components/index";
+import { toast } from "react-hot-toast";
 
 export default function PostPage() {
-  const { id } = useParams();
+  const { post_id } = useParams();
   const { currUser } = useAuthContext();
-  const { getPostById, loading } = UsePosts();
-
+  const { get_post, loading } = UsePosts();
   const [post, setPost] = useState(null);
 
   const displayName = currUser?.username || "User";
@@ -23,18 +23,16 @@ export default function PostPage() {
 
   useEffect(() => {
     const fetchPost = async () => {
-      try {
-        const data = await getPostById(id);
-        setPost(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+      const res = await get_post(post_id);
+      if (!res.ok) {
+        toast.error(res.detail);
+        return;
       }
+      setPost(res.data);
     };
 
     fetchPost();
-  }, [id]);
+  }, [post_id]);
 
   if (loading) {
     return (
@@ -64,9 +62,7 @@ export default function PostPage() {
           </div>
           <div className="text-sm">
             <p className="font-semibold">{displayName}</p>
-            <p className="text-gray-500 text-xs">
-              {post.read_time} min read · {post.created_at}
-            </p>
+            <p className="text-gray-500 text-xs">created: {post.created_at}</p>
           </div>
         </div>
 
