@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
-import { getPostById } from "../services/postServices";
+import { UsePosts } from "../hooks/usePosts";
 import { DownloadIcon, ImageIcon, MoreHorizontal } from "lucide-react";
 import { Loader } from "../components/index";
 
 export default function PostPage() {
   const { id } = useParams();
   const { currUser } = useAuthContext();
+  const { getPostById, loading } = UsePosts();
 
   const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const displayName = currUser?.username || "User";
 
