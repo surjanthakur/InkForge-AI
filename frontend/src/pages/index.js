@@ -5,6 +5,7 @@ import AboutUsPage from "./AboutUsPage";
 import WritingPageEditor from "./WritingPage";
 import PageNotFound from "./pageNotFound";
 import Dashboard from "./dashboard/Dashboard";
+import PostPage from "./PostPage";
 
 export {
   Homepage,
@@ -14,4 +15,5 @@ export {
   WritingPageEditor,
   PageNotFound,
   Dashboard,
+  PostPage,
 };
