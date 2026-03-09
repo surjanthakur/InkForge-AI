@@ -11,27 +11,44 @@ from ..db.models import Post
 logger = logging.getLogger(__name__)
 
 
-# search posts by query
+#! Search posts by query string
 async def search_posts(db: AsyncSession, query: str, user_id: UUID) -> Post:
     try:
+        # Step 1: Use the posts repository to find posts matching the query and user ID
         posts = await get_posts_by_query(db=db, query=query, user_id=user_id)
+
+        # Step 2: If no posts are found, raise a 404 Not Found HTTPException
         if not posts:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"No posts found for query: '{query}'",
             )
+
+        # Step 3: Return the list of found posts
+        return posts
+
+    except SQLAlchemyError as error:
+        # Step 4: Handle database/SQL errors by rolling back and logging, then raise 500 error
+        await db.rollback()
+        logger.error(f"SQLAlchemyError while searching posts: {error}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database error occurred while searching posts, please try again later.",
+        )
     except Exception as error:
+        # Step 5: Handle any other unexpected errors by rolling back and logging, then raise a generic 500 error
         await db.rollback()
         logger.error(f"Failed to search posts: {error}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error searching posts, please try again later.",
         )
-    return posts
 
 
-# create new post
+#! Create a new post
 async def create_post(post_data: PostCreate, user_id: UUID, db: AsyncSession) -> dict:
+
+    # Step 1: Create a new Post ORM object from the provided PostCreate schema and user_id
     new_post = Post(
         user_id=user_id,
         title=post_data.title,
@@ -39,36 +56,62 @@ async def create_post(post_data: PostCreate, user_id: UUID, db: AsyncSession) ->
         post_type=postType(post_data.post_type.value),
     )
     try:
+        # Step 2: Add the new post to the session and commit transaction to save in database
         db.add(new_post)
         await db.commit()
+        # Step 3: Refresh the instance with DB state (e.g., to get DB-generated values)
         await db.refresh(new_post)
+
+        # Step 4: Return a success confirmation as a dict
         return {"detail": "post created sucessfully", "success": True}
+
     except SQLAlchemyError as error:
+        # Step 5: Handle DB integrity or commit errors by rolling back, logging, and raising 500 error
         await db.rollback()
         logger.error(f"create_post failed for user_id={user_id}:=> {error}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Something went wrong, please try again!",
         )
+    except Exception as error:
+        # Step 6: Handle unexpected errors by rolling back, logging, and raising a generic 500 error
+        await db.rollback()
+        logger.error(f"Unexpected error in create_post for user_id={user_id}: {error}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="error occurred while creating the post. Please try again later.",
+        )
 
 
-# delete post
+#! Delete a post by its ID and user ID
 async def delete_post_by_id(post_id: UUID, db: AsyncSession, user_id: UUID) -> dict:
     try:
+
+        # Step 1: Fetch the post by its ID using the posts repository
         post = await post_by_id(post_id=post_id, db=db)
+
+        # Step 2: If the post is not found, raise a 404 Not Found HTTPException
         if not post:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail="Post not found."
             )
+
+        # Step 3: Check that the requesting user is the owner of the post; otherwise, raise 403
         if post.user_id != user_id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Not authorized to delete this post.",
             )
+
+        # Step 4: Delete the post and commit the transaction
         await db.delete(post)
         await db.commit()
+
+        # Step 5: Return a success confirmation as a dict
         return {"detail": "Post deleted successfully", "success": True}
+
     except SQLAlchemyError as error:
+        # Step 6: Handle DB errors, log the error, rollback, and raise a 500 error
         logger.error(f"SQLAlchemyError while deleting post {post_id}: {error}")
         await db.rollback()
         raise HTTPException(
@@ -76,6 +119,7 @@ async def delete_post_by_id(post_id: UUID, db: AsyncSession, user_id: UUID) -> d
             detail="A database error occurred while deleting the post. Please try again later.",
         )
     except Exception as error:
+        # Step 7: Handle unexpected errors, log, rollback, and raise a generic 500 error
         logger.error(f"Failed to delete post {post_id}: {error}")
         await db.rollback()
         raise HTTPException(
