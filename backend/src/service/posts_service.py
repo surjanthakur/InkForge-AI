@@ -28,24 +28,6 @@ async def search_posts(db: AsyncSession, query: str, user_id: UUID):
     return posts
 
 
-# get posts
-async def get_single_post(post_id: UUID, db: AsyncSession):
-    try:
-        post = await post_by_id(post_id=post_id, db=db)
-    except Exception as error:
-        logger.error(f"Failed to fetch post {post_id}: {error}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error fetching post, please try again later.",
-        )
-    if not post:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Post not found.",
-        )
-    return post
-
-
 # create new post
 async def create_post(post_data: PostCreate, user_id: UUID, db: AsyncSession) -> Post:
     new_post = Post(

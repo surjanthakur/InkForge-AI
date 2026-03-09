@@ -7,7 +7,6 @@ from ..service.posts_service import (
     create_post,
     search_posts,
     delete_post_by_id,
-    get_single_post,
 )
 from ..db.models import User
 from ..service.users_service import current_user
@@ -23,16 +22,6 @@ async def search_posts_by_query(
     curr_user: User = Depends(current_user),
 ):
     return await search_posts(db=session_db, query=query, user_id=curr_user.user_id)
-
-
-# get posts
-@post_router.get("/view/{post_id}", status_code=status.HTTP_200_OK)
-async def get_posts(
-    post_id: UUID,
-    session_db: AsyncSession = Depends(get_session),
-    curr_user: User = Depends(current_user),
-):
-    return await get_single_post(post_id=post_id, db=session_db)
 
 
 # create post
