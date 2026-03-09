@@ -1,8 +1,8 @@
 from sqlmodel import SQLModel, Relationship, Field
 from uuid import UUID
 import uuid
-from sqlalchemy import Column
-from datetime import datetime, timezone
+from sqlalchemy import Column, Text, ForeignKey
+from datetime import datetime
 from pydantic import field_validator
 from sqlalchemy.dialects.postgresql import JSONB
 from enum import Enum
@@ -16,9 +16,7 @@ class User(SQLModel, table=True):
     User model representing a user in the system.
     """
 
-    user_id: UUID = Field(
-        default_factory=lambda: uuid.uuid4(), primary_key=True, index=True
-    )
+    user_id: UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
     username: str = Field(unique=True, index=True, min_length=3, max_length=50)
     email: str = Field(unique=True, min_length=5, max_length=255, index=True)
     password: str
@@ -44,17 +42,14 @@ class Post(SQLModel, table=True):
     Post model representing a post created by a user.
     """
 
-    post_id: UUID = Field(
-        default_factory=lambda: uuid.uuid4(), primary_key=True, index=True
-    )
+    post_id: UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
     user_id: UUID = Field(
-        foreign_key="user.user_id",
+        ForeignKey("user.user_id", ondelete="CASCADE"),
         nullable=False,
-        ondelete="CASCADE",
         index=True,
     )
     title: str = Field(..., min_length=1, max_length=255)
-    content: dict = Field(sa_column=Column(JSONB))
+    content: str = Field(sa_column=Column(Text))
     post_type: postType = Field(index=True)
     created_at: datetime = Field(default_factory=datetime.utcnow, index=True)
     owner: Optional["User"] = Relationship(back_populates="posts")

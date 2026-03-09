@@ -41,8 +41,9 @@ export default function WritingPageEditor() {
     const postData = {
       title,
       post_type: postType,
-      content: editor.getJSON(),
+      content: editor.getHTML(),
     };
+    console.log(postData);
     const res = await create_post(postData);
     if (!res.ok) {
       toast.error(res.detail);
