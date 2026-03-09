@@ -6,7 +6,6 @@ import { BubbleMenu } from "@tiptap/react/menus";
 import BubbleMenuExtension from "@tiptap/extension-bubble-menu";
 import { UsePosts } from "../hooks/usePosts";
 import StarterKit from "@tiptap/starter-kit";
-import { Loader } from "../components/index";
 import {
   ArrowLeft,
   Bold,
