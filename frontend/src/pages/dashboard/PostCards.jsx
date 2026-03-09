@@ -1,11 +1,6 @@
-import {
-  Pencil,
-  Trash2,
-  MoreHorizontal,
-  ImageIcon,
-  DownloadIcon,
-} from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import PostImage from "../../assets/soft-cartoon.jpeg";
+import PopupMenu from "./popWindow";
 
 export function PostCard({ post, onDelete }) {
   const typeBadgeColors = {
