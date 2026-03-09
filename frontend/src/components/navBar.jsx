@@ -1,4 +1,4 @@
-import Logo from "../assets/botLogo.jpeg";
+import Logo from "../assets/bot-logo.jpg";
 import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
@@ -19,12 +19,15 @@ export default function Navbar() {
     >
       {/* Left Section */}
       <div className="flex items-center gap-3">
-        <a href="/">
+        <a href="/" className="flex items-center gap-2">
           <img
             src={Logo}
             alt="AI Writer Logo"
-            className="w-16 h-16 rounded-4xl object-cover transition-all duration-300 hover:shadow-2xl hover:scale-110"
+            className="w-12 h-12 rounded-4xl object-cover transition-all duration-300 hover:shadow-2xl hover:scale-110"
           />
+          <span className="text-white text-xl font-extralight tracking-wide select-none">
+            Inkforge.ai
+          </span>
         </a>
       </div>
 
@@ -35,7 +38,7 @@ export default function Navbar() {
             <a
               key={item}
               href="#features"
-              className="text-white/50 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase"
+              className="text-white/50 hover:text-white hover:underline transition-colors duration-300 text-sm tracking-widest uppercase"
             >
               {item}
             </a>
@@ -43,7 +46,7 @@ export default function Navbar() {
             <Link
               key={item}
               to={item === "About" ? "/about" : `/${item.toLowerCase()}`}
-              className="text-white/50 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase"
+              className="text-white/50 hover:text-white hover:underline transition-colors duration-300 text-sm tracking-widest uppercase"
             >
               {item}
             </Link>

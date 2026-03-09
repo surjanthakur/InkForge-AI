@@ -1,5 +1,5 @@
-import { TwitchIcon, Github, Linkedin, Mail } from 'lucide-react';
-import logoImage from '../assets/botLogo.jpeg'; // adjust path
+import { TwitchIcon, Github, Linkedin, Mail } from "lucide-react";
+import logoImage from "../assets/bot-logo.jpg";
 
 export default function Footer() {
   return (
@@ -41,27 +41,27 @@ export default function Footer() {
         {/* Links Columns */}
         {[
           {
-            heading: 'Product',
+            heading: "Product",
             links: [
-              'Editor',
-              'Features',
-              'Export Options',
-              'Grammar AI',
-              'Blog Collection',
+              "Editor",
+              "Features",
+              "Export Options",
+              "Grammar AI",
+              "Blog Collection",
             ],
           },
           {
-            heading: 'Resources',
-            links: ['Documentation', 'Changelog', 'Blog', 'Tutorials', 'API'],
+            heading: "Resources",
+            links: ["Documentation", "Changelog", "Blog", "Tutorials", "API"],
           },
           {
-            heading: 'Company',
+            heading: "Company",
             links: [
-              'About',
-              'Careers',
-              'Privacy Policy',
-              'Terms of Service',
-              'Contact',
+              "About",
+              "Careers",
+              "Privacy Policy",
+              "Terms of Service",
+              "Contact",
             ],
           },
         ].map((col) => (
