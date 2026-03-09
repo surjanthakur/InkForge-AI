@@ -1,5 +1,10 @@
-import { Pencil, Trash2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import {
+  Pencil,
+  Trash2,
+  MoreHorizontal,
+  ImageIcon,
+  DownloadIcon,
+} from "lucide-react";
 import PostImage from "../../assets/soft-cartoon.jpeg";
 
 export function PostCard({ post, onDelete }) {
@@ -69,30 +74,24 @@ export function PostCard({ post, onDelete }) {
             </p>
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+          {/* Actions with Popup */}
+          <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-150 relative">
             <button
               className="w-8 h-8 rounded-lg bg-gray-50 hover:bg-indigo-50 hover:text-indigo-500 flex items-center justify-center text-gray-400 transition-colors"
               type="button"
               aria-label="Edit"
-              onClick={(e) => {
-                e.stopPropagation();
-                // Add edit functionality here if needed
-              }}
             >
               <Pencil size={14} />
             </button>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete();
-              }}
+              onClick={onDelete}
               className="w-8 h-8 rounded-lg bg-gray-50 hover:bg-red-50 hover:text-red-500 flex items-center justify-center text-gray-400 transition-colors"
               type="button"
               aria-label="Delete"
             >
               <Trash2 size={14} />
             </button>
+            <PopupMenu />
           </div>
         </div>
       </div>
