@@ -6,7 +6,7 @@ import {
   Strikethrough,
   Underline as UnderlineIcon,
 } from "lucide-react";
-import "./css/editor.css";
+import "../css/editor.css";
 
 export default function ToolBar({ editor }) {
   return (
