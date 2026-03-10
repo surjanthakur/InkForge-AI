@@ -1,7 +1,7 @@
 from sqlmodel import SQLModel, Relationship, Field
 from uuid import UUID
 import uuid
-from sqlalchemy import Column, Text, ForeignKey
+from sqlalchemy import Column, Text
 from datetime import datetime
 from pydantic import field_validator
 from sqlalchemy.dialects.postgresql import JSONB
@@ -44,7 +44,8 @@ class Post(SQLModel, table=True):
 
     post_id: UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
     user_id: UUID = Field(
-        ForeignKey("user.user_id", ondelete="CASCADE"),
+        foreign_key="user.user_id",
+        ondelete="CASCADE",
         nullable=False,
         index=True,
     )

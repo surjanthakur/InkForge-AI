@@ -43,30 +43,18 @@ export function PostCard({ post, onDelete }) {
                 });
               })()}
             </p>
-            <p className="text-sm text-gray-500 mt-1.5 line-clamp-2 leading-relaxed">
-              {(() => {
-                if (
-                  typeof post.content === "object" &&
-                  post.content.type === "doc" &&
-                  Array.isArray(post.content.content)
-                ) {
-                  const para = post.content.content.find(
-                    (c) => c.type === "paragraph" && Array.isArray(c.content)
-                  );
-                  if (para) {
-                    const textSnippets = para.content
-                      .filter((d) => typeof d.text === "string")
-                      .map((d) => d.text);
-                    return textSnippets
-                      .join(" ")
-                      .split("\n")
-                      .slice(0, 2)
-                      .join(" ");
-                  }
-                }
-                return "";
-              })()}
-            </p>
+            <p
+              className="text-sm text-gray-500 mt-1.5 line-clamp-2 leading-relaxed"
+              dangerouslySetInnerHTML={{
+                __html:
+                  typeof post.content === "string"
+                    ? post.content
+                    : Array.isArray(post.content) &&
+                        typeof post.content[0]?.content === "string"
+                      ? post.content[0].content
+                      : "",
+              }}
+            />
           </div>
 
           {/* Actions with Popup */}
