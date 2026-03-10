@@ -10,7 +10,7 @@ import { Loader } from "../../components/index";
 
 export default function Dashboard() {
   const [activeNav, setActiveNav] = useState("home");
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [activeFilter, setActiveFilter] = useState("blog");
   const [posts, setPosts] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { fetch_posts, delete_post, loading } = UsePosts();

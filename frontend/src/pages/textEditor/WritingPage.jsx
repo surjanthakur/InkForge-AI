@@ -28,7 +28,7 @@ export default function WritingPageEditor() {
   });
 
   const postData = {
-    title: title,
+    title,
     post_type: postType,
     content: editor.getHTML(),
   };
