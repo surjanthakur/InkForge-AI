@@ -40,11 +40,6 @@ export default function Dashboard() {
       return;
     }
     toast.success(res.data?.detail);
-    // Reload posts after successful deletion
-    const result = await fetch_posts({ query: activeFilter });
-    if (result.ok) {
-      setPosts(result.data);
-    }
   };
 
   useEffect(() => {

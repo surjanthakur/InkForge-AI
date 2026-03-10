@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import PostImage from "../../assets/soft-cartoon.jpeg";
 import PopupMenu from "./popWindow";
 
