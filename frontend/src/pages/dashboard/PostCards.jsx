@@ -67,7 +67,7 @@ export function PostCard({ post, onDelete }) {
             >
               <Trash2 size={14} />
             </button>
-            <PopupMenu />
+            <PopupMenu download_pdf={download_pdf} />
           </div>
         </div>
       </div>
