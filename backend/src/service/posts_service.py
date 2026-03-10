@@ -14,7 +14,7 @@ import asyncio
 logger = logging.getLogger(__name__)
 
 
-#! Search posts by query string
+# ? Search posts by query string
 async def search_posts(db: AsyncSession, query: str, user_id: UUID) -> Post:
     try:
         # Step 1: Use the posts repository to find posts matching the query and user ID
@@ -46,7 +46,7 @@ async def search_posts(db: AsyncSession, query: str, user_id: UUID) -> Post:
         )
 
 
-#! Create a new post
+# ? Create a new post
 async def create_post(post_data: PostCreate, user_id: UUID, db: AsyncSession) -> dict:
 
     # Step 1: Create a new Post ORM object from the provided PostCreate schema and user_id
@@ -84,7 +84,7 @@ async def create_post(post_data: PostCreate, user_id: UUID, db: AsyncSession) ->
         )
 
 
-#! Delete a post by its ID and user ID
+# ? Delete a post by its ID and user ID
 async def delete_post_by_id(post_id: UUID, db: AsyncSession, user_id: UUID) -> dict:
     try:
 
@@ -129,7 +129,7 @@ async def delete_post_by_id(post_id: UUID, db: AsyncSession, user_id: UUID) -> d
         )
 
 
-#! download post as a PDF
+# ? download post as a PDF
 async def download_post_as_pdf(post_id: UUID, db: AsyncSession):
     post = await post_by_id(post_id=post_id, db=db)
     if not post:
