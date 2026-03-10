@@ -17,10 +17,10 @@ class User(SQLModel, table=True):
     """
 
     user_id: UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
-    username: str = Field(unique=True, index=True, min_length=3, max_length=50)
+    username: str = Field(unique=True, min_length=3, max_length=50)
     email: str = Field(unique=True, min_length=5, max_length=255, index=True)
     password: str
-    created_at: datetime = Field(default_factory=datetime.utcnow, index=True)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
     posts: Optional[List["Post"]] = Relationship(back_populates="owner")
 
     @field_validator("email")
@@ -47,7 +47,6 @@ class Post(SQLModel, table=True):
         foreign_key="user.user_id",
         ondelete="CASCADE",
         nullable=False,
-        index=True,
     )
     title: str = Field(..., min_length=1, max_length=255)
     content: str = Field(sa_column=Column(Text))
