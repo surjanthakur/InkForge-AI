@@ -8,8 +8,6 @@ import { useAuthContext } from "../../context/authContext";
 import { toast } from "react-hot-toast";
 import { Loader } from "../../components/index";
 
-const FILTERS = ["all", "blog", "article"];
-
 export default function Dashboard() {
   const [activeNav, setActiveNav] = useState("home");
   const [activeFilter, setActiveFilter] = useState("all");
@@ -17,6 +15,7 @@ export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { fetch_posts, delete_post, loading } = UsePosts();
   const { currUser } = useAuthContext();
+  const FILTERS = ["all", "blog", "article"];
 
   const isLoading = loading;
 

@@ -3,11 +3,7 @@ from fastapi import APIRouter, Depends, status, Query
 from ..db.db_connection import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
 from ..schemas.posts import PostCreate, PostResponse
-from ..service.posts_service import (
-    create_post,
-    search_posts,
-    delete_post_by_id,
-)
+from ..service.posts_service import create_post, search_posts, delete_post_by_id
 from ..db.models import User
 from ..service.users_service import current_user
 
