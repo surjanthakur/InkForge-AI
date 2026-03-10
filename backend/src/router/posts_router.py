@@ -3,7 +3,12 @@ from fastapi import APIRouter, Depends, status, Query
 from ..db.db_connection import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
 from ..schemas.posts import PostCreate, PostResponse
-from ..service.posts_service import create_post, search_posts, delete_post_by_id
+from ..service.posts_service import (
+    create_post,
+    search_posts,
+    delete_post_by_id,
+    download_post_as_pdf,
+)
 from ..db.models import User
 from ..service.users_service import current_user
 
@@ -47,3 +52,11 @@ async def delete_post(
         db=session_db,
         user_id=curr_user.user_id,
     )
+
+
+# download post as pdf
+@post_router.get("/{post_id}/download/pdf")
+async def download_as_pdf(
+    post_id: UUID, session_db: AsyncSession = Depends(get_session)
+):
+    return await download_post_as_pdf(post_id=post_id, db=session_db)
