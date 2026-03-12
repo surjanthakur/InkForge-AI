@@ -13,7 +13,7 @@ export default function Dashboard() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [posts, setPosts] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { fetch_posts, delete_post, loading, download_as_pdf } = UsePosts();
+  const { fetch_posts, delete_post, loading } = UsePosts();
   const { currUser } = useAuthContext();
   const FILTERS = ["all", "blog", "article"];
 
