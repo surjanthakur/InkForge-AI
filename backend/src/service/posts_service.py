@@ -81,6 +81,23 @@ async def create_post(post_data: PostCreate, user_id: UUID, db: AsyncSession) ->
         )
 
 
+# get post
+async def get_post_by_id(post_id: UUID, db: AsyncSession):
+    try:
+        post = await get_post_by_id(post_id=post_id, db=db)
+        if not post:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="post not found!"
+            )
+    except Exception as err:
+        db.rollback()
+        logger.error(f"unexpected error in fetching post: {post_id} :=> {err}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="error occurred while fetching the post. Please try again later.",
+        )
+
+
 # ? Delete a post by its ID and user ID
 async def delete_post_by_id(post_id: UUID, db: AsyncSession, user_id: UUID) -> dict:
     try:
