@@ -82,13 +82,14 @@ async def create_post(post_data: PostCreate, user_id: UUID, db: AsyncSession) ->
 
 
 # ? get post by ID
-async def get_post_by_id(post_id: UUID, db: AsyncSession):
+async def fetch_single_post(post_id: UUID, db: AsyncSession):
     try:
-        post = await get_post_by_id(post_id=post_id, db=db)
+        post = await post_by_id(post_id=post_id, db=db)
         if not post:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail="post not found!"
             )
+        return post
     except SQLAlchemyError as err:
         await db.rollback()
         logging.error(f"fething post failed for id {post_id} : => {err}")

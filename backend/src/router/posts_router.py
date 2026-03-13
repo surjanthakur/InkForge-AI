@@ -7,7 +7,7 @@ from ..service.posts_service import (
     create_post,
     search_posts,
     delete_post_by_id,
-    download_post_as_pdf,
+    fetch_single_post,
 )
 from ..db.models import User
 from ..service.users_service import current_user
@@ -40,12 +40,13 @@ async def create_new_post(
     )
 
 
+# get single post
 @post_router.get("/view/{post_id}")
 async def get_post_by_id(
     post_id: UUID,
     session_db: AsyncSession = Depends(get_session),
 ):
-    pass
+    return await fetch_single_post(post_id=post_id, db=session_db)
 
 
 # delete post
