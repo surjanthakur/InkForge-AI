@@ -40,6 +40,21 @@ const posts_by_post_type = async (data) => {
   }
 };
 
+// get post by post id
+const post_by_id = async (post_id) => {
+  try {
+    const res = await API_URL.get(`/view/${post_id}`);
+    return {
+      ok: true,
+      data: res.data,
+      status: res.status,
+      detail: null,
+    };
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
 // Creates a new post/story
 const createPost = async (data) => {
   try {
