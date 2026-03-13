@@ -1,6 +1,5 @@
 import { Trash2 } from "lucide-react";
 import PostImage from "../../assets/soft-cartoon.jpeg";
-import PopupMenu from "./popWindow";
 
 export function PostCard({ post, onDelete }) {
   const typeBadgeColors = {
@@ -67,7 +66,6 @@ export function PostCard({ post, onDelete }) {
             >
               <Trash2 size={14} />
             </button>
-            <PopupMenu download_pdf={download_pdf} />
           </div>
         </div>
       </div>
