@@ -38,21 +38,9 @@ export default function PostPageView() {
   async function handle_download() {
     const element = document.querySelector("#invoice");
 
-    const opt = {
-      margin: 0.5,
-      filename: "post.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-      },
-      jsPDF: {
-        unit: "in",
-        format: "letter",
-        orientation: "portrait",
-      },
-    };
-    html2pdf().set(opt).from(element).save();
+    element.style.color = "#000";
+    element.style.backgroundColor = "#fff";
+    html2pdf(element);
   }
 
   return (
