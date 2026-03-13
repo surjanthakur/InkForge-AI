@@ -64,5 +64,5 @@ export const UsePosts = () => {
     }
   };
 
-  return { fetch_posts, loading, delete_post, create_post };
+  return { fetch_posts, loading, delete_post, create_post, get_post };
 };
