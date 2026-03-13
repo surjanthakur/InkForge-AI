@@ -10,6 +10,7 @@ import {
   WritingPageEditor,
   PageNotFound,
   Dashboard,
+  PostPageView,
 } from "./pages/index";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/editor" element={<WritingPageEditor />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/:post_id/view" element={<PostPageView />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
