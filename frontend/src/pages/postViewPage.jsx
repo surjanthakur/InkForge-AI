@@ -36,12 +36,7 @@ export default function PostPageView() {
   return (
     <>
       <div className="min-h-screen bg-white font-serif">
-        {/* Outer container */}
         <div className="max-w-2xl mx-auto px-6 py-16">
-          {/* loader */}
-          {loading ? <Loader /> : ""}
-
-          {/* Meta row */}
           <div className="flex items-center justify-between mb-8 pb-5 border-b border-gray-100">
             <div className="flex items-center gap-5 text-sm text-gray-400 tracking-wide">
               {/* Author */}
@@ -70,25 +65,21 @@ export default function PostPageView() {
             </div>
 
             {/* Download */}
-            <button
-              onClick={handleDownload}
-              className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-800 transition-colors duration-200 font-sans tracking-wide"
-            >
+            <button className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-800 transition-colors duration-200 font-sans tracking-wide">
               <Download size={13} strokeWidth={1.5} />
               <span>Download</span>
             </button>
           </div>
+          {loading ? <Loader /> : ""}
           {/* Title */}
           <h1 className="text-3xl font-bold text-gray-900 leading-snug mb-10 tracking-tight">
             {postData.title}
           </h1>
           {/* Content */}
           <div className="space-y-6">
-            {postData.content.split("\n\n").map((para, i) => (
-              <p key={i} className="text-gray-700 text-base leading-relaxed">
-                {para}
-              </p>
-            ))}
+            <p className="text-gray-700 text-base leading-relaxed">
+              {postData.content}
+            </p>
           </div>
         </div>
       </div>
