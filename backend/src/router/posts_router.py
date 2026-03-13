@@ -45,6 +45,7 @@ async def create_new_post(
 async def get_post_by_id(
     post_id: UUID,
     session_db: AsyncSession = Depends(get_session),
+    curr_user: User = Depends(current_user),
 ):
     return await fetch_single_post(post_id=post_id, db=session_db)
 
