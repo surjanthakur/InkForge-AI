@@ -5,7 +5,6 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { Loader } from "../components/index";
 import { useAuthContext } from "../context/authContext";
-import html2pdf from "html2pdf.js";
 
 export default function PostPageView() {
   const params = useParams();
@@ -33,15 +32,6 @@ export default function PostPageView() {
     };
     fetchPost();
   }, [params.post_id]);
-
-  // download as pfd
-  async function handle_download() {
-    const element = document.querySelector("#invoice");
-
-    element.style.color = "#000";
-    element.style.backgroundColor = "#fff";
-    html2pdf(element);
-  }
 
   return (
     <>
@@ -91,10 +81,7 @@ export default function PostPageView() {
               </Link>
 
               {/* Download */}
-              <button
-                onClick={handle_download}
-                className="flex items-center gap-1.5 text-lg text-gray-400 hover:text-gray-800 transition-colors duration-200 font-sans tracking-wide"
-              >
+              <button className="flex items-center gap-1.5 text-lg text-gray-400 hover:text-gray-800 transition-colors duration-200 font-sans tracking-wide">
                 <Download size={13} strokeWidth={1.5} />
                 <span>Download</span>
               </button>
