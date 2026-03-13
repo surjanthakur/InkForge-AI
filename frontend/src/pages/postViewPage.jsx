@@ -7,6 +7,8 @@ import { toast } from "react-hot-toast";
 export default function PostPageView() {
   const Navigate = useNavigate();
   const { get_post, loading } = UsePosts();
+  const [postData, setPostData] = useState([]);
+
   return (
     <div className="min-h-screen bg-white font-serif">
       {/* Outer container */}
