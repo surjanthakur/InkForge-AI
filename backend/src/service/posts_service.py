@@ -7,6 +7,8 @@ from fastapi import status, HTTPException
 from sqlalchemy.exc import SQLAlchemyError
 from ..repository.posts_repo import post_by_id, get_posts_by_query
 from ..db.models import Post
+from playwright.async_api import async_playwright
+import tempfile
 
 logger = logging.getLogger(__name__)
 
@@ -148,4 +150,41 @@ async def delete_post_by_id(post_id: UUID, db: AsyncSession, user_id: UUID) -> d
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An error occurred while deleting the post. Please try again later.",
+        )
+
+
+# generate pdf from post
+async def generate_pdf_from_html(post_id: UUID, db: AsyncSession):
+    try:
+        post = await post_by_id(post_id=post_id, db=db)
+        if not post:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="post not found!"
+            )
+
+        html_template = f"""
+        <html>
+        <body>
+            <h1>{post.title}</h1>
+            <div>{post.content}</div>
+        </body>
+        </html>
+        """
+
+        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+        pdf_path = temp_file.name
+        async with async_playwright() as playwrite:
+            browser = await playwrite.chromium.launch()
+            pdf_page = await browser.new_page()
+            await pdf_page.set_content(html=html_template)
+            await pdf_page.pdf(path=pdf_path, format="A4", print_background=True)
+            await browser.close()
+
+        return pdf_path
+    except Exception as err:
+        await db.rollback()
+        logger.error(f"unexpected error accour while generating pdf:=> {err}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="something wrong try again",
         )
