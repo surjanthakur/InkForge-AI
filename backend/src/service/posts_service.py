@@ -168,7 +168,7 @@ async def generate_pdf_from_html(post_id: UUID, db: AsyncSession, curr_username:
         html_template = pdf_template_structure(
             post_content=post.content,
             post_title=post.title,
-            post_type=post.post_type,
+            type=post.post_type,
             post_created_fmt=post.created_at.strftime("%-d-%b-%Y"),
             post_user=curr_username,
         )

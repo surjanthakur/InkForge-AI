@@ -1,7 +1,7 @@
 def pdf_template_structure(
     post_user: str,
     post_created_fmt: str,
-    post_type: str,
+    type: str,
     post_title: str,
     post_content: str,
 ):
@@ -138,7 +138,7 @@ def pdf_template_structure(
             <div class="divider"></div>
             <span>{post_created_fmt}</span>
             <div class="divider"></div>
-            <span>{post_type}</span>
+            <span>{type}</span>
         </div>
 
         <!-- Title -->
