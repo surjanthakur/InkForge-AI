@@ -31,15 +31,12 @@ app.add_middleware(
 
 
 # logging middleware ------------->
-app.middleware("http")
-
-
+@app.middleware("http")
 async def log_requests(request: Request, call_next):
     start = time.time()
     response = await call_next(request)
     duration = time.time() - start
     logging.info(f"{request.method} {request.url} took {duration:.2f}seconds.🌏")
-
     return response
 
 
