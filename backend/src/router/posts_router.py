@@ -8,6 +8,7 @@ from ..service.posts_service import (
     search_posts,
     delete_post_by_id,
     fetch_single_post,
+    generate_pdf_from_html,
 )
 from ..db.models import User
 from ..service.users_service import current_user
@@ -62,3 +63,10 @@ async def delete_post(
         db=session_db,
         user_id=curr_user.user_id,
     )
+
+
+@post_router.get("/download/{post_id}/pdf")
+async def download_as_pdf(
+    post_id: UUID, session_db: AsyncSession = Depends(get_session)
+):
+    return await generate_pdf_from_html(post_id=post_id, db=session_db)

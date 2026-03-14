@@ -4,6 +4,7 @@ from ..db.models import Post, postType
 from ..schemas.posts import PostCreate
 from sqlmodel.ext.asyncio.session import AsyncSession
 from fastapi import status, HTTPException
+from fastapi.responses import FileResponse
 from sqlalchemy.exc import SQLAlchemyError
 from ..repository.posts_repo import post_by_id, get_posts_by_query
 from ..db.models import Post
@@ -180,7 +181,13 @@ async def generate_pdf_from_html(post_id: UUID, db: AsyncSession):
             await pdf_page.pdf(path=pdf_path, format="A4", print_background=True)
             await browser.close()
 
-        return pdf_path
+        return FileResponse(
+            path=pdf_path,
+            status_code=200,
+            media_type="application/json",
+            filename=f"{post.post_id}.pdf",
+        )
+
     except Exception as err:
         await db.rollback()
         logger.error(f"unexpected error accour while generating pdf:=> {err}")
