@@ -65,6 +65,7 @@ async def delete_post(
     )
 
 
+# generate post as pdf
 @post_router.get("/download/{post_id}/pdf")
 async def download_as_pdf(
     post_id: UUID, session_db: AsyncSession = Depends(get_session)
