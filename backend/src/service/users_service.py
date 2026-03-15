@@ -188,9 +188,7 @@ async def current_user(
     # Handle any other unexpected errors (e.g., database exceptions)
     except Exception as err:
         await db.rollback()
-        logger.error(
-            f"Database error in current_user for user_id {user_id_cast}: {err}"
-        )
+        logger.error(f"Database error in current_user: {err}")
         raise HTTPException(
             status_code=500, detail="Internal server error while fetching user"
         )
