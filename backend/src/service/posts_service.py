@@ -201,11 +201,8 @@ async def generate_pdf_from_html(post_id: UUID, db: AsyncSession, curr_username:
             media_type="application/pdf",
             filename=f"{post.post_id}.pdf",
         )
-    except HTTPException:
-        # Step 7: Re-raise HTTPExceptions (e.g., post not found)
-        raise
     except Exception as err:
-        # Step 8: For any other unexpected errors, roll back DB session, log the error, and raise a 500 error
+        # Step 7: For any other unexpected errors, roll back DB session, log the error, and raise a 500 error
         await db.rollback()
         logger.error(f"unexpected error accour while generating pdf:=> {err}")
         raise HTTPException(
