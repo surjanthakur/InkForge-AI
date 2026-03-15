@@ -159,12 +159,15 @@ async def delete_post_by_id(post_id: UUID, db: AsyncSession, user_id: UUID) -> d
 # generate pdf from post
 async def generate_pdf_from_html(post_id: UUID, db: AsyncSession, curr_username: str):
     try:
+        # Step 1: Fetch the post by its ID from the database
         post = await post_by_id(post_id=post_id, db=db)
         if not post:
+            # Step 2: If the post is not found, raise a 404 HTTPException
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail="post not found!"
             )
 
+        # Step 3: Generate the HTML template for the PDF using post data
         html_template = pdf_template_structure(
             post_content=post.content,
             post_title=post.title,
@@ -172,18 +175,26 @@ async def generate_pdf_from_html(post_id: UUID, db: AsyncSession, curr_username:
             post_user=curr_username,
         )
 
+        # Step 4: Create a temporary file to save the generated PDF
         temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
         pdf_path = temp_file.name
         temp_file.close()
 
+        # Step 5: Use Playwright to launch a headless browser and generate the PDF from the HTML
         async with async_playwright() as playwrite:
             browser = await playwrite.chromium.launch()
             pdf_page = await browser.new_page()
 
+            # Set the HTML content and wait until network is idle
             await pdf_page.set_content(html=html_template, wait_until="networkidle")
+
+            # Generate the PDF and save it to the temporary file location
             await pdf_page.pdf(path=pdf_path, format="A4", print_background=True)
+
+            # Close the browser after PDF generation
             await browser.close()
 
+        # Step 6: Return the generated PDF as a file response to the client
         return FileResponse(
             path=pdf_path,
             status_code=200,
@@ -191,8 +202,10 @@ async def generate_pdf_from_html(post_id: UUID, db: AsyncSession, curr_username:
             filename=f"{post.post_id}.pdf",
         )
     except HTTPException:
+        # Step 7: Re-raise HTTPExceptions (e.g., post not found)
         raise
     except Exception as err:
+        # Step 8: For any other unexpected errors, roll back DB session, log the error, and raise a 500 error
         await db.rollback()
         logger.error(f"unexpected error accour while generating pdf:=> {err}")
         raise HTTPException(
