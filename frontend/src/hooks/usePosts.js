@@ -3,7 +3,6 @@ import {
   createPost,
   posts_by_post_type,
   deletePost,
-  post_by_id,
 } from "../services/postServices";
 
 // Custom hook for managing post-related operations
@@ -37,20 +36,6 @@ export const UsePosts = () => {
     }
   };
 
-  // get post
-  const get_post = async (post_id) => {
-    setLoading(true);
-    try {
-      const res = await post_by_id(post_id);
-      if (!res.ok) {
-        return res;
-      }
-      return res;
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Deletes a post by its ID
   const delete_post = async (post_id) => {
     try {
@@ -64,5 +49,5 @@ export const UsePosts = () => {
     }
   };
 
-  return { fetch_posts, loading, delete_post, create_post, get_post };
+  return { fetch_posts, loading, delete_post, create_post };
 };

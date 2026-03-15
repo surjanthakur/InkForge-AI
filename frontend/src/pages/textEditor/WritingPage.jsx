@@ -35,6 +35,7 @@ export default function WritingPageEditor() {
 
   // to save content
   const handleSave = async () => {
+    console.log(postData);
     if (!editor) return;
     const res = await create_post(postData);
     if (!res.ok) {
@@ -82,17 +83,17 @@ export default function WritingPageEditor() {
             <select
               value={postType}
               onChange={(e) => setPostType(e.target.value)}
-              className=" border px-3 py-2 text-white rounded-2xl cursor-pointer bg-linear-to-b from-black to-gray-500"
+              className=" border px-3 py-2 text-white cursor-pointer bg-linear-to-b from-black to-gray-500"
             >
-              <option value="blog">Blog</option>
-              <option value="article">Article</option>
+              <option value="blog">blog</option>
+              <option value="article">article</option>
             </select>
           </div>
 
           {/* save button */}
           <button
             onClick={handleSave}
-            className="cursor-pointer bg-linear-to-b from-black to-gray-500 py-3 rounded-2xl text-white font-medium group"
+            className="cursor-pointer rounded-sm bg-linear-to-b from-black to-gray-500 py-3 text-white font-medium group"
             style={{
               minWidth: "90px",
               width: "auto",
