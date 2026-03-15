@@ -7,7 +7,6 @@ from ..service.posts_service import (
     create_post,
     search_posts,
     delete_post_by_id,
-    fetch_single_post,
     generate_pdf_from_html,
 )
 from ..db.models import User
@@ -39,16 +38,6 @@ async def create_new_post(
     return await create_post(
         post_data=req_form, user_id=curr_user.user_id, db=session_db
     )
-
-
-# get single post
-@post_router.get("/view/{post_id}")
-async def get_post_by_id(
-    post_id: UUID,
-    session_db: AsyncSession = Depends(get_session),
-    curr_user: User = Depends(current_user),
-):
-    return await fetch_single_post(post_id=post_id, db=session_db)
 
 
 # delete post
