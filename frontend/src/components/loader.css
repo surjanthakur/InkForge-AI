@@ -1,12 +1,13 @@
 .loader {
   display: block;
-  --height-of-loader: 10px;
+  --height-of-loader: 5px;
   --loader-color: #0071e2;
   width: 200px;
   height: var(--height-of-loader);
   border-radius: 30px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #00000033;
   position: relative;
+  margin-bottom: 5px;
 }
 
 .loader::before {
