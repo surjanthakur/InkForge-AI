@@ -24,6 +24,12 @@ function App() {
             color: "#fff",
             border: "1px solid #333",
           },
+          success: {
+            duration: 1000,
+          },
+          error: {
+            duration: 1000,
+          },
         }}
       />
       <Routes>
