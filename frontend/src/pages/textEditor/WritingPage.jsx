@@ -35,7 +35,6 @@ export default function WritingPageEditor() {
 
   // to save content
   const handleSave = async () => {
-    console.log(postData);
     if (!editor) return;
     const res = await create_post(postData);
     if (!res.ok) {
