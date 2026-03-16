@@ -5,6 +5,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import ToolBar from "./ToolBar";
 import BubbleMenuExtension from "@tiptap/extension-bubble-menu";
 import { UsePosts } from "../../hooks/usePosts";
+import ChatWindow from "./ChatWindow";
 import StarterKit from "@tiptap/starter-kit";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
