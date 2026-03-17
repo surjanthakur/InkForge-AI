@@ -8,6 +8,7 @@ dependencies = [
     "asyncpg>=0.29.0",
     "fastapi[standard]>=0.132.0",
     "greenlet>=3.3.2",
+    "groq>=1.1.1",
     "loging>=0.0.1",
     "playwright>=1.58.0",
     "pwdlib[argon2]>=0.3.0",
