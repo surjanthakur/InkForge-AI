@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from .db.db_connection import create_db_tables
 from fastapi.middleware.cors import CORSMiddleware
-from .router import users_router, posts_router
+from .router import users_router, posts_router, ai_router
 import logging
 import time
 
@@ -42,3 +42,4 @@ async def log_requests(request: Request, call_next):
 
 app.include_router(router=users_router.user_router, prefix="/api/v1.0")
 app.include_router(router=posts_router.post_router, prefix="/api/v1.0")
+app.include_router(router=ai_router.aiRouter, prefix="/api/v1.0")
