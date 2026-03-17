@@ -8,9 +8,10 @@ load_dotenv()
 
 groq_key = os.getenv("GROQ_API_KEY")
 
+client = AsyncGroq(api_key=groq_key)
+
 
 async def ai_stream_response(user_input: str, username: str):
-    client = AsyncGroq(api_key=groq_key)
     prompt = chatbot_prompt(curr_user=username)
 
     stream = await client.chat.completions.create(
@@ -24,7 +25,6 @@ async def ai_stream_response(user_input: str, username: str):
         max_completion_tokens=8192,
         top_p=1,
         reasoning_effort="low",
-        response_format={"type": "json_object"},
         stop=None,
     )
     async for chunk in stream:
