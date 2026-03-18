@@ -1,8 +1,11 @@
 import { ArrowRight, BookOpen, Brush, Download, EditIcon } from "lucide-react";
-import mainImage from "../assets/Orange Wallpaper.jpeg";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { FeatureCard } from "../components/index";
-import { useAuthContext } from "../context/authContext";
+
+import mainImage from "../assets/Orange Wallpaper.jpeg";
+import { FeatureCard } from "../components/index.js";
+import { useAuthContext } from "../context/authContext.jsx";
+
 export default function Homepage() {
   const { isCurrentUser } = useAuthContext();
   const featureData = [
@@ -32,7 +35,7 @@ export default function Homepage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-black">
+    <div className="min-h-fit sm:mt-5 flex flex-col bg-black">
       <section className="relative grow flex items-center justify-center px-6 py-24 md:py-32 overflow-hidden">
         {/* Background image */}
         <img
@@ -43,7 +46,12 @@ export default function Homepage() {
 
         {/* Content */}
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-10 md:space-y-14">
-          <h1 className="sm:text-2xl md:text-4xl lg:text-6xl font-serif font-medium leading-tight tracking-wide text-gray-100">
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="sm:text-2xl md:text-4xl lg:text-6xl  font-medium leading-tight tracking-wide text-gray-100"
+          >
             <span className="block">"Every blank page is an invitation.</span>
             <span className="block mt-4 md:mt-6 text-gray-400">
               Let your ideas breathe,
@@ -52,24 +60,33 @@ export default function Homepage() {
             <span className="block mt-2 md:mt-4 text-gray-400">
               their shape."
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="sm:text-lg md:text-2xl text-gray-400 font-extralight max-w-4xl mx-auto leading-relaxed">
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="sm:text-lg md:text-2xl text-gray-400 font-extralight max-w-4xl mx-auto leading-relaxed"
+          >
             Dream it. Draft it. Publish it — with an AI companion that refines
             every sentence and makes your voice shine.
-          </p>
+          </motion.p>
 
           {/* editor route */}
-          <div className="pt-6 md:pt-10 flex justify-center">
+          <motion.div
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            className="pt-6 md:pt-10 flex justify-center"
+          >
             <Link
               to={isCurrentUser ? "/editor" : "/login"}
               state={!isCurrentUser ? { fromEditor: true } : undefined}
               className=" flex items-center gap-2 px-10 py-5 lg:text-lg md:text-xl font-light text-white border-2 border-white transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] hover:text-black hover:bg-white"
             >
-              write something
+              write your Story
               <ArrowRight size={25} />
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -89,22 +106,33 @@ export default function Homepage() {
           </div>
 
           {/* Grid */}
-          <div className="grid md:grid-cols-2 border-2 border-zinc-800 rounded-xl overflow-hidden">
-            {featureData.map((feature, index) => (
-              <div
-                key={index}
-                className={`
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <div className="grid md:grid-cols-2 border-2 border-zinc-800 rounded-xl overflow-hidden">
+              {featureData.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.2 }}
+                  viewport={{ once: true }}
+                  className={`
             border-zinc-800
             ${index === 0 ? "bg-linear-to-br from-zinc-800/60 to-black" : "bg-black"}
             ${index % 2 === 0 ? "md:border-r-2" : ""}
             ${index < 2 ? "md:border-b-2" : ""}
             border-b md:border-b-0
           `}
-              >
-                <FeatureCard {...feature} />
-              </div>
-            ))}
-          </div>
+                >
+                  <FeatureCard {...feature} />
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
           <p
             className="text-center mt-20 text-white/20 tracking-widest uppercase text-xs"
             style={{ fontFamily: "monospace" }}

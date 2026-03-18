@@ -1,4 +1,4 @@
-import { TwitchIcon, Github, Linkedin, Mail } from "lucide-react";
+import { TwitchIcon, Github, Linkedin } from "lucide-react";
 import logoImage from "../assets/bot-logo.jpg";
 
 export default function Footer() {
@@ -51,10 +51,6 @@ export default function Footer() {
             ],
           },
           {
-            heading: "Resources",
-            links: ["Documentation", "Changelog", "Blog", "Tutorials", "API"],
-          },
-          {
             heading: "Company",
             links: [
               "About",
@@ -84,27 +80,6 @@ export default function Footer() {
             </ul>
           </div>
         ))}
-      </div>
-
-      {/* ───────── Newsletter Strip ───────── */}
-      <div className="border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <p className="italic font-serif text-white/40">
-            Get writing tips & updates in your inbox.
-          </p>
-
-          <div className="flex">
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="bg-white/5 border border-white/20 border-r-0 text-white/80 px-4 py-2 text-sm font-mono outline-none rounded-l-sm w-56"
-            />
-            <button className="bg-white text-black px-5 py-2 text-xs tracking-widest uppercase font-mono rounded-r-sm hover:bg-gray-200 transition flex items-center gap-2">
-              Subscribe
-              <Mail size={14} />
-            </button>
-          </div>
-        </div>
       </div>
 
       {/* ───────── Bottom Bar ───────── */}
