@@ -20,7 +20,6 @@ async def ai_stream_response(user_input: str, username: str):
             {"role": "system", "content": prompt},
             {"role": "user", "content": user_input},
         ],
-        stream=True,
         temperature=0.95,
         max_completion_tokens=8192,
         top_p=1,
