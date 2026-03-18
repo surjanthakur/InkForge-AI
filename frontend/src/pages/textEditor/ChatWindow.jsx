@@ -23,7 +23,10 @@ export default function ChatWindow({ isOpen, onClose }) {
 
   // handle submit
   const onSubmit = async (data) => {
-    setMessages((prev) => [...prev, { role: "user", content: data.message }]);
+    setMessages((prev) => [
+      ...prev,
+      { id: new Date().getTime(), role: "user", content: data.message },
+    ]);
 
     reset();
 
@@ -32,7 +35,11 @@ export default function ChatWindow({ isOpen, onClose }) {
       toast.error(res.detail);
       return;
     }
-    setMessages((prev) => [...prev, { role: "ai", content: res.content }]);
+    console.log(res.data);
+    setMessages((prev) => [
+      ...prev,
+      { id: new Date().getTime(), role: "ai", content: res.data.content },
+    ]);
   };
 
   if (!isOpen) return null;
@@ -62,7 +69,7 @@ export default function ChatWindow({ isOpen, onClose }) {
           <div className="messages-container">
             {messages.map((message) => (
               <div
-                key={message.role}
+                key={message.id}
                 className={`message-wrapper ${message.role === "ai" ? "ai-message" : "user-message"}`}
               >
                 <div className="message-avatar">
