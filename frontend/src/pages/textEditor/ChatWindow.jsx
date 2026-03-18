@@ -3,6 +3,7 @@ import { X, User, Bot, Send } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { UseAiHook } from "../../hooks/useAI";
 import { toast } from "react-hot-toast";
+import { Loader } from "../../components/index";
 
 import "../css/chatwindow.css";
 
@@ -65,7 +66,6 @@ export default function ChatWindow({ isOpen, onClose }) {
               <X size={20} />
             </button>
           </div>
-
           <div className="messages-container">
             {messages.map((message) => (
               <div
@@ -87,6 +87,20 @@ export default function ChatWindow({ isOpen, onClose }) {
                 </div>
               </div>
             ))}
+            {/* Show loader while waiting for AI response */}
+            {isLoader && (
+              <div className="message-wrapper ai-message">
+                <div className="message-avatar">
+                  <Bot size={18} />
+                </div>
+                <div className="message-content">
+                  <span className="message-sender">AI Assistant</span>
+                  <div className="message-text">
+                    <Loader />
+                  </div>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
