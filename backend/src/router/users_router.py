@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, status, Response, Cookie
 from ..db.db_connection import get_session
-from ..db.models import User
 from sqlmodel.ext.asyncio.session import AsyncSession
+
+from ..db.models import User
 from ..schemas.user import UserCreate, LoginRequest, currentUserResponse
 from ..service.users_service import (
     create_user,
@@ -10,6 +11,7 @@ from ..service.users_service import (
     logout_user,
 )
 
+# router
 user_router = APIRouter(prefix="/users", tags=["users"])
 
 
