@@ -10,7 +10,7 @@ aiRouter = APIRouter(tags=["Chatbot"], prefix="/chatbot")
 
 
 @aiRouter.post("/msg/stream", status_code=status.HTTP_200_OK)
-async def chatbot(
+async def ai_chatbot(
     user_query: ChatRequest,
     curr_user: User = Depends(current_user),
 ):
