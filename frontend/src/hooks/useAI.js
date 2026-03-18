@@ -5,10 +5,10 @@ export const UseAiHook = () => {
   const [isLoader, setIsLoader] = useState(false);
 
   //   fetch ai respone
-  const fetchAIResponse = async (data) => {
+  const fetchAIResponse = async (message) => {
     setIsLoader(true);
     try {
-      const res = await fetchChatbotResponse(data);
+      const res = await fetchChatbotResponse(message);
       if (!res.ok) return;
       return res;
     } finally {

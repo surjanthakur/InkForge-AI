@@ -27,9 +27,17 @@ const handleApiError = (err) => {
 };
 
 // ai generated response
-export const fetchChatbotResponse = async (data) => {
+export const fetchChatbotResponse = async (message) => {
   try {
-    const res = API_URL.post("/msg/stream", data);
+    const res = API_URL.post(
+      "/msg/stream",
+      { message: message },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return {
       ok: true,
       data: (await res).data,

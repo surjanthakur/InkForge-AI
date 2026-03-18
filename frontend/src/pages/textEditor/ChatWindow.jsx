@@ -23,16 +23,16 @@ export default function ChatWindow({ isOpen, onClose }) {
 
   // handle submit
   const onSubmit = async (data) => {
-    console.log(data);
     setMessages((prev) => [...prev, { role: "user", content: data.message }]);
 
     reset();
+
     const res = await fetchAIResponse(data.message);
     if (!res.ok) {
       toast.error(res.detail);
       return;
     }
-    setMessages((prev) => [...prev, { role: "ai", content: res.data }]);
+    setMessages((prev) => [...prev, { role: "ai", content: res.content }]);
   };
 
   if (!isOpen) return null;
