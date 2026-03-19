@@ -131,9 +131,15 @@ async def current_user(
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated"
             )
-
-        #  Convert the string user_id from Redis to a UUID object
-        user_id_cast = uuid.UUID(redis_user_id)
+        try:
+            user_id_cast = uuid.UUID(redis_user_id)
+            # Handle when the user_id string from Redis can't be parsed into a UUID
+        except ValueError as err:
+            await redis_client.delete(f"session:{session_id}")
+            logger.error(f"Failed to parse user_id from Redis. ValueError: {err}")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated"
+            )
 
         curr_user = await user_by_id(id=user_id_cast, db=db)
 
@@ -144,28 +150,27 @@ async def current_user(
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated"
             )
 
-        # set current user in redisCache
-        await redis_client.set(
-            name=f"current_user:{curr_user.username}", value=str(curr_user)
-        )
         # Extend session expiry time in Redis (sliding session expiration, set to 1 day)
-        await redis_client.expire(name=f"session:{session_id}", time=SESSION_TTL)
+        try:
+            await redis_client.expire(name=f"session:{session_id}", time=SESSION_TTL)
+        except redis.exceptions.RedisError:
+            logger.warning(f"Failed to extend session TTL for session '{session_id}'")
 
         return curr_user
-
-    # Handle when the user_id string from Redis can't be parsed into a UUID
-    except ValueError as err:
-        await db.rollback()
-        logger.error(
-            f"Malformed user_id in Redis for session {session_id}: {redis_user_id} accours a valueError:=> {err}"
-        )
-        raise HTTPException(status_code=401, detail="Not authenticated")
-
     # Handle Redis connection or query errors
     except redis.exceptions.RedisError as err:
-        await db.rollback()
         logger.error(f"Redis error in current_user: {err}")
-        raise HTTPException(status_code=503, detail="Session service unavailable")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Authentication service unavailable, please try again.",
+        )
+    except SQLAlchemyError as err:
+        await db.rollback()
+        logger.error(f"Database error in current_user: {err}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Something went wrong, please try again later.",
+        )
 
 
 # logout user
