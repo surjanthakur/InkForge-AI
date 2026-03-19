@@ -1,23 +1,25 @@
 import logging
+import tempfile
+import os
 from uuid import UUID
-from ..db.models import Post, postType
-from ..schemas.posts import PostCreate
-from sqlmodel.ext.asyncio.session import AsyncSession
 from fastapi import status, HTTPException, BackgroundTasks
 from fastapi.responses import FileResponse
 from sqlalchemy.exc import SQLAlchemyError
+from sqlmodel.ext.asyncio.session import AsyncSession
+from playwright.async_api import async_playwright
+
+
+from ..db.models import Post, postType
+from ..schemas.posts import PostCreate
 from ..repository.posts_repo import post_by_id, get_posts_by_query
 from ..db.models import Post
 from ..core.pdf_template import pdf_template_structure
-from playwright.async_api import async_playwright
-import tempfile
-import os
 
 
 logger = logging.getLogger(__name__)
 
 
-#  Search posts by query string
+#  Search posts by query
 async def search_posts(db: AsyncSession, query: str, user_id: UUID) -> Post:
     try:
         # Step 1: Use the posts repository to find posts matching the query and user ID
@@ -38,14 +40,6 @@ async def search_posts(db: AsyncSession, query: str, user_id: UUID) -> Post:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Database error occurred while searching posts, please try again later.",
-        )
-    except Exception as error:
-        # Step 5: Handle any other unexpected errors by rolling back and logging, then raise a generic 500 error
-        await db.rollback()
-        logger.error(f"Failed to search posts: {error}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error searching posts, please try again later.",
         )
 
 

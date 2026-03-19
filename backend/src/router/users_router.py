@@ -13,7 +13,7 @@ from ..service.users_service import (
 )
 
 # router
-user_router = APIRouter(prefix="/users", tags=["users"])
+user_router = APIRouter(prefix="/users", tags=["Authentication routes"])
 
 
 # create accounts
@@ -63,5 +63,5 @@ async def get_current_user(curr_user: User = Depends(current_user)):
     description="Logs out the currently authenticated user by ending their session.",
     response_description="User session terminated and authentication cookies revoked.",
 )
-async def logout_account(session_id: str = Cookie(None)):
-    return await logout_user(session_id=session_id)
+async def logout_account(res: Response, session_id: str = Cookie(None)):
+    return await logout_user(session_id=session_id, response=res)
