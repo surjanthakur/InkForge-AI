@@ -157,7 +157,7 @@ async def current_user(
             logger.warning(f"Failed to extend session TTL for session '{session_id}'")
 
         return curr_user
-    # Handle Redis connection or query errors
+
     except redis.exceptions.RedisError as err:
         logger.error(f"Redis error in current_user: {err}")
         raise HTTPException(
@@ -174,32 +174,23 @@ async def current_user(
 
 
 # logout user
-async def logout_user(session_id: str | None) -> dict:
+async def logout_user(response: Response, session_id: str | None) -> dict:
 
-    # Step 1: Check if a session ID was provided; if not, there is no session to log out from.
     if not session_id:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="No active session found."
         )
+
     try:
-
-        # Step 2: Attempt to delete the session from Redis (invalidate session).
+        # delete session from redis
         await redis_client.delete(f"session:{session_id}")
-
-        # Step 3: If deletion successful, return logout confirmation.
+        # delete session from cookies
+        response.delete_cookie("session_id", httponly=True)
         return {"detail": "Successfully logged out."}
 
-    # Step 4: Handle errors related to Redis connection or command issues.
     except redis.exceptions.RedisError as err:
-        logger.error(f"Redis error while logging out for session {session_id}: {err}")
+        logger.error(f"Redis error during logout for session:{session_id}: {err}")
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Logout failed due to session service error.",
-        )
-    # Step 5: Handle any unexpected errors during the logout process.
-    except Exception as err:
-        logger.error(f"Error while logging out for session {session_id}: {err}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Logout failed due to server error.",
+            detail="Logout failed, please try again.",
         )
