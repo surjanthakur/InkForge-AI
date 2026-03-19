@@ -1,5 +1,6 @@
 import logging
 import time
+import uvicorn
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Request, status, HTTPException
@@ -80,3 +81,7 @@ async def http_exception_handler(req: Request, exc: HTTPException):
 app.include_router(router=users_router.user_router, prefix="/api/v1.0")
 app.include_router(router=posts_router.post_router, prefix="/api/v1.0")
 app.include_router(router=ai_router.aiRouter, prefix="/api/v1.0")
+
+
+if __name__ == "__main__":
+    uvicorn.run(app=app, host="0.0.0.0", port=8000)
