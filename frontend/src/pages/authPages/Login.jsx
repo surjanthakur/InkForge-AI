@@ -1,4 +1,4 @@
-import { LockIcon, PenIcon, ArrowLeft } from "lucide-react";
+import { LockIcon, MailIcon, ArrowLeft, EyeIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -6,8 +6,10 @@ import { useAuth } from "../../hooks/useAuth";
 import { Loader } from "../../components/index";
 import { useAuthContext } from "../../context/authContext";
 import GoogleIcon from "../../assets/icons8-google.svg";
+import { useState } from "react";
 
 const Login = () => {
+  const [passType, setPassType] = useState(false);
   const { login, loading } = useAuth();
   const { get_currUser } = useAuthContext();
   const navigate = useNavigate();
@@ -71,10 +73,10 @@ const Login = () => {
                 </label>
 
                 <div className="flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-black transition">
-                  <PenIcon size={18} className="text-gray-500 mr-2" />
+                  <MailIcon size={18} className="text-gray-500 mr-2" />
                   <input
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder="example@gmail.com"
                     className="w-full outline-none bg-transparent text-sm"
                     {...register("email", {
                       required: "Email is required",
@@ -101,9 +103,21 @@ const Login = () => {
                 </label>
 
                 <div className="flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-black transition">
-                  <LockIcon size={18} className="text-gray-500 mr-2" />
+                  {!passType ? (
+                    <EyeIcon
+                      onClick={() => setPassType(!passType)}
+                      size={18}
+                      className="text-gray-500 mr-2"
+                    />
+                  ) : (
+                    <LockIcon
+                      onClick={() => setPassType(!passType)}
+                      size={18}
+                      className="text-gray-500 mr-2"
+                    />
+                  )}
                   <input
-                    type="password"
+                    type={passType ? "password" : "text"}
                     placeholder="Enter your password"
                     className="w-full outline-none bg-transparent text-sm"
                     {...register("password", {
