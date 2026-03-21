@@ -60,7 +60,7 @@ export default function Dashboard() {
   }, [activeFilter]);
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-200">
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/25 backdrop-blur-sm">
           <Loader />

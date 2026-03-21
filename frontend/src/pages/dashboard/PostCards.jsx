@@ -39,7 +39,7 @@ export function PostCard({ post, onDelete }) {
       ) : (
         ""
       )}
-      <div className="flex gap-5 bg-white rounded-2xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow duration-200 group cursor-pointer">
+      <div className="flex gap-5 bg-blue-50 rounded-2xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow duration-200 group cursor-pointer">
         {/* Thumbnail */}
         <div className="shrink-0 w-28 h-28 rounded-xl overflow-hidden bg-gray-100">
           <img
