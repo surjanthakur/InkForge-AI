@@ -1,4 +1,4 @@
-import { PenIcon, LockIcon, ArrowLeft } from "lucide-react";
+import { MailIcon, LockIcon, ArrowLeft, User2Icon, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
@@ -29,161 +29,173 @@ const Signup = () => {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center p-4 bg-linear-to-br from-[#030000] via-[#280303] to-[#5a0909]">
+      <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-black">
         <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="mb-5">
-            <Link className="text-white" to="/">
-              <ArrowLeft />
-            </Link>
-            <h1 className="text-3xl font-bold text-white mb-2">
-              Welcome to InkForge-Ai
-            </h1>
-            <p className="text-gray-400">Create your account</p>
+          {/* Card */}
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-8">
+            {/* Header */}
+            <div className="mb-6">
+              <Link to="/" className="inline-block mb-4 text-black">
+                <ArrowLeft />
+              </Link>
+
+              <h1 className="text-2xl sm:text-3xl font-bold text-black">
+                Welcome to InkForge-Ai
+              </h1>
+              <p className="text-gray-500 mt-1 text-sm">Create your account</p>
+            </div>
+
+            {/* Loader */}
+            {(loading || isSubmitting) && (
+              <div className="mb-4 flex justify-center">
+                <Loader />
+              </div>
+            )}
+
+            {/* Form */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              {/* Username */}
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  Username
+                </label>
+
+                <div className="flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-black transition">
+                  <User2Icon size={18} className="text-gray-500 mr-2" />
+                  <input
+                    type="text"
+                    placeholder="Enter your username"
+                    className="w-full outline-none bg-transparent text-sm"
+                    {...register("username", {
+                      required: "Username is required",
+                      minLength: {
+                        value: 3,
+                        message: "At least 3 characters",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z0-9_]+$/,
+                        message: "Only letters, numbers, underscores",
+                      },
+                    })}
+                  />
+                </div>
+
+                {errors.username && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.username.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  Email
+                </label>
+
+                <div className="flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-black transition">
+                  <MailIcon size={18} className="text-gray-500 mr-2" />
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="w-full outline-none bg-transparent text-sm"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                        message: "Enter valid email",
+                      },
+                    })}
+                  />
+                </div>
+
+                {errors.email && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Password */}
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  Password
+                </label>
+
+                <div className="flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-black transition">
+                  <LockIcon size={18} className="text-gray-500 mr-2" />
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    className="w-full outline-none bg-transparent text-sm"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 4,
+                        message: "Min 4 characters",
+                      },
+                      validate: (value) =>
+                        /[A-Z]/.test(value) || "Need one uppercase letter",
+                    })}
+                  />
+                </div>
+
+                {errors.password && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label className="block text-sm text-gray-700 mb-1">
+                  Confirm Password
+                </label>
+
+                <div className="flex items-center border rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-black transition">
+                  <LockIcon size={18} className="text-gray-500 mr-2" />
+                  <input
+                    type="password"
+                    placeholder="Confirm your password"
+                    className="w-full outline-none bg-transparent text-sm"
+                    {...register("confirmPassword", {
+                      required: "Confirm your password",
+                      validate: (value) =>
+                        value === passwordValue || "Passwords do not match",
+                    })}
+                  />
+                </div>
+
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Button */}
+              <button
+                type="submit"
+                disabled={isSubmitting || loading}
+                className="w-full bg-black text-white py-2.5 rounded-lg text-sm font-medium hover:bg-gray-900 transition disabled:opacity-60"
+              >
+                {isSubmitting ? "Signing Up..." : "Sign Up"}
+              </button>
+            </form>
+
+            {/* Login Link */}
+            <p className="text-center text-sm text-gray-600 mt-5">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-black font-medium underline hover:opacity-70"
+              >
+                Sign In
+              </Link>
+            </p>
           </div>
-
-          {/* Loader */}
-          {loading && (
-            <div className="mb-4 flex justify-center">
-              <Loader />
-            </div>
-          )}
-
-          {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-            {/* Username */}
-            <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                Username
-              </label>
-              <div className="flex items-center border border-black bg-white px-4 py-3">
-                <PenIcon size={20} className="text-black mr-3 shrink-0" />
-                <input
-                  type="text"
-                  placeholder="Enter your username"
-                  className="flex-1 outline-none bg-transparent text-black"
-                  {...register("username", {
-                    required: "Username is required",
-                    minLength: {
-                      value: 3,
-                      message: "Username must be at least 3 characters",
-                    },
-                    pattern: {
-                      value: /^[a-zA-Z0-9_]+$/,
-                      message: "Only letters, numbers and underscores allowed",
-                    },
-                  })}
-                />
-              </div>
-              {errors.username && (
-                <p className="text-red-600 text-sm mt-1">
-                  {errors.username.message}
-                </p>
-              )}
-            </div>
-
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                Email
-              </label>
-              <div className="flex items-center border border-black bg-white px-4 py-3">
-                <PenIcon size={20} className="text-black mr-3 shrink-0" />
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 outline-none bg-transparent text-black"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                      message: "Enter a valid email address",
-                    },
-                  })}
-                />
-              </div>
-              {errors.email && (
-                <p className="text-red-600 text-sm mt-1">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                Password
-              </label>
-              <div className="flex items-center border border-black bg-white px-4 py-3">
-                <LockIcon size={20} className="text-black mr-3 shrink-0" />
-                <input
-                  type="password"
-                  placeholder="Enter your password"
-                  className="flex-1 outline-none bg-transparent text-black"
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 4,
-                      message: "Password must be at least 4 characters",
-                    },
-                    validate: (value) =>
-                      /[A-Z]/.test(value) ||
-                      "Password must contain at least one uppercase letter",
-                  })}
-                />
-              </div>
-              {errors.password && (
-                <p className="text-red-600 text-sm mt-1">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-
-            {/* Confirm Password */}
-            <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                Confirm Password
-              </label>
-              <div className="flex items-center border border-black bg-white px-4 py-3">
-                <LockIcon size={20} className="text-black mr-3 shrink-0" />
-                <input
-                  type="password"
-                  placeholder="Confirm your password"
-                  className="flex-1 outline-none bg-transparent text-black"
-                  {...register("confirmPassword", {
-                    required: "Please confirm your password",
-                    validate: (value) =>
-                      value === passwordValue || "Passwords do not match",
-                  })}
-                />
-              </div>
-              {errors.confirmPassword && (
-                <p className="text-red-600 text-sm mt-1">
-                  {errors.confirmPassword.message}
-                </p>
-              )}
-            </div>
-
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={isSubmitting || loading}
-              className="w-full bg-black text-white font-semibold mt-5 py-3 px-4 border border-black hover:bg-gray-900 transition duration-200 disabled:opacity-60"
-            >
-              {isSubmitting ? "Signing Up..." : "Sign Up"}
-            </button>
-          </form>
-
-          {/* Sign In Link */}
-          <p className="text-center text-sm text-white mt-4">
-            Already have an account?{" "}
-            <Link
-              to="/login"
-              className="font-semibold underline hover:text-gray-700"
-            >
-              Sign In
-            </Link>
-          </p>
         </div>
       </div>
     </>
