@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, use } from "react";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { PostCard } from "./PostCards";
@@ -13,15 +13,14 @@ export default function Dashboard() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [posts, setPosts] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const { fetch_posts, delete_post, loading } = UsePosts();
   const { currUser } = useAuthContext();
-  const FILTERS = ["all", "blog", "article"];
 
-  const isLoading = loading;
+  const FILTERS = ["all", "blog", "article"];
 
   const safePosts = Array.isArray(posts) ? posts : [];
   const postsCount = safePosts.length;
-
   const displayName = currUser?.username || "User";
 
   const avatarInitials = displayName
@@ -31,19 +30,17 @@ export default function Dashboard() {
     .slice(0, 2)
     .toUpperCase();
 
-  // func to delete post and refresh posts after deletion
+  // to delete posts
   const handle_delete = async (post_id) => {
     const res = await delete_post(post_id);
-    if (!res.ok) {
-      toast.error(res.detail);
-      return;
+    if (res.ok) {
+      const posts = await fetch_posts({ query: activeFilter });
+      if (res.ok) setPosts(posts);
     }
-    const result = await fetch_posts({ query: activeFilter });
-    if (result.ok) setPosts(result.data);
   };
 
   useEffect(() => {
-    // func to load post
+    // to fetch posts based on query
     const loadPosts = async () => {
       const result = await fetch_posts({ query: activeFilter });
       if (result.ok) {
@@ -57,7 +54,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex min-h-screen bg-gray-200">
-      {isLoading && (
+      {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/25 backdrop-blur-sm">
           <Loader />
         </div>
