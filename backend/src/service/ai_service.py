@@ -20,14 +20,14 @@ async def ai_stream_response(
 ):
     prompt = chatbot_prompt(
         curr_user=username,
-        input_qury=user_input,
+        input_query=user_input,
         title=title,
         content=content,
         post_type=post_type,
     )
 
     response = await client.chat.completions.create(
-        model="openai/gpt-oss-120b",
+        model="moonshotai/kimi-k2-instruct-0905",
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": user_input},
