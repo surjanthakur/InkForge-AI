@@ -11,8 +11,12 @@ groq_key = os.getenv("GROQ_API_KEY")
 client = AsyncGroq(api_key=groq_key)
 
 
-async def ai_stream_response(user_input: str, username: str):
-    prompt = chatbot_prompt(curr_user=username)
+async def ai_stream_response(user_input: str, username: str, content_context: str):
+    prompt = chatbot_prompt(
+        curr_user=username,
+        input_qury=user_input,
+        content=content_context,
+    )
 
     response = await client.chat.completions.create(
         model="openai/gpt-oss-120b",

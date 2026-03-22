@@ -23,7 +23,9 @@ async def ai_chatbot(
 ):
     try:
         response = await ai_stream_response(
-            user_input=user_query.message, username=curr_user.username
+            user_input=user_query.message,
+            username=curr_user.username,
+            content_context=user_query.context,
         )
 
         return {"role": "ai", "content": response}
