@@ -7,7 +7,7 @@ import { Loader } from "../../components/index";
 
 import "../css/chatwindow.css";
 
-export default function ChatWindow({ isOpen, onClose }) {
+export default function ChatWindow({ isOpen, onClose, post_data }) {
   const [messages, setMessages] = useState([]);
   const { fetchAIResponse, isLoader } = UseAiHook();
   const { register, handleSubmit, reset } = useForm();
@@ -21,8 +21,14 @@ export default function ChatWindow({ isOpen, onClose }) {
     scrollToBottom();
   }, [messages, isOpen]);
 
-  // handle submit
   const onSubmit = async (data) => {
+    const req_ai_data = {
+      title: post_data?.title,
+      post_type: post_data?.post_type,
+      context: post_data?.content,
+      user_query: data?.message,
+    };
+    console.log(req_ai_data);
     setMessages((prev) => [
       ...prev,
       { id: new Date().getTime(), role: "user", content: data.message },
@@ -30,12 +36,11 @@ export default function ChatWindow({ isOpen, onClose }) {
 
     reset();
 
-    const res = await fetchAIResponse(data.message);
+    const res = await fetchAIResponse(req_ai_data);
     if (!res.ok) {
       toast.error(res.detail);
       return;
     }
-    console.log(res.data);
     setMessages((prev) => [
       ...prev,
       { id: new Date().getTime(), role: "ai", content: res.data.content },

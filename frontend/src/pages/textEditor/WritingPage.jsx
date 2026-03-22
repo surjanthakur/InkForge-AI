@@ -124,6 +124,7 @@ export default function WritingPageEditor() {
           </div>
 
           <ChatWindow
+            post_data={postData}
             isOpen={isChatOpen}
             onClose={() => setIschatOpen(false)}
           />
