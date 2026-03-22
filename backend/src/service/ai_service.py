@@ -27,7 +27,7 @@ async def ai_stream_response(
     )
 
     response = await client.chat.completions.create(
-        model="moonshotai/kimi-k2-instruct-0905",
+        model="openai/gpt-oss-120b",
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": user_input},
