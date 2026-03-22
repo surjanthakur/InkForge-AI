@@ -38,12 +38,8 @@ export default function Dashboard() {
       toast.error(res.detail);
       return;
     }
-    toast.success(res.data?.detail);
-    // Refresh posts with the current filter
     const result = await fetch_posts({ query: activeFilter });
-    if (result.ok) {
-      setPosts(result.data);
-    }
+    if (result.ok) setPosts(result.data);
   };
 
   useEffect(() => {

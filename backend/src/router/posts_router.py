@@ -61,17 +61,11 @@ async def delete_post(
     session_db: AsyncSession = Depends(get_session),
     curr_user: User = Depends(current_user),
 ):
-    post = await delete_post_by_id(
+    return await delete_post_by_id(
         post_id=post_id,
         db=session_db,
         user_id=curr_user.user_id,
     )
-    if post is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Post not found."
-        )
-
-    return
 
 
 # download posts as PDF format

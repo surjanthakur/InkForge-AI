@@ -78,7 +78,9 @@ async def delete_post_by_id(post_id: UUID, user_id: UUID, db: AsyncSession) -> d
     try:
         post = await post_by_id(post_id=post_id, db=db)
         if not post:
-            return None
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="posts not found"
+            )
 
         if post.user_id != user_id:
             raise PermissionError("Not authorized.")
@@ -86,8 +88,6 @@ async def delete_post_by_id(post_id: UUID, user_id: UUID, db: AsyncSession) -> d
         await db.delete(post)
         await db.commit()
 
-    except HTTPException:
-        raise
     except SQLAlchemyError as error:
         await db.rollback()
         logger.error(f"DB error deleting post {post_id}: {error}")
