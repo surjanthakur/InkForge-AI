@@ -25,36 +25,29 @@ const handleApiError = (err) => {
   return { ok: false, status, data, detail };
 };
 
-// signup user
-export const signupUser = async (data) => {
+// helper function to handle structure response
+const request_handler = async (func) => {
   try {
-    const res = await api.post("/signup", data);
-
+    const res = await func();
     return {
       ok: true,
       status: res.status,
       data: res.data,
       detail: null,
     };
-  } catch (err) {
-    return handleApiError(err);
+  } catch (error) {
+    return handleApiError(error);
   }
+};
+
+// signup user
+export const signupUser = (data) => {
+  request_handler(() => api.post("/signup", data));
 };
 
 // login user
 export const loginUser = async (data) => {
-  try {
-    const res = await api.post("/login", data);
-
-    return {
-      ok: true,
-      status: res.status,
-      data: res.data,
-      detail: null,
-    };
-  } catch (err) {
-    return handleApiError(err);
-  }
+  request_handler(api.post("/login", data));
 };
 
 // api call to get current user
