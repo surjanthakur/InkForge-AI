@@ -5,7 +5,7 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// helper function to normalize error
+// helper function to normalize error messages from server
 const handleApiError = (err) => {
   const status = err.response?.status || 500;
   const data = err.response?.data;
@@ -41,40 +41,21 @@ const request_handler = async (func) => {
 };
 
 // signup user
-export const signupUser = (data) => {
-  request_handler(() => api.post("/signup", data));
+export const signupUser = async (data) => {
+  return await request_handler(() => api.post("/signup", data));
 };
 
 // login user
 export const loginUser = async (data) => {
-  request_handler(api.post("/login", data));
+  return await request_handler(() => api.post("/login", data));
 };
 
-// api call to get current user
+//current user
 export const CurrentUser = async () => {
-  try {
-    const res = await api.get("/me");
-
-    return {
-      ok: true,
-      status: res.status,
-      data: res.data,
-    };
-  } catch (err) {
-    return handleApiError(err);
-  }
+  return await request_handler(() => api.get("/me"));
 };
 
-// api call to logout user
+//logout user
 export const LogoutUser = async () => {
-  try {
-    const res = await api.post("/logout");
-    return {
-      ok: true,
-      status: res.status,
-      data: res.data,
-    };
-  } catch (err) {
-    return handleApiError(err);
-  }
+  return await request_handler(() => api.post("/logout"));
 };
