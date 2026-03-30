@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = axios.create({
+const api = axios.create({
   baseURL: "http://localhost:8000/api/v1.0/users",
   withCredentials: true,
 });
@@ -28,7 +28,7 @@ const handleApiError = (err) => {
 // signup user
 export const signupUser = async (data) => {
   try {
-    const res = await API_URL.post("/signup", data);
+    const res = await api.post("/signup", data);
 
     return {
       ok: true,
@@ -44,7 +44,7 @@ export const signupUser = async (data) => {
 // login user
 export const loginUser = async (data) => {
   try {
-    const res = await API_URL.post("/login", data);
+    const res = await api.post("/login", data);
 
     return {
       ok: true,
@@ -60,7 +60,7 @@ export const loginUser = async (data) => {
 // api call to get current user
 export const CurrentUser = async () => {
   try {
-    const res = await API_URL.get("/me");
+    const res = await api.get("/me");
 
     return {
       ok: true,
@@ -75,7 +75,7 @@ export const CurrentUser = async () => {
 // api call to logout user
 export const LogoutUser = async () => {
   try {
-    const res = await API_URL.post("/logout");
+    const res = await api.post("/logout");
     return {
       ok: true,
       status: res.status,
