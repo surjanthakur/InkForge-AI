@@ -26,7 +26,7 @@ export const useAuth = () => {
   };
 
   const logout = async () => {
-    return await logoutUser();
+    return await request_handler(() => logoutUser());
   };
 
   return {

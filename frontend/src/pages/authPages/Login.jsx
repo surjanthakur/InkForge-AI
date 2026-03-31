@@ -26,8 +26,8 @@ const Login = () => {
       return;
     }
     toast.success(res.data?.detail);
-    navigate("/");
     await get_currUser();
+    navigate("/");
   };
 
   return (
@@ -79,11 +79,6 @@ const Login = () => {
                     className="w-full outline-none bg-transparent text-sm"
                     {...register("email", {
                       required: "Email is required",
-                      pattern: {
-                        value:
-                          /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                        message: "Enter a valid email address",
-                      },
                     })}
                   />
                 </div>
@@ -157,7 +152,10 @@ const Login = () => {
 
               {/* Google */}
               <div className="flex justify-center mt-3">
-                <button className="flex items-center justify-center border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-50 transition">
+                <button
+                  type="button"
+                  className="flex items-center justify-center border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-50 transition"
+                >
                   <img src={GoogleIcon} alt="Google" className="w-10 h-10" />
                 </button>
               </div>
