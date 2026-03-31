@@ -46,10 +46,10 @@ export const loginUser = async (data) => {
   return await request_handler(() => api.post("/login", data));
 };
 
-export const CurrentUser = async () => {
+export const currentUser = async () => {
   return await request_handler(() => api.get("/me"));
 };
 
-export const LogoutUser = async () => {
+export const logoutUser = async () => {
   return await request_handler(() => api.post("/logout"));
 };
