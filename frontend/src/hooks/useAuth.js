@@ -4,45 +4,29 @@ import { signupUser, loginUser, LogoutUser } from "../services/authServices";
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
 
-  // signup
+  const request_handler = async (func) => {
+    setLoading(true);
+    try {
+      const res = await func();
+      if (!res.ok) {
+        return res;
+      }
+      return res;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const signup = async (data) => {
-    setLoading(true);
-    try {
-      const res = await signupUser(data);
-      if (!res.ok) {
-        return res;
-      }
-      return res;
-    } finally {
-      setLoading(false);
-    }
+    return await request_handler(() => signupUser(data));
   };
 
-  // login
   const login = async (data) => {
-    setLoading(true);
-    try {
-      const res = await loginUser(data);
-      if (!res.ok) {
-        return res;
-      }
-      return res;
-    } finally {
-      setLoading(false);
-    }
+    return await request_handler(() => loginUser(data));
   };
 
-  // logout
   const logout = async () => {
-    try {
-      const res = await LogoutUser();
-      if (!res.ok) {
-        return res;
-      }
-      return res;
-    } finally {
-      setLoading(false);
-    }
+    return await LogoutUser();
   };
 
   return {
