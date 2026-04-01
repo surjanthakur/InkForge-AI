@@ -33,9 +33,10 @@ async def ai_stream_response(
             {"role": "user", "content": user_input},
         ],
         temperature=0.95,
+        stream=False,
         max_completion_tokens=8192,
         top_p=1,
-        reasoning_effort="low",
+        reasoning_effort="medium",
         stop=None,
     )
     return response.choices[0].message.content
