@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 from enum import Enum
 from uuid import UUID
@@ -11,8 +11,8 @@ class PostType(str, Enum):
 
 # Request model for creating a new post
 class PostCreate(BaseModel):
-    title: str
-    content: str
+    title: str = Field(..., min_length=5, max_length=400)
+    content: str = Field(..., min_length=10)
     post_type: PostType
 
 
