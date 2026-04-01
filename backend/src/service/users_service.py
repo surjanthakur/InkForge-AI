@@ -133,7 +133,7 @@ async def current_user(
             )
         try:
             user_id_cast = uuid.UUID(redis_user_id)
-            # Handle when the user_id string from Redis can't be parsed into a UUID
+
         except ValueError as err:
             await redis_client.delete(f"session:{session_id}")
             logger.error(f"Failed to parse user_id from Redis. ValueError: {err}")
