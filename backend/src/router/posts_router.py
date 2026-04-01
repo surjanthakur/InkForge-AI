@@ -18,12 +18,7 @@ post_router = APIRouter(prefix="/posts", tags=["posts"])
 
 
 # search query for posts
-@post_router.get(
-    "/search",
-    status_code=status.HTTP_200_OK,
-    description="Fetches posts matching the provided search query for the authenticated user.",
-    response_description="A list of posts matching the provided search query.",
-)
+@post_router.get("/search", status_code=status.HTTP_200_OK)
 async def search_posts_by_query(
     query: str = Query(..., min_length=3, description="Search query for posts"),
     session_db: AsyncSession = Depends(get_session),
@@ -33,12 +28,7 @@ async def search_posts_by_query(
 
 
 # create new posts
-@post_router.post(
-    "/newStory",
-    status_code=status.HTTP_201_CREATED,
-    description="Create a new story post for the authenticated user.",
-    response_description="The created story post.",
-)
+@post_router.post("/newStory", status_code=status.HTTP_201_CREATED)
 async def create_new_post(
     req_form: PostCreate,
     session_db: AsyncSession = Depends(get_session),
@@ -50,12 +40,7 @@ async def create_new_post(
 
 
 # delete posts
-@post_router.delete(
-    "/delete/{post_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
-    description="Delete a post by its ID for the authenticated user.",
-    response_description="Confirmation of deleted post.",
-)
+@post_router.delete("/delete/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_post(
     post_id: UUID,
     session_db: AsyncSession = Depends(get_session),
@@ -68,13 +53,8 @@ async def delete_post(
     )
 
 
-# download posts as PDF format
-@post_router.get(
-    "/download/{post_id}/pdf",
-    status_code=status.HTTP_200_OK,
-    description="Download the specified post as a PDF file.",
-    response_description="PDF file containing the specified post.",
-)
+# download posts fPDF format
+@post_router.get("/download/{post_id}/pdf", status_code=status.HTTP_200_OK)
 async def download_as_pdf(
     background_task: BackgroundTasks,
     post_id: UUID,
