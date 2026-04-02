@@ -18,7 +18,7 @@ export default function WritingPageEditor() {
   const [title, setTitle] = useState("");
   const [postType, setPostType] = useState("blog");
   const [isChatOpen, setIschatOpen] = useState(false);
-  const { create_post } = UsePosts();
+  const { create_post, loading } = UsePosts();
 
   const editor = useEditor({
     extensions: [
@@ -50,7 +50,7 @@ export default function WritingPageEditor() {
 
     const res = await create_post(postData);
     if (!res.ok) {
-      toast.error(res.detail);
+      toast.error(res.error_msg);
       return;
     }
     setTimeout(() => {
@@ -111,7 +111,7 @@ export default function WritingPageEditor() {
               onClick={handleSave}
               className="w-full sm:w-auto bg-black py-3 px-6 text-white font-medium group rounded-lg"
             >
-              save
+              {loading ? "saving..." : "save"}
             </button>
 
             {/* Ask AI */}
