@@ -1,5 +1,5 @@
 from uuid import UUID
-from fastapi import APIRouter, Depends, status, Query, BackgroundTasks
+from fastapi import APIRouter, Depends, status, BackgroundTasks
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from ..db.models import User
