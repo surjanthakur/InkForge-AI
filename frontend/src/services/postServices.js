@@ -8,9 +8,9 @@ const api = axios.create({
 
 // error handler
 const handleApiError = (err) => {
-  const status = err.response?.status || 500;
+  // const status = err.response?.status || 500;
   const data = err.response?.data;
-  const rawDetail = data?.detail ?? data?.message;
+  const rawDetail = data?.detail;
   const detail =
     typeof rawDetail === "string"
       ? rawDetail
@@ -22,7 +22,7 @@ const handleApiError = (err) => {
             .join(", ")
         : "Something went wrong";
 
-  return { ok: false, status, data, detail };
+  return { ok: false, error_msg: detail };
 };
 
 // api req handler
@@ -33,7 +33,6 @@ const request_handler = async (func) => {
       ok: true,
       data: res.data,
       status: res.status,
-      detail: null,
     };
   } catch (error) {
     return handleApiError(error);

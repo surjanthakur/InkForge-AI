@@ -16,7 +16,7 @@ export function PostCard({ post, onDelete }) {
     try {
       const res = await download_pdf(post.post_id);
       if (!res.ok) {
-        toast.error(res.detail);
+        toast.error(res.error_msg || "Failed to download pdf");
         return;
       }
       const pdf_url = window.URL.createObjectURL(new Blob([res.data]));

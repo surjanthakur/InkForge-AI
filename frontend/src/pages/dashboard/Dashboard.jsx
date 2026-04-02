@@ -31,20 +31,26 @@ export default function Dashboard() {
   const handle_delete = async (post_id) => {
     const res = await delete_post(post_id);
     if (!res.ok) {
-      toast.error(res.detail);
+      toast.error(res.error_msg || "Failed to delete post");
       return;
     }
     setPosts((prev) => prev.filter((post) => post.post_id != post_id));
   };
 
-  useEffect(async () => {
-    const posts = await fetch_posts();
-    if (posts.ok == true) {
-      setPosts(posts.data);
+  // fetch all posts
+  const handle_fetch_all_posts = async () => {
+    const res = await fetch_posts();
+    if (!res.ok) {
+      toast.error(res.error_msg || "Failed to fetch posts");
+      return;
     }
-    toast.error(posts.detail);
-    setPosts([]);
-  });
+
+    setPosts(Array.isArray(res.data) ? res.data : []);
+  };
+
+  useEffect(() => {
+    handle_fetch_all_posts();
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-gray-200">
@@ -149,9 +155,9 @@ export default function Dashboard() {
             ) : (
               <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
                 <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-3">
-                  <Search size={20} className="text-gray-300" />
+                  <Search size={20} className="text-blue-600" />
                 </div>
-                <p className="text-gray-400 text-sm">No posts found</p>
+                <p className="text-blue-600 text-sm">No posts found</p>
               </div>
             )}
           </div>
