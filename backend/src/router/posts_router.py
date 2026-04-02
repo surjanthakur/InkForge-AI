@@ -20,11 +20,10 @@ post_router = APIRouter(prefix="/posts", tags=["posts"])
 # search query for posts
 @post_router.get("/search", status_code=status.HTTP_200_OK)
 async def search_posts_by_query(
-    query: str = Query(..., min_length=3, description="Search query for posts"),
     session_db: AsyncSession = Depends(get_session),
     curr_user: User = Depends(current_user),
 ):
-    return await search_posts(db=session_db, query=query, user_id=curr_user.user_id)
+    return await search_posts(db=session_db, user_id=curr_user.user_id)
 
 
 # create new posts

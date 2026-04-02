@@ -12,18 +12,17 @@ from typing import List
 
 from ..db.models import Post
 from ..schemas.posts import PostCreate
-from ..repository.posts_repo import post_by_id, get_posts_by_query
+from ..repository.posts_repo import post_by_id, get_users_posts
 from ..db.models import Post
 from ..core.pdf_template import pdf_template_structure
-
 
 logger = logging.getLogger(__name__)
 
 
 #  Search posts by query
-async def search_posts(db: AsyncSession, query: str, user_id: UUID) -> List[Post]:
+async def search_posts(user_id: UUID, db: AsyncSession) -> List[Post]:
     try:
-        post = await get_posts_by_query(db=db, query=query, user_id=user_id)
+        post = await get_users_posts(db=db, user_id=user_id)
 
         if not post:
             raise HTTPException(
