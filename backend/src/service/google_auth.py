@@ -1,5 +1,6 @@
-from fastapi import status, HTTPException
+from fastapi import status, HTTPException, Request
 from fastapi.responses import RedirectResponse
+from sqlalchemy.ext.asyncio.session import AsyncSession
 from authlib.integrations.starlette_client import OAuth
 from dotenv import load_dotenv
 import os
@@ -20,5 +21,5 @@ oauth.register(
 )
 
 
-async def google_callback():
+async def google_callback(request: Request, db: AsyncSession):
     pass
