@@ -4,7 +4,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from ..db.models import User
 from ..db.db_connection import get_session
 from ..schemas.user import UserCreate, LoginRequest, currentUserResponse
-from ..service.google_auth import google_callback
+from ..service.google_auth import google_redirect
 from ..service.users_service import (
     create_user,
     authenticate_user,
@@ -51,8 +51,6 @@ async def logout_account(res: Response, session_id: str = Cookie(None)):
 
 
 # google auth
-@user_router.post("/auth/google")
-async def google_authentication(
-    req: Request, session_db: AsyncSession = Depends(get_session)
-):
-    return await google_callback(request=req, db=session_db)
+@user_router.get("/auth/google")
+async def google_auth(req: Request):
+    return await google_redirect(request=req)

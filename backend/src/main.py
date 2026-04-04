@@ -78,9 +78,9 @@ async def http_exception_handler(req: Request, exc: HTTPException):
 
 
 # all services routers ---------->
-app.include_router(router=users_router.user_router, prefix="/api/v1.0")
-app.include_router(router=posts_router.post_router, prefix="/api/v1.0")
-app.include_router(router=ai_router.aiRouter, prefix="/api/v1.0")
+app.include_router(router=users_router.user_router, prefix="/api")
+app.include_router(router=posts_router.post_router, prefix="/api")
+app.include_router(router=ai_router.aiRouter, prefix="/api")
 
 
 if __name__ == "__main__":

@@ -18,8 +18,6 @@ oauth.register(
     client_secret=google_client_secret,
     authorize_url="https://accounts.google.com/o/oauth2/auth",
     access_token_url="https://oauth2.googleapis.com/token",
+    client_kwargs={"scope": "openid email profile"},
+    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
 )
-
-
-async def google_callback(request: Request, db: AsyncSession):
-    pass
