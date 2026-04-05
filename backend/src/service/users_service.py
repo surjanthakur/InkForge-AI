@@ -11,7 +11,7 @@ from ..schemas.user import UserCreate, LoginRequest
 from ..db.redis_client import redis_client
 from ..repository.users_repo import user_by_email, user_by_id
 from ..db.db_connection import get_session
-from ..core.security import pass_hash, verify_password
+from ..utils.security import pass_hash, verify_password
 
 SESSION_TTL = 60 * 60 * 24
 logger = logging.getLogger(__name__)

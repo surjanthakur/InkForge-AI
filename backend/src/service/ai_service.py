@@ -3,7 +3,7 @@ import os
 import logging
 from groq import AsyncGroq
 from fastapi import status, HTTPException
-from ..core.prompts import chatbot_prompt
+from ..utils.prompts import chatbot_prompt
 
 load_dotenv()
 

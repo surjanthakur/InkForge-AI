@@ -14,7 +14,7 @@ from ..db.models import Post
 from ..schemas.posts import PostCreate
 from ..repository.posts_repo import post_by_id, get_users_posts
 from ..db.models import Post
-from ..core.pdf_template import pdf_template_structure
+from ..utils.pdf_template import pdf_template_structure
 
 logger = logging.getLogger(__name__)
 
