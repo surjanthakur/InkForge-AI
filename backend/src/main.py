@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 
 from .db.db_connection import create_db_tables
-from .router import users_router, posts_router, ai_router, google_auth
+from .router import users_router, posts_router, ai_router
 
 
 # function connect to db before starting app
@@ -81,7 +81,6 @@ async def http_exception_handler(req: Request, exc: HTTPException):
 app.include_router(router=users_router.user_router, prefix="/api")
 app.include_router(router=posts_router.post_router, prefix="/api")
 app.include_router(router=ai_router.aiRouter, prefix="/api")
-app.include_router(router=google_auth.oauth_router, prefix="/api")
 
 if __name__ == "__main__":
     uvicorn.run(app=app, host="0.0.0.0", port=8000)
