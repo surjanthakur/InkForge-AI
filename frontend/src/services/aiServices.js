@@ -1,5 +1,4 @@
 import axios from "axios";
-import { cache } from "react";
 
 const API_URL = axios.create({
   baseURL: "http://localhost:8000/api/chatbot",
