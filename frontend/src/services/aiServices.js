@@ -1,13 +1,12 @@
 import axios from "axios";
 
-const API_URL = axios.create({
+const api = axios.create({
   baseURL: "http://localhost:8000/api/chatbot",
   withCredentials: true,
 });
 
 // helper function to normalize error
 const handleApiError = (err) => {
-  const status = err.response?.status || 500;
   const data = err.response?.data;
 
   const rawDetail = data?.detail ?? data?.message;
@@ -22,24 +21,24 @@ const handleApiError = (err) => {
             .join(", ")
         : "Something went wrong";
 
-  return { ok: false, status, data, detail };
+  return { ok: false, error_msg: detail };
 };
 
 // ai generated response
 export const fetchChatbotResponse = async (data) => {
   try {
-    const res = API_URL.post("/messages", data, {
+    const res = await api.post("/messages", data, {
       headers: {
         "Content-Type": "application/json",
       },
     });
+
     return {
       ok: true,
-      data: (await res).data,
-      status: (await res).status,
-      detail: null,
+      data: res?.data,
+      status: res?.status,
     };
   } catch (err) {
-    handleApiError(err);
+    return handleApiError(err);
   }
 };
