@@ -6,13 +6,12 @@ from ..db.models import User
 from ..service.ai_service import ai_stream_response
 from ..schemas.chatbot import ChatRequest
 
-
 aiRouter = APIRouter(tags=["Chatbot"], prefix="/chatbot")
 
 
 # api to generate ai response for req
 @aiRouter.post(
-    "/conversation",
+    "/messages",
     status_code=status.HTTP_200_OK,
     description="Generate an AI-powered response to a user message by streaming interaction to the chatbot. Requires authentication.",
     response_description="Returns the chatbot's AI response to the provided user message.",
