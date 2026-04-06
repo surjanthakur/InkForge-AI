@@ -4,7 +4,6 @@ import uuid
 from sqlalchemy import Column, Text
 from datetime import datetime
 from pydantic import field_validator
-from sqlalchemy.dialects.postgresql import JSONB
 from enum import Enum
 from typing import List, Optional
 from datetime import datetime
