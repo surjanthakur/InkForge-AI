@@ -87,7 +87,7 @@ export default function Homepage() {
               <Link
                 to={isCurrentUser ? "/editor" : "/login"}
                 state={!isCurrentUser ? { fromEditor: true } : undefined}
-                className=" flex items-center gap-2 px-10 py-5 lg:text-lg md:text-xl font-light text-white border-2 border-white transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] hover:text-black hover:bg-white"
+                className=" flex items-center gap-2 px-10 py-5 lg:text-lg md:text-xl font-light text-white border-2 border-white transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] hover:text-black hover:bg-lime-400"
               >
                 write your Story
                 <ArrowRight size={20} className="md:w-6 md:h-6" />
