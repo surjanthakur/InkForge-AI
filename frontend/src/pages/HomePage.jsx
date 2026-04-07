@@ -2,7 +2,8 @@ import { ArrowRight, BookOpen, Brush, Download, EditIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-import mainImage from "../assets/Wallpaper.jpeg";
+import MainBackgroundImage from "../assets/Wallpaper.jpeg";
+import sideIllustrationImage from "../assets/bot-logo.jpeg";
 import { FeatureCard } from "../components/index.js";
 import { useAuthContext } from "../context/authContext.jsx";
 
@@ -40,52 +41,72 @@ export default function Homepage() {
         {/* Background image */}
         <img
           alt="main-image"
-          src={mainImage}
+          src={MainBackgroundImage}
           className="absolute inset-0 w-full h-full object-cover backdrop-blur-3xl opacity-50"
         />
 
-        {/* Content */}
-        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-10 md:space-y-14">
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="sm:text-2xl md:text-4xl lg:text-6xl  font-medium leading-tight tracking-wide text-gray-100"
-          >
-            <span className="block">"Every blank page is an invitation.</span>
-            <span className="block mt-4 md:mt-6 text-gray-400">
-              Let your ideas breathe,
-            </span>
-            <span className="block">words flow, and your stories find</span>
-            <span className="block mt-2 md:mt-4 text-gray-400">
-              their shape."
-            </span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="sm:text-lg md:text-2xl text-gray-400 font-extralight max-w-4xl mx-auto leading-relaxed"
-          >
-            Dream it. Draft it. Publish it — with an AI companion that refines
-            every sentence and makes your voice shine.
-          </motion.p>
-
-          {/* editor route */}
+        {/* Content Container - Left text, Right image */}
+        <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
           <motion.div
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
-            className="pt-6 md:pt-10 flex justify-center"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex-1 text-left space-y-6 md:space-y-8"
           >
-            <Link
-              to={isCurrentUser ? "/editor" : "/login"}
-              state={!isCurrentUser ? { fromEditor: true } : undefined}
-              className=" flex items-center gap-2 px-10 py-5 lg:text-lg md:text-xl font-light text-white border-2 border-white transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] hover:text-black hover:bg-white"
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="sm:text-2xl md:text-4xl lg:text-6xl  font-medium leading-tight tracking-wide text-gray-100"
             >
-              write your Story
-              <ArrowRight size={25} />
-            </Link>
+              <span className="block mt-4 md:mt-6 text-lime-300">
+                Let your ideas breathe
+              </span>
+              <span className="block">words flow, and your stories find</span>
+              <span className="block mt-2 md:mt-4 text-lime-300">
+                their shape."
+              </span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="sm:text-lg md:text-2xl text-gray-400 font-extralight max-w-4xl mx-auto leading-relaxed"
+            >
+              Publish it — with an AI companion that refines every sentence and
+              makes your voice shine.
+            </motion.p>
+
+            {/* editor route */}
+            <motion.div
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+              className="pt-6 md:pt-10 flex justify-center"
+            >
+              <Link
+                to={isCurrentUser ? "/editor" : "/login"}
+                state={!isCurrentUser ? { fromEditor: true } : undefined}
+                className=" flex items-center gap-2 px-10 py-5 lg:text-lg md:text-xl font-light text-white border-2 border-white transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] hover:text-black hover:bg-white"
+              >
+                write your Story
+                <ArrowRight size={20} className="md:w-6 md:h-6" />
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {/* Right Side - Additional Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            className="flex-1 flex justify-center lg:justify-end"
+          >
+            <img
+              alt="hero-illustration"
+              src={sideIllustrationImage}
+              className="h-auto w-full max-w-md rounded-lg lg:max-w-lg xl:max-w-xl object-contain drop-shadow-2xl"
+            />
           </motion.div>
         </div>
       </section>
