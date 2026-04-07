@@ -1,16 +1,16 @@
+from google import genai
+from google.genai import types
+
+from fastapi import status, HTTPException
 from dotenv import load_dotenv
 import os
 import logging
-from groq import AsyncGroq
-from fastapi import status, HTTPException
+
 from ..utils.prompts import chatbot_prompt
 
 load_dotenv()
 
-
-groq_key = os.getenv("GROQ_API_KEY")
-
-client = AsyncGroq(api_key=groq_key)
+google_client = genai.Client(api_key="")
 
 
 async def ai_stream_response(
@@ -30,20 +30,16 @@ async def ai_stream_response(
             post_type=post_type,
         )
 
-        response = await client.chat.completions.create(
-            model="openai/gpt-oss-120b",
-            messages=[
-                {"role": "system", "content": prompt},
-                {"role": "user", "content": user_input},
-            ],
-            temperature=0.95,
-            stream=False,
-            max_completion_tokens=8192,
-            top_p=1,
-            reasoning_effort="medium",
-            stop=None,
+        response = await google_client.models.generate_content(
+            model="",
+            contents=user_input,
+            config=types.GenerateContentConfig(
+                thinking_config=types.ThinkingConfig(thinking_level="low"),
+                system_instruction=prompt,
+                temperature=0.1,
+            ),
         )
-        return response.choices[0].message.content
+        return response.text
     except Exception as err:
         logging.error(msg=f"error while generating response: {err}")
         raise HTTPException(
