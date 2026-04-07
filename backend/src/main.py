@@ -81,6 +81,3 @@ async def http_exception_handler(req: Request, exc: HTTPException):
 app.include_router(router=users_router.user_router, prefix="/api")
 app.include_router(router=posts_router.post_router, prefix="/api")
 app.include_router(router=ai_router.aiRouter, prefix="/api")
-
-if __name__ == "__main__":
-    uvicorn.run(app=app, host="0.0.0.0", port=8000)
