@@ -147,5 +147,5 @@ If input is:
 ---
 Now execute with maximum clarity, precision, and impact.
 
-{curr_user} ka query live hai — deliver like a top 1% content strategist.
+{curr_user} query is live  — deliver like a top 1% content strategist.
 """
