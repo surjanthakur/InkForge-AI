@@ -9,8 +9,10 @@ import "../css/chatwindow.css";
 
 export default function ChatWindow({ isOpen, onClose, post_data }) {
   const [messages, setMessages] = useState([]);
+
   const { fetchAIResponse, isLoader } = UseAiHook();
   const { register, handleSubmit, reset } = useForm();
+
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -37,12 +39,12 @@ export default function ChatWindow({ isOpen, onClose, post_data }) {
 
     const res = await fetchAIResponse(req_ai_data);
     if (!res.ok) {
-      toast.error(res.detail);
+      toast.error(res?.error_msg);
       return;
     }
     setMessages((prev) => [
       ...prev,
-      { id: new Date().getTime(), role: "ai", content: res.data.content },
+      { id: new Date().getTime(), role: "ai", content: res?.data?.content },
     ]);
   };
 

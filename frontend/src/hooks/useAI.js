@@ -8,7 +8,7 @@ export const UseAiHook = () => {
     setIsLoader(true);
     try {
       const res = await fetchChatbotResponse(data);
-      if (!res.ok) return;
+      if (!res.ok) return res;
       return res;
     } finally {
       setIsLoader(false);
