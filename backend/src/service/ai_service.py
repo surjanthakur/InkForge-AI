@@ -37,9 +37,7 @@ async def ai_response(
         response = await google_client.aio.models.generate_content(
             model="gemini-2.5-flash",
             # Proper content structure
-            contents=types.Content(
-                role="user", parts=types.Part.from_text(text=user_input)
-            ),
+            contents=types.Content(role="user", parts=[types.Part(text=user_input)]),
             config=types.GenerateContentConfig(
                 thinking_config=types.ThinkingConfig(thinking_budget=0),
                 system_instruction=prompt,
