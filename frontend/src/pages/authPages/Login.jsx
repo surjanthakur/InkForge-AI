@@ -33,7 +33,7 @@ const Login = () => {
   return (
     <>
       <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-black">
-        <div className="w-full max-w-md">
+        <div className="w-full md:max-w-md lg:max-w-lg lg:max-h-2xl">
           {/* Card */}
           <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-8">
             {/* Header */}
