@@ -22,7 +22,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     const res = await login(data);
     if (!res.ok) {
-      toast.error(res.detail);
+      toast.error(res?.error_msg);
       return;
     }
     toast.success(res.data?.detail);
