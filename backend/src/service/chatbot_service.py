@@ -1,6 +1,6 @@
 from google import genai
 from google.genai import types
-from google.genai.errors import ClientError, ServerError
+from google.genai.errors import ClientError, ServerError, APIError
 
 from fastapi import status, HTTPException
 from dotenv import load_dotenv
@@ -70,6 +70,8 @@ async def chatbot_response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="opps❌ server down try again or refresh the page.",
         )
+    except APIError as err:
+        raise HTTPException()
     # handle all exception error
     except Exception as err:
         logger.error(f"Error while generating AI response: {err}", exc_info=True)
