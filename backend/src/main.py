@@ -9,6 +9,8 @@ from contextlib import asynccontextmanager
 from .db.db_connection import create_db_tables
 from .router import chatbot_router, users_router, posts_router
 
+logger = logging.getLogger(__name__)
+
 
 # function connect to db before starting app
 @asynccontextmanager
@@ -21,7 +23,7 @@ async def lifespan(app: FastAPI):
 
     # handle all Exception errors
     except Exception as err:
-        logging.error(msg=f"Error creating database tables: {err}")
+        logger.warning(msg=f"Error creating database tables: {err}")
         raise RuntimeError(f"Error creating database tables: {err}")
 
 
@@ -54,7 +56,7 @@ async def log_requests(request: Request, call_next):
 # global exceptions handler ----------->
 @app.exception_handler(Exception)
 async def global_exception_handler(req: Request, exc: Exception):
-    logging.exception(msg=f"error accour while executing api req : =>  {str(exc)}")
+    logger.exception(msg=f"error accour while executing api req : =>  {str(exc)}")
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={"detail": "internal error try sometime later", "success": False},
@@ -64,7 +66,7 @@ async def global_exception_handler(req: Request, exc: Exception):
 # global HTTP exceptions handlers ----------->
 @app.exception_handler(HTTPException)
 async def http_exception_handler(req: Request, exc: HTTPException):
-    logging.error(
+    logger.warning(
         msg=f"error whiile executing {req.method} REQUEST on URL:{req.url} /// {exc.detail}"
     )
     return JSONResponse(
