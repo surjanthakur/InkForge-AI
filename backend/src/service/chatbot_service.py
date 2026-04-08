@@ -21,7 +21,7 @@ google_client = genai.Client(
 )
 
 
-async def ai_response(
+async def chatbot_response(
     user_input: str, username: str, content: str, title: str, post_type: str
 ):
     try:
