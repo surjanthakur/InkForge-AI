@@ -64,7 +64,7 @@ export default function Homepage() {
               </span>
               <span className="block">words flow, and your stories find</span>
               <span className="block mt-2 md:mt-4 text-lime-300">
-                their shape."
+                their shape
               </span>
             </motion.h1>
 
