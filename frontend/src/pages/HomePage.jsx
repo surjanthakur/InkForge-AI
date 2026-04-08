@@ -155,7 +155,7 @@ export default function Homepage() {
             </div>
           </motion.div>
           <p
-            className="text-center mt-20 text-white/20 tracking-widest uppercase text-xs"
+            className="text-center mt-20 text-white/30 tracking-widest uppercase text-xs"
             style={{ fontFamily: "monospace" }}
           >
             Dream · Create · Refine
