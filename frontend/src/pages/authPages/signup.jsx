@@ -48,7 +48,7 @@ const Signup = () => {
               </Link>
 
               <h1 className="text-2xl sm:text-3xl font-bold text-black">
-                Welcome to InkForge-Ai
+                Welcome to EZ-write
               </h1>
               <p className="text-gray-500 mt-1 text-sm">Create your account</p>
             </div>
@@ -206,11 +206,11 @@ const Signup = () => {
             </form>
 
             {/* Login Link */}
-            <p className="text-center text-sm text-gray-600 mt-5">
+            <p className="text-center text-sm text-red-600 mt-5">
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="text-black font-medium underline hover:opacity-70"
+                className="text-blue-500 font-medium underline hover:opacity-70"
               >
                 Sign In
               </Link>
