@@ -8,6 +8,7 @@ from contextlib import asynccontextmanager
 
 from .db.db_connection import create_db_tables
 from .router import chatbot_router, users_router, posts_router
+from src.core.settings import settings
 
 logger = logging.getLogger(__name__)
 
@@ -30,13 +31,11 @@ async def lifespan(app: FastAPI):
 # creating app
 app = FastAPI(lifespan=lifespan, title="EZ-write", version="1.0")
 
-origins = ["https://ez-write-e28eirbvd-surjanthakurs-projects.vercel.app"]
-
 
 # cors middleware ------------>
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=settings.CORS_ORIGIN_URL,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -76,6 +75,12 @@ async def http_exception_handler(req: Request, exc: HTTPException):
             "detail": exc.detail,
         },
     )
+
+
+# health check route
+@app.get("/heath", status_code=200)
+def health_checks_route():
+    return {"status": "ok"}
 
 
 # all services routers ---------->
