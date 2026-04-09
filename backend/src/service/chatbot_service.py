@@ -3,20 +3,17 @@ from google.genai import types
 from google.genai.errors import ClientError, ServerError, APIError
 
 from fastapi import status, HTTPException
-from dotenv import load_dotenv
-import os
 import logging
 
+from ..core.settings import settings
 from ..utils.prompts import chatbot_prompt
 
 logger = logging.getLogger(__name__)
 
-load_dotenv()
-
 
 # Initialize client
 google_client = genai.Client(
-    api_key=os.getenv("GOOGLE_API_KEY"),
+    api_key=settings.GOOGLE_API_KEY,
     vertexai=False,
 )
 

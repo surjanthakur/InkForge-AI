@@ -4,21 +4,10 @@ from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine, async_sessi
 import logging
 from typing import AsyncGenerator
 from sqlalchemy.exc import SQLAlchemyError
-from sqlmodel import SQLModel, true
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from sqlmodel import SQLModel
+from ..core.settings import settings
 
-
-class Settings(BaseSettings):
-    DB_URL: str
-
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        extra="allow",
-    )
-
-
-settings = Settings()
+logger = logging.getLogger(__name__)
 
 # engine for the database connection
 async_engine: AsyncEngine = create_async_engine(
@@ -46,7 +35,7 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
             yield session
         except SQLAlchemyError as err:
             await session.rollback()
-            logging.error(f"Error while creating session: {err}")
+            logger.error(f"Error while creating session: {err}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="database connection error!",
