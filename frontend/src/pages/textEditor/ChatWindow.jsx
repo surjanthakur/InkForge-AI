@@ -63,7 +63,7 @@ export default function ChatWindow({ isOpen, onClose, post_data }) {
       <div className="popup-overlay" onClick={onClose}>
         <div className="popup-container" onClick={(e) => e.stopPropagation()}>
           <div className="popup-header">
-            <h2 className="popup-title">Chat Assistant</h2>
+            <h2 className="popup-title">your writer buddy</h2>
             <button
               className="close-button"
               onClick={onClose}
@@ -89,7 +89,7 @@ export default function ChatWindow({ isOpen, onClose, post_data }) {
                 </div>
                 <div className="message-content">
                   <span className="message-sender">
-                    {message.role === "ai" ? "AI Assistant" : "You"}
+                    {message.role === "ai" ? "writer buddy" : "You"}
                   </span>
                   <MarkdownRenderer content={message.content} />
                 </div>
@@ -102,7 +102,7 @@ export default function ChatWindow({ isOpen, onClose, post_data }) {
                   <Bot size={18} />
                 </div>
                 <div className="message-content">
-                  <span className="message-sender">AI Assistant</span>
+                  <span className="message-sender">wait im thinking🤔...</span>
                   <div className="message-text">
                     <Loader />
                   </div>
