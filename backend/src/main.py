@@ -30,7 +30,7 @@ async def lifespan(app: FastAPI):
 # creating app
 app = FastAPI(lifespan=lifespan, title="EZ-write", version="1.0")
 
-origins = ["http://localhost:5173"]
+origins = ["https://ez-write-e28eirbvd-surjanthakurs-projects.vercel.app"]
 
 
 # cors middleware ------------>
