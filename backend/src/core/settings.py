@@ -8,6 +8,7 @@ ENV_FILE_PATH = Path(__file__).resolve().parents[2] / ".env"
 
 class Settings(BaseSettings):
     DB_URL: str
+    DB_SSL: bool = False
     CORS_ORIGIN_URL: str
     GOOGLE_API_KEY: str
 

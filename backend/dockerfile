@@ -1,0 +1,30 @@
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PORT=8000
+
+WORKDIR /app
+
+# Minimal system packages used by common Python libs in this project.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install backend dependencies from pyproject (without packaging the app itself).
+RUN pip install --upgrade pip
+COPY pyproject.toml ./
+RUN python -c "import tomllib; deps = tomllib.load(open('pyproject.toml','rb'))['project']['dependencies']; print('\n'.join(deps))" > /tmp/requirements.txt \
+    && pip install -r /tmp/requirements.txt
+
+# Copy backend source.
+COPY . .
+
+# Create and use non-root user for better container security.
+RUN useradd --create-home appuser
+USER appuser
+
+EXPOSE 8000
+
+CMD ["python", "-m", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -9,6 +9,8 @@ from ..core.settings import settings
 
 logger = logging.getLogger(__name__)
 
+engine_connect_args = {"ssl": True} if settings.DB_SSL else {}
+
 # engine for the database connection
 async_engine: AsyncEngine = create_async_engine(
     settings.DB_URL,
@@ -17,7 +19,7 @@ async_engine: AsyncEngine = create_async_engine(
     max_overflow=10,
     pool_recycle=1800,
     pool_timeout=30,
-    connect_args={"ssl": True},
+    connect_args=engine_connect_args,
 )
 
 # session factory for managing database sessions

@@ -1,0 +1,61 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile
+    container_name: ez-write-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      DB_URL: postgresql+asyncpg://ezwrite:ezwrite@postgres:5432/ezwrite
+      DB_SSL: "false"
+      CORS_ORIGIN_URL: http://localhost:3000
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-dummy}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_USERNAME: default
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redispass}
+      HOST: 0.0.0.0
+      PORT: 8000
+      RELOAD: "false"
+      LOG_LEVEL: info
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: ez-write-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ezwrite
+      POSTGRES_PASSWORD: ezwrite
+      POSTGRES_DB: ezwrite
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ezwrite -d ezwrite"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: ez-write-redis
+    restart: unless-stopped
+    command: ["redis-server", "--requirepass", "redispass"]
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redispass", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  postgres_data:
