@@ -24,5 +24,5 @@ class PostResponse(BaseModel):
     post_type: PostType
     created_at: datetime
 
-    class Config:
+    class CongigDict:
         from_attributes = True

@@ -1,6 +1,6 @@
 import logging
 import redis.asyncio as redis
-from redis.exceptions import RedisError
+from redis.exceptions import RedisError, TimeoutError, TryAgainError
 from ..core.settings import settings
 
 logger = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ async def check_redis_connection() -> None:
     try:
         await redis_client.ping()
         logger.info("Redis connection established successfully.")
-    except RedisError as err:
+    except (RedisError, TimeoutError, TryAgainError) as err:
         logger.exception("Redis connection failed: %s", err)
         raise RuntimeError("Redis is unavailable.") from err
 
