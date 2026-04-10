@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 
 from .db.db_connection import create_db_tables
+from .db.redis_client import check_redis_connection, close_redis_connection
 from .router import chatbot_router, users_router, posts_router
 from src.core.settings import settings
 from src.core.logging import setup_logging
@@ -21,13 +22,14 @@ async def lifespan(app: FastAPI):
     try:
         # creating db tables
         await create_db_tables()
-        print("db connection successfully 👍🏻🎊")
+        await check_redis_connection()
+        print("db and redis connection successfully")
         yield
-
-    # handle all Exception errors
     except Exception as err:
-        logger.warning(msg=f"Error creating database tables: {err}")
-        raise RuntimeError(f"Error creating database tables: {err}")
+        logger.warning(msg=f"Startup failed: {err}")
+        raise RuntimeError(f"Startup failed: {err}")
+    finally:
+        await close_redis_connection()
 
 
 # creating app
