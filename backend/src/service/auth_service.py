@@ -93,7 +93,7 @@ async def authenticate_user(
             value=session_id,
             httponly=True,
             max_age=SESSION_TTL,
-            secure=True,  # todo: set True in production (HTTPS)ffff
+            secure=True,
             samesite="lax",
         )
         return {"detail": "Login successfully", "success": True}
