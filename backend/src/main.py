@@ -33,7 +33,15 @@ async def lifespan(app: FastAPI):
 
 
 # creating app
-app = FastAPI(lifespan=lifespan, title="EZ-write", version="1.0")
+is_production = settings.DEVELOPMENT_MODE.lower() == "production"
+app = FastAPI(
+    lifespan=lifespan,
+    title="EZ-write",
+    version="1.0",
+    docs_url=None if is_production else "/docs",
+    redoc_url=None if is_production else "/redoc",
+    openapi_url=None if is_production else "/openapi.json",
+)
 
 
 # cors middleware ------------>

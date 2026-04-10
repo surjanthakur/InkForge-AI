@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     PORT: int = 8000
     RELOAD: bool = False
     LOG_LEVEL: str = "info"
+    DEVELOPMENT_MODE: str = "production"
 
     model_config = SettingsConfigDict(
         env_file=ENV_FILE_PATH,
