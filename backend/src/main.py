@@ -38,7 +38,6 @@ app = FastAPI(
     title="EZ-write",
     version="1.0",
     docs_url=None,
-    redoc_url=None,
 )
 
 
