@@ -1,5 +1,5 @@
 # linux/amd64 so images built on Apple Silicon typical cloud hosts.
-FROM --platform=linux/amd64 python:3.11-slim
+FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
