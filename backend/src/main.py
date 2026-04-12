@@ -37,7 +37,6 @@ app = FastAPI(
     lifespan=lifespan,
     title="EZ-write",
     version="1.0",
-    docs_url=None,
 )
 
 
