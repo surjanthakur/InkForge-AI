@@ -89,7 +89,7 @@ async def http_exception_handler(req: Request, exc: HTTPException):
 
 
 # health check route
-@app.get("/heath", status_code=200)
+@app.get("/health", status_code=200)
 def health_checks_route():
     return {"status": "ok"}
 
