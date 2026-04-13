@@ -28,5 +28,11 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    @property
+    def cors_origin_urls(self) -> list[str]:
+        # Support a single origin or comma-separated origins in env.
+        origins = [origin.strip() for origin in self.CORS_ORIGIN_URL.split(",")]
+        return [origin for origin in origins if origin]
+
 
 settings = Settings()
