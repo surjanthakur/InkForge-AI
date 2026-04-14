@@ -12,6 +12,13 @@ export function PostCard({ post, onDelete }) {
     article: "bg-amber-100 text-amber-600",
   };
 
+  const decodeHtmlEntities = (rawContent) => {
+    if (typeof rawContent !== "string") return "";
+    const parser = new DOMParser();
+    const decodedDoc = parser.parseFromString(rawContent, "text/html");
+    return decodedDoc.documentElement.textContent || rawContent;
+  };
+
   // pdf download
   const handlePdfDownload = async () => {
     try {
@@ -34,13 +41,36 @@ export function PostCard({ post, onDelete }) {
   };
 
   // purifyling post content
-  const sanitizedContent = DOMPurify.sanitize(
+  const rawContent =
     typeof post.content === "string"
       ? post.content
-      : Array.isArray(post.content)
+      : Array.isArray(post.content) &&
+          typeof post.content[0]?.content === "string"
         ? post.content[0].content
-        : ""
-  );
+        : "";
+
+  const decodedContent = decodeHtmlEntities(rawContent);
+
+  const sanitizedContent = DOMPurify.sanitize(decodedContent, {
+    ALLOWED_TAGS: [
+      "b",
+      "strong",
+      "i",
+      "em",
+      "u",
+      "s",
+      "strike",
+      "del",
+      "p",
+      "br",
+      "ul",
+      "ol",
+      "li",
+      "a",
+      "span",
+    ],
+    ALLOWED_ATTR: ["href", "target", "rel"],
+  });
 
   return (
     <>
@@ -85,7 +115,7 @@ export function PostCard({ post, onDelete }) {
                   });
                 })()}
               </p>
-              <p
+              <div
                 className="text-sm text-gray-500 mt-1.5 line-clamp-2 leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html: sanitizedContent,
