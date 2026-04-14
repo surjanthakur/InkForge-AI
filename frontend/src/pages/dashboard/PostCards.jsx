@@ -37,8 +37,7 @@ export function PostCard({ post, onDelete }) {
   const sanitizedContent = DOMPurify.sanitize(
     typeof post.content === "string"
       ? post.content
-      : Array.isArray(post.content) &&
-          typeof post.content[0]?.content === "string"
+      : Array.isArray(post.content)
         ? post.content[0].content
         : ""
   );
