@@ -55,7 +55,7 @@ async def chatbot_response(
 
     # handle client error
     except ClientError as err:
-        logger.error(f"client error❌ while generating response: {err}")
+        logger.error(f"error while generating response: {err}")
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail="wrong query or format check again and refresh!",
@@ -66,7 +66,7 @@ async def chatbot_response(
         logger.error(msg=f"server error from google api: {err}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="opps❌ server down try again or refresh the page.",
+            detail="server down try again or refresh the page.",
         )
 
     # handle ApiError error
