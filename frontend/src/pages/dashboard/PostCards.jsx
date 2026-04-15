@@ -8,7 +8,7 @@ import { Loader } from "../../components/index";
 export function PostCard({ post, onDelete }) {
   const { download_pdf, loading } = UsePosts();
   const typeBadgeColors = {
-    blog: "bg-violet-100 text-violet-500",
+    blog: "bg-violet-100 text-violet-600",
     article: "bg-amber-100 text-amber-600",
   };
 
