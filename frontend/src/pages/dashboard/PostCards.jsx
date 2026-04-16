@@ -7,20 +7,55 @@ import { Loader } from "../../components/index";
 
 export function PostCard({ post, onDelete }) {
   const { download_pdf, loading } = UsePosts();
+
   const typeBadgeColors = {
     blog: "bg-violet-100 text-violet-600",
     article: "bg-amber-100 text-amber-600",
   };
 
-  // decode raw html/text into string
-  const decodeHtmlEntities = (rawContent) => {
-    if (typeof rawContent !== "string") return "";
+  const ALLOWED_CONTENT_TAGS = [
+    "b",
+    "strong",
+    "i",
+    "em",
+    "u",
+    "s",
+    "strike",
+    "del",
+    "p",
+    "br",
+    "ul",
+    "ol",
+    "li",
+    "a",
+    "span",
+  ];
+
+  const decodeHtmlEntities = (value) => {
+    if (typeof value !== "string") return "";
     const parser = new DOMParser();
-    const decodedDoc = parser.parseFromString(rawContent, "text/html");
-    return decodedDoc.documentElement.textContent || rawContent;
+    const decodedDoc = parser.parseFromString(value, "text/html");
+    return decodedDoc.documentElement.textContent || value;
   };
 
-  // pdf download
+  const getPostContent = (content) => {
+    if (typeof content === "string") return content;
+    if (Array.isArray(content) && typeof content[0]?.content === "string") {
+      return content[0].content;
+    }
+    return "";
+  };
+
+  const formatCreatedAt = (createdAt) => {
+    if (!createdAt) return "";
+    const date = new Date(createdAt);
+    if (isNaN(date.getTime())) return createdAt;
+    return date.toLocaleString(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+  };
+
   const handlePdfDownload = async () => {
     try {
       const res = await download_pdf(post.post_id);
@@ -41,35 +76,13 @@ export function PostCard({ post, onDelete }) {
     }
   };
 
-  // purifyling post content
-  const rawContent =
-    typeof post.content === "string"
-      ? post.content
-      : Array.isArray(post.content) &&
-          typeof post.content[0]?.content === "string"
-        ? post.content[0].content
-        : "";
-
+  const badgeColor =
+    typeBadgeColors[post.post_type] || "bg-gray-100 text-gray-600";
+  const formattedCreatedAt = formatCreatedAt(post.created_at);
+  const rawContent = getPostContent(post.content);
   const decodedContent = decodeHtmlEntities(rawContent);
-
   const sanitizedContent = DOMPurify.sanitize(decodedContent, {
-    ALLOWED_TAGS: [
-      "b",
-      "strong",
-      "i",
-      "em",
-      "u",
-      "s",
-      "strike",
-      "del",
-      "p",
-      "br",
-      "ul",
-      "ol",
-      "li",
-      "a",
-      "span",
-    ],
+    ALLOWED_TAGS: ALLOWED_CONTENT_TAGS,
     ALLOWED_ATTR: ["href", "target", "rel"],
   });
 
@@ -99,22 +112,13 @@ export function PostCard({ post, onDelete }) {
               <div className="flex items-center gap-2 flex-wrap">
                 <h3 className="text-gray-900 truncate">{post.title}</h3>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full shrink-0 ${typeBadgeColors[post.post_type]}`}
+                  className={`text-xs px-2 py-0.5 rounded-full shrink-0 ${badgeColor}`}
                 >
                   {post.post_type}
                 </span>
               </div>
-              {/* time format */}
               <p className="text-xs text-gray-400 mt-0.5">
-                {(() => {
-                  if (!post.created_at) return "";
-                  const date = new Date(post.created_at);
-                  if (isNaN(date.getTime())) return post.created_at;
-                  return date.toLocaleString(undefined, {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  });
-                })()}
+                {formattedCreatedAt}
               </p>
               <div
                 className="text-sm text-gray-500 mt-1.5 line-clamp-2 leading-relaxed"
