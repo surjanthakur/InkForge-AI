@@ -39,7 +39,6 @@ app = FastAPI(
     version="1.0",
     # docs_url=None,
     # openapi_url=None,
-    # redoc_url=None,
 )
 
 
